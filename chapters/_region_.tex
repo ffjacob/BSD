@@ -1,6 +1,6 @@
-\message{ !name(calculations.tex)}% % Latex template
- \documentclass[11pt,a4paper]{amsart}
-% \usepackage{amsmath,amsfonts,amsthm,amssymb,color,dsfont}
+\message{ !name(galois.tex)}% Latex template
+\documentclass[11pt,a4paper]{amsart}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,color,dsfont}
 
 \usepackage{hyperref}
 \usepackage[alphabetic,initials]{amsrefs}
@@ -16,7 +16,6 @@
 
 \theoremstyle{definition}
 \newtheorem{example}[prop]{Example}
-
 \newtheorem{defn}[prop]{Definition}
 
 \theoremstyle{remark}
@@ -36,12 +35,8 @@
 \newcommand{\DD}{{\mathbb D}}
 \newcommand{\RR}{{\mathbb R}}
 \newcommand{\QQ}{{\mathbb Q}}
-\newcommand{\OO}{{\mathcal O}}
-\newcommand{\FF}{{\mathbb F}}
-\newcommand{\EFp}{{\tilde{E}(\FF_p)}}
-\newcommand{\EFt}{{\tilde{E}(\FF_2)}}
-\newcommand{\EQp}{{E(\QQ_p)}}
 \newcommand{\rR}{{\mathcal R}}
+\newcommand{\OO}{{\mathcal O}}
 \newcommand{\p}{\partial}
 \newcommand{\mM}{{\mathcal M}}
 \newcommand{\pP}{{\mathcal P}}
@@ -51,66 +46,96 @@
 \newcommand{\sS}{{\mathfrak S}}
 \newcommand{\1}{{\mathds 1}}
 \newcommand{\Crit}{\operatorname{Crit}}
+% colours
+\definecolor{red}{rgb}{1,0,0}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\GKK}{{G_{\bar{K} : K}}}
+\newcommand{\st}{{\text{s.t.}}}
+\newcommand{\ra}{\rightarrow}
 
-\title[Latex Template]{Calculations}
+\title[Galois Cohomology]{Galois Cohomology}
 
 \begin{document}
 
-\message{ !name(calculations.tex) !offset(22) }
-\section{Coefficients of Theta Series}
-Tunnell's theorem requires us to consider the quantities 
-\[  A_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 32z^2\} \]
-\[  B_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 8z^2\} \]
-\[  C_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 64z^2\} \]
-\[  D_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 16z^2\} \]
+\message{ !name(galois.tex) !offset(86) }
+\section{Applications to Elliptic Curves}
+A crucial step in the proof of the Mordell-Weil theorem, enough to show that
+the rank of an elliptic curve over $\QQ$ is finite, is the study of the size
+of the quotient $E(\QQ) / 2 E(\QQ)$. In curves with at least one 2-torsion
+point, this can be done with the help of an isogeny.
 
-depending on whether $n$ is odd or even. For our calculations we'll
-need to compute $A_n - \frac{1}{2}B_n$ and $C_n - \frac{1}{2}D_n$ modulo 4.
+Let $$E : y^2 = x^3 + ax^2 + bx$$ be an elliptic curve over $\QQ$. We know $E$
+has the rational points $\OO, T = (0,0)$.
 
-\begin{thm}
-  $2A_p - B_p \equiv \begin{cases} 0, & p \equiv 1, 5, 7 \, (8) \\
-    2, & p \equiv 3 \, (8) \end{cases}
-  \, (4)$
-\end{thm}
-Proof: In computing $A_P$ and $B_P$ we only need to consider solutions
-where at least 1 of $x, y, z$ is 0, since if neither is 0, all of $\pm x, \pm y, \pm z$
-are solutions, and hence they together don't make a contribution to the total
-number of solutions modulo 8. Furthermore, since we only need to consider $A_n$
-modulo 4, we can also ignore solutions where exactly 1 of $x, y z$ are 0. But
-there are no remaining solutions since p is prime and if 2 of $x, y, z$ are 0 we
-arrive at the contradiction $x^2 = p$, so we have $A_p \equiv 0 \, (4)$.
+We also consider the curve
+\[ \bar{E} : y^2 = x^3 + \bar{a}x^2 + \bar{b}x \]
+where $\bar{a} = -2a$ and $\bar{b} = a^2 - 4b$. Repeating this process yields
+the curve
+\[ \bar{\bar{E}} : y^2 = x^3 +  4ax^2 + 16bx\]
+which is birationally equivalent to $E$ by the transformation $y \mapsto 8y,
+x \mapsto 4x$.
 
-With this we're left to consider $\frac{1}{2}B_p \, (4)$, or $B_p \, (8)$. Again we can
-ignore solutions where all of $x, y, z$ are 0, so we have, by inclusion-exclusion
-
-\( A_p \equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} + \#\{2x^2 + 8z^2 = p\} \\
-\equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} \, (8)\)
-since p is odd. To find the remaining quantities we need some algebraic number
-theory.
+\begin{prop}
+  Let $E, \bar{E}$ be as above. The maps $\phi : E \rightarrow \bar{E}$ and
+  $\psi : \bar{E} \rightarrow E$ defined by
+  \[\phi(P) =
+    \begin{cases}
+      (\frac{y^2}{x^2}, \frac{y(x^2-b)}{x^2}), & \text{ if } P \neq \OO, T \\
+      \bar{\OO}, & \text{ if } P = \OO \text{ or } P = T
+    \end{cases}\]
+  and
+  \[\psi(P) =
+    \begin{cases}
+      (\frac{\bar{y}^2}{4\bar{x}^2}, \frac{\bar{y}(\bar{x}^2-\bar{b})}{8\bar{x}^2}),
+      & \text{ if } P \neq \bar{\OO}, \bar{T} \\
+      \bar{\OO}, & \text{ if } \bar{P} = \bar{\OO} \text{ or } \bar{P} = \bar{T}
+    \end{cases}\]
+  are elliptic curve homomorphisms, $\text{Ker}(\phi) = \{\OO, T\}$ and
+  \[ \psi \circ \phi (P) = 2P , \text{ for all points } P \in E.\]
+\end{prop}
+Proof: Silverman and Tate
 
 \begin{lemma}
-  For $p$ odd, $\#\{2x^2 + y^2 = p\} = \begin{cases} 4,
-    p \equiv 1 \, (8) \\
-    1, p \equiv 3 \, (8) \\
-    0, else \end{cases}$
+  If $E / \psi(\bar{E}))$ and $\bar{E} / \phi(E)$ are finite, then so is $E/2E$
 \end{lemma}
-Proof: We must have $2x^2 + y^2 \equiv 0 \, (p)$, so we only have solutions if
-$(\frac{-2}{p}) = 1$, or equivalently if $p \equiv 1, 3 \, (8)$. Since
-$\ZZ[\sqrt{2}]$ is a PID, if $p \equiv 1 \, (8), p = \pi \bar{\pi}$ for some
-prime $\pi = x + y \sqrt{2}$ where $x^2 + 2y^2 = p$, so $x$ is odd and $x^2
-\equiv 1 \, (8)$
-If $y$ is also odd, $1 + 2y^2 \equiv 1 \, (8) \implies y^2 \equiv 1 \, (8)$, and
-we have $x^2 + 2y^2 \equiv 3 \, (8)$, a contradiction.
-If $y = 2k$ is even, we have $x^2 + 2y^2 = x^2 + 8y^3$ 
+Proof: Silverman and Tate. \qedhere
 
-To conclude the proof of the theorem, we can deduce from the lemma that
-\begin{itemize}
-  \item If $p \equiv 1 \, (8), A_p \equiv 4+4 \equiv 0 \, (8)$.
-  \item If $p \equiv 3 \, (8), A_p \equiv 4 + 0 \equiv 4 \, (8)$.
-  \item If $p \equiv 5, 7 \, (8), A_p \equiv 0 + 0 \equiv 0 \, (8)$.
-\end{itemize} 
-Looking at $A_p - \frac{1}{2} B_p$ modulo 4 gives the result.
+We are thus led to consider the quotient $E(\QQ) / \psi(\bar{E}(\QQ))$ (the
+other one can be treated identically).
 
-\message{ !name(calculations.tex) !offset(178) }
+By the proposition, we have a short exact sequence of $G_{\QQ}$-modules
+\[ 0 \rightarrow \{\OO, T\} \rightarrow \bar{E}(\QQ) \rightarrow E(\QQ)
+  \rightarrow 0\]
+and $\{\OO, T\} \simeq \ZZ/2\ZZ$. Taking Galois cohomology we get the long
+exact sequence
 
-\end{document} 
+\[ 0 \rightarrow \ZZ / 2\ZZ \rightarrow \bar{E}(\QQ) \rightarrow E(\QQ)
+  \rightarrow H^1(\QQ, \ZZ/2\ZZ) \rightarrow H^1(\QQ, \bar{E}) \rightarrow
+  H^1(\QQ, E)\]
+This in turn gives us the short exact sequence
+
+\[ 0 \rightarrow \frac{E(\QQ)}{\psi(\bar{E} (\QQ))} \rightarrow
+  H^1(\QQ, \ZZ / 2\ZZ) \rightarrow H^1(\QQ, \bar{E}(\QQ))[\psi] \rightarrow 0\]
+
+To get the order of $E(\QQ) / \psi(\bar{E}(\QQ))$ we need to know the order of
+$H^1(\QQ, \ZZ/2\ZZ)$.
+
+\begin{prop}
+  $H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times} / (\QQ^{\times})^2$
+\end{prop}
+Proof: Consider the exact sequence of Galois modules
+\[0 \rightarrow \mu_2 \rightarrow \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra
+  \, 0 \]
+where $\mu_2 = \text{Gal} (\QQ(i) : \QQ) \simeq \ZZ / 2\ZZ.$
+
+Taking cohomology gives the long exact sequence
+\[ 0 \ra \mu_2 \ra \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra H^1(\QQ, \ZZ/2\ZZ)
+  \ra H^1(\QQ, \bar{\QQ}^{\times})\]
+and $H^1(\QQ, \bar{\QQ}^{\times}) \simeq 0$ by Hilbert's Theorem 90. Thus,
+\[H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times}/(\QQ^{\times})^2. \]
+
+
+
+\message{ !name(galois.tex) !offset(84) }
+
+\end{document}
