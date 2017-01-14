@@ -1,0 +1,294 @@
+% % Latex template
+ \documentclass[11pt,a4paper]{amsart}
+% \usepackage{amsmath,amsfonts,amsthm,amssymb,color,dsfont}
+
+\usepackage{hyperref}
+\usepackage[alphabetic,initials]{amsrefs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% preamble
+
+% theorem-type environments
+\theoremstyle{plain}
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}[prop]{Theorem}
+\newtheorem{cor}[prop]{Corollary}
+\newtheorem{lemma}[prop]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{example}[prop]{Example}
+
+\newtheorem{defn}[prop]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[prop]{Remark}
+
+\numberwithin{equation}{section}
+
+% user-defomed macros
+\newcommand{\defin}{\textbf}
+\newcommand{\CC}{{\mathbb C}}
+\newcommand{\cov}{{\operatorname{cov}}}
+\newcommand{\eE}{{\mathcal E}}
+\newcommand{\NN}{{\mathbb N}}
+\newcommand{\PP}{{\mathbb P}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\renewcommand{\SS}{{\mathbb S}}
+\newcommand{\DD}{{\mathbb D}}
+\newcommand{\RR}{{\mathbb R}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\OO}{{\mathcal O}}
+\newcommand{\FF}{{\mathbb F}}
+\newcommand{\EFp}{{\tilde{E}(\FF_p)}}
+\newcommand{\EFt}{{\tilde{E}(\FF_2)}}
+\newcommand{\EQp}{{E(\QQ_p)}}
+\newcommand{\rR}{{\mathcal R}}
+\newcommand{\p}{\partial}
+\newcommand{\mM}{{\mathcal M}}
+\newcommand{\pP}{{\mathcal P}}
+\newcommand{\iI}{{\mathcal I}}
+\newcommand{\jJ}{{\mathcal J}}
+\newcommand{\uU}{{\mathcal U}}
+\newcommand{\sS}{{\mathfrak S}}
+\newcommand{\1}{{\mathds 1}}
+\newcommand{\Crit}{\operatorname{Crit}}
+
+\title[Latex Template]{Calculations}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+The Birch Swinnerton-Dyer conjecture states that the Hasse-Weil L-function
+$L(E,s)$ of the elliptic curve $E$ can be written as
+\[L(E,s) = C (s-1)^r + O((s-1)^2)\] where
+\[C = \frac{|\text{Sha}(E)| \, \Omega_E R_E}{|E(\QQ)_{\tors}|^2} \prod_p c_p\]
+In particular, near 1, it predicts the value of
+\[0^r |\text{Sha}(E)| \prod_p c_p \in \ZZ\].
+
+\begin{defn}
+  From now on we let $E_n : y^2 = x^3 - n^2x$
+  be the family of quadratic twists of the elliptic
+  curve $E_1 : y^2 = x^3 - x$.
+\end{defn}
+
+From Tunnell's theorem we know that $L(E_n,s)$ has a particularly simple
+form in terms of Theta functions. In this section we'll show that they
+can be used to predict whether $0^r |\text{Sha}(E)$ is even or odd, and that
+this agrees with what's the BSD conjecture.
+
+
+\section{Coefficients of Theta Series}
+Tunnell's theorem requires us to consider the quantities 
+\[  A_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 32z^2\} \]
+\[  B_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 8z^2\} \]
+\[  C_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 64z^2\} \]
+\[  D_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 16z^2\} \]
+
+depending on whether $n$ is odd or even. For our calculations we'll
+need to compute $A_n - \frac{1}{2}B_n$ and $C_n - \frac{1}{2}D_n$ modulo 4.
+
+\begin{thm}
+  $2A_p - B_p \equiv \begin{cases} 0, & p \equiv 1, 5, 7 \, (8) \\
+    2, & p \equiv 3 \, (8) \end{cases}
+  \, (4)$
+\end{thm}
+Proof: In computing $A_P$ and $B_P$ we only need to consider solutions
+where at least 1 of $x, y, z$ is 0, since if neither is 0, all of $\pm x, \pm y, \pm z$
+are solutions, and hence they together don't make a contribution to the total
+number of solutions modulo 8. Furthermore, since we only need to consider $A_n$
+modulo 4, we can also ignore solutions where exactly 1 of $x, y z$ are 0. But
+there are no remaining solutions since p is prime and if 2 of $x, y, z$ are 0 we
+arrive at the contradiction $x^2 = p$, so we have $A_p \equiv 0 \, (4)$.
+
+With this we're left to consider $\frac{1}{2}B_p \, (4)$, or $B_p \, (8)$. Again we can
+ignore solutions where all of $x, y, z$ are 0, so we have, by inclusion-exclusion
+
+\( A_p \equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} + \#\{2x^2 + 8z^2 = p\} \\
+\equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} \, (8)\)
+since p is odd. To find the remaining quantities we need some algebraic number
+theory.
+
+\begin{lemma}
+  For $p$ odd, $\#\{2x^2 + y^2 = p\} = \begin{cases} 4,
+    p \equiv 1 \, (8) \\
+    1, p \equiv 3 \, (8) \\
+    0, else \end{cases}$
+\end{lemma}
+Proof: We must have $2x^2 + y^2 \equiv 0 \, (p)$, so we only have solutions if
+$(\frac{-2}{p}) = 1$, or equivalently if $p \equiv 1, 3 \, (8)$. Since
+$\ZZ[\sqrt{2}]$ is a PID, if $p \equiv 1 \, (8), p = \pi \bar{\pi}$ for some
+prime $\pi = x + y \sqrt{2}$ where $x^2 + 2y^2 = p$, so $x$ is odd and $x^2
+\equiv 1 \, (8)$
+If $y$ is also odd, $1 + 2y^2 \equiv 1 \, (8) \implies y^2 \equiv 1 \, (8)$, and
+we have $x^2 + 2y^2 \equiv 3 \, (8)$, a contradiction.
+If $y = 2k$ is even, we have $x^2 + 2y^2 = x^2 + 8y^3$ 
+
+To conclude the proof of the theorem, we can deduce from the lemma that
+\begin{itemize}
+  \item If $p \equiv 1 \, (8), A_p \equiv 4+4 \equiv 0 \, (8)$.
+  \item If $p \equiv 3 \, (8), A_p \equiv 4 + 0 \equiv 4 \, (8)$.
+  \item If $p \equiv 5, 7 \, (8), A_p \equiv 0 + 0 \equiv 0 \, (8)$.
+\end{itemize} 
+Looking at $A_p - \frac{1}{2} B_p$ modulo 4 gives the result.
+
+\section{Tamagawa Numbers}
+
+The Hasse-Weil L-function of an elliptic curve doesn't capture any information
+about the primes where the curve is singular. The arithmetic data at those
+primes enters the Birch Swinnerton-Dyer conjecture by means of the Tamagawa
+Numbers. Let
+$$ E : y^2 = x^3 - n^2 x $$.
+If $p \not| \Delta E = 4n^2$ then the reduction $\tilde{E} : y^2 \equiv x^3 - n^2 x \,
+(p)$ is
+also an elliptic curve. We have
+
+\begin{thm}[Reduction Modulo p]
+  The reduction map $E(\QQ) \rightarrow \tilde{E}(\FF_p)$ is a group homomorphism.
+\end{thm}
+
+If $p | \Delta E$ then $\tilde{E}(\FF_p)$ is not a group, but
+$\tilde{E}(\FF_p)_{ns} := \{P \in \tilde{E}(\FF_p) | P \text{is nonsingular}\}$
+is still a group.
+
+Looking at $E$ in the completion $\QQ_p$ we still have a map $\EQp \rightarrow
+\EFp$.
+If we let $\EQp_0$ be the preimage of $\EFp_{ns}$ we get a group homomorphism
+$$ \EQp_0 \rightarrow \EFp_{ns} $$.
+
+\begin{defn}
+  The Tamagawa Number of $E$ at $p$ is the number
+  $$c_p = \big| \frac{\EQp}{\EQp_0}
+  \big|.$$
+  If $p \not| \Delta$ then $c_p = 1$.
+\end{defn}  
+
+\begin{thm}
+  The Tamagawa Number of $E_p$ at $p$ is 4.
+\end{thm}
+Proof: Working in $\QQ_p$, if $x \equiv 0$ then $y^2 = x^3 - p^2 x \equiv 0 \,
+(p^2) \implies y \equiv 0 \, (p)$, so $(x, y) \equiv (0,0) \, (p)$.
+If $x$ has nonpositive valuation, $x = p^{-n} u, u \in \ZZ_p^{\times}$ and $y^2 =
+p^{-3n}u^3 - p^{2-n} u$, so $n$ must be even. 
+
+Let $n = 2m$. Then $p^{6m} y^2 = u^3 - p^{2+2m}u \implies y = p^{-3m}v, v \in
+\ZZ_p^{\times}$. Since $u, v \not\equiv 0 
+\, (p)$, this has solutions if and only if $(\frac{u}{p}) = 1$, so $x$ is the
+reciprocal of a square in $\ZZ_p$.
+
+Setting $x = \frac {1}{r^2}, r^2 \in \ZZ_p$ we get $y^2 = \frac{1}{r^6} -
+\frac{p^2}{r^2} = \frac{1 - p^2r^4}{r^6}$, so we have a bijection
+\[\ZZ_p \rightarrow \EQp_0\]
+\[r \mapsto (\frac{1}{r^2}, \frac{\sqrt{1-p^2r^4}}{r^3})\]
+\[0 \mapsto \mathcal O\]
+To prove the theorem we will need the following lemma:
+
+\begin{lemma}
+  The torsion points $\OO, (0,0), (p,0), (-p,0)$ are a complete set of
+  representatives for $\frac{\EQp}{\EQp_0}$.
+\end{lemma}
+Proof: Let $P(r) = (\frac{1}{r^2}, \frac{\sqrt{1-p^2r^4}}{r^3}) = (x,y)$. We will
+compute $S := P(r) + Q$ for each torsion point $Q$.
+\begin{itemize}
+  \item $Q = \OO$: $P(r) + \OO = P(r)$.
+  \item $Q = (0,0)$:
+    We have $\lambda = \frac{y}{x}$, so
+    \begin{equation*}
+      \begin{split}
+        x(S)
+        &= \lambda^2 - x - 0 =
+        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{1}{r^4}} - \frac{1}{r^2} \\
+        &= -p^2r^2
+      \end{split}
+    \end{equation*}
+  \item $Q = (p, 0)$: We have $\lambda = \frac{y}{x-p}$, so
+    \begin{equation*}
+      \begin{split}
+        x(S)
+        &= \lambda^2 - x - p = 
+        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{(1-pr^2)^2}{r^4}} -
+        \frac{1}{r^2} - p \\
+        &= \frac{1-p^2r^4}{r^2(1-pr^2)^2} - \frac{1+pr^2}{r^2} \\
+        &= -p + \frac{2p}{1-pr^2}
+      \end{split}
+    \end{equation*}
+  \item $Q = (-p, 0)$: We have $\lambda = \frac{y}{x+p}$, so
+    \begin{equation*}
+      \begin{split}
+        x(S)
+        &= \lambda^2 - x + p = 
+        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{(1+pr^2)^2}{r^4}} -
+        \frac{1}{r^2} + p \\
+        &= p - \frac{2p}{1+pr^2}
+      \end{split}
+    \end{equation*}
+\end{itemize}
+
+Now let $S = (x,y)$.
+If $x \equiv 0 \, (p^2)$, $x = p^2 t, t \in \ZZ_p$ we want to show that $x = p^2r^2, r \in \ZZ_p$, so that $S$ lies
+in the coset $P(r) + (0,0)$. Note that
+\begin{equation*}
+  \begin{split}
+    y^2 &= x^3 - p^2x \\
+    &= x(x+p)(x-p) \\
+    x &= \frac{y^2}{(x+p)(x-p)} \\
+    &= \frac{y^2}{p^2(1+tp)(1-tp)}
+  \end{split}
+\end{equation*}
+and $1 \pm tp$ are squares in $\QQ_p$, so indeed $x$ is a square and we can set
+$r = \sqrt{\frac{x}{p^2}}$.
+
+If $x \equiv p \, (p^2), x = p + p^2t$ we want to solve
+\[p - \frac{2p}{1+pr^2} = x = p + p^2t \] or
+\[ \frac{-2}{1+pr^2} = pt\]
+to show that $S$ lies in the coset $P(r)+(-p,0)$.
+\begin{equation*}
+  \begin{split}
+    1+pr^2 &= \frac{-2}{pt} \\
+    r^2 &= \frac{-2-pt}{p^2t}
+  \end{split}
+\end{equation*}.
+Now
+\[ x = \frac{y^2}{(x+p)(x-p)} = \frac{y^2}{(p^2t+2p)(p^2t)}
+= \frac{y^2}{p^2t(2+pt)p}\]
+\[ \implies x = \frac{y^2}{-r^2 p}\]
+\[ \implies r^2 = \frac{y^2}{-px} = \frac{y^2}{p^2(-1-pt)}\]
+
+
+If $x \equiv -p \, (p^2), x = -p + p^2t$ and we solve
+\[ -p + \frac{2p}{1-pr^2} = x = -p + p^2t\] or
+\[ \frac{2}{1-pr^2} = pt\]
+\[ \implies r^2 = \frac{pt - 2}{p^2t}\]
+
+Now
+\[ x = \frac{y^2}{(x+p)(x-p)} = \frac{y^2}{(p^2t-2p)(p^2t)}
+= \frac{y^2}{p^2t(pt-2)p}\]
+\[\implies x = \frac{y^2}{r^2p}\]
+\[ r^2 = \frac{y^2}{xp} = \frac{y^2}{p^2(1+pt)}\]
+which is a square, so again we can solve for $r$.
+
+\begin{thm}
+  The Tamagawa Number of $E_P$ at 2 is 2.
+\end{thm}
+Proof: By checking all possibilities, we know that
+\[\EFt = \{\OO, (0,0), (1,0)\},\]
+with $(1,0)$ being the singular point. Let $\pi : E(\QQ_2)_0 \rightarrow
+\EFt_{ns}$ be the projection map. 
+or any $P = (x,y) \in E(\QQ_2)$, if $\pi(P) = (1,0)$ then $\pi(P * (p,0)) \neq (p,0)$.
+If $x$ is a unit, let $(x,y) * (p,0) = (x',y')$. We want to show that $x'$ is
+not a unit. Suppose it is, and let $\lambda$ be the gradient of the line through
+$(x,y), (p,0), (x',y')$, so that $\lambda = \frac{y}{x-p}$.
+Then $x + p + x' = \lambda^2$, so $\lambda \not\equiv 0 \, (2)$, so $\lambda$ is
+a unit. We also have
+\[
+  \begin{split}
+     y^2 &= x^3 - p^2x \\
+     \implies \lambda^2(x-p)^2 &= x (x+p) (x-p) \\
+     \implies u^2 &= \frac{x (x+p)}{x-p} 
+   \end{split}
+\]
+implying $\frac{x+p}{x-p}$ is a unit, which is a contradiction, since
+$\nu_2(\frac{x+p}{x-p}) = $
+
+\end{document} 

@@ -1,0 +1,116 @@
+\message{ !name(calculations.tex)}% % Latex template
+ \documentclass[11pt,a4paper]{amsart}
+% \usepackage{amsmath,amsfonts,amsthm,amssymb,color,dsfont}
+
+\usepackage{hyperref}
+\usepackage[alphabetic,initials]{amsrefs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% preamble
+
+% theorem-type environments
+\theoremstyle{plain}
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}[prop]{Theorem}
+\newtheorem{cor}[prop]{Corollary}
+\newtheorem{lemma}[prop]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{example}[prop]{Example}
+
+\newtheorem{defn}[prop]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[prop]{Remark}
+
+\numberwithin{equation}{section}
+
+% user-defomed macros
+\newcommand{\defin}{\textbf}
+\newcommand{\CC}{{\mathbb C}}
+\newcommand{\cov}{{\operatorname{cov}}}
+\newcommand{\eE}{{\mathcal E}}
+\newcommand{\NN}{{\mathbb N}}
+\newcommand{\PP}{{\mathbb P}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\renewcommand{\SS}{{\mathbb S}}
+\newcommand{\DD}{{\mathbb D}}
+\newcommand{\RR}{{\mathbb R}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\OO}{{\mathcal O}}
+\newcommand{\FF}{{\mathbb F}}
+\newcommand{\EFp}{{\tilde{E}(\FF_p)}}
+\newcommand{\EFt}{{\tilde{E}(\FF_2)}}
+\newcommand{\EQp}{{E(\QQ_p)}}
+\newcommand{\rR}{{\mathcal R}}
+\newcommand{\p}{\partial}
+\newcommand{\mM}{{\mathcal M}}
+\newcommand{\pP}{{\mathcal P}}
+\newcommand{\iI}{{\mathcal I}}
+\newcommand{\jJ}{{\mathcal J}}
+\newcommand{\uU}{{\mathcal U}}
+\newcommand{\sS}{{\mathfrak S}}
+\newcommand{\1}{{\mathds 1}}
+\newcommand{\Crit}{\operatorname{Crit}}
+
+\title[Latex Template]{Calculations}
+
+\begin{document}
+
+\message{ !name(calculations.tex) !offset(22) }
+\section{Coefficients of Theta Series}
+Tunnell's theorem requires us to consider the quantities 
+\[  A_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 32z^2\} \]
+\[  B_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 8z^2\} \]
+\[  C_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 64z^2\} \]
+\[  D_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 16z^2\} \]
+
+depending on whether $n$ is odd or even. For our calculations we'll
+need to compute $A_n - \frac{1}{2}B_n$ and $C_n - \frac{1}{2}D_n$ modulo 4.
+
+\begin{thm}
+  $2A_p - B_p \equiv \begin{cases} 0, & p \equiv 1, 5, 7 \, (8) \\
+    2, & p \equiv 3 \, (8) \end{cases}
+  \, (4)$
+\end{thm}
+Proof: In computing $A_P$ and $B_P$ we only need to consider solutions
+where at least 1 of $x, y, z$ is 0, since if neither is 0, all of $\pm x, \pm y, \pm z$
+are solutions, and hence they together don't make a contribution to the total
+number of solutions modulo 8. Furthermore, since we only need to consider $A_n$
+modulo 4, we can also ignore solutions where exactly 1 of $x, y z$ are 0. But
+there are no remaining solutions since p is prime and if 2 of $x, y, z$ are 0 we
+arrive at the contradiction $x^2 = p$, so we have $A_p \equiv 0 \, (4)$.
+
+With this we're left to consider $\frac{1}{2}B_p \, (4)$, or $B_p \, (8)$. Again we can
+ignore solutions where all of $x, y, z$ are 0, so we have, by inclusion-exclusion
+
+\( A_p \equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} + \#\{2x^2 + 8z^2 = p\} \\
+\equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} \, (8)\)
+since p is odd. To find the remaining quantities we need some algebraic number
+theory.
+
+\begin{lemma}
+  For $p$ odd, $\#\{2x^2 + y^2 = p\} = \begin{cases} 4,
+    p \equiv 1 \, (8) \\
+    1, p \equiv 3 \, (8) \\
+    0, else \end{cases}$
+\end{lemma}
+Proof: We must have $2x^2 + y^2 \equiv 0 \, (p)$, so we only have solutions if
+$(\frac{-2}{p}) = 1$, or equivalently if $p \equiv 1, 3 \, (8)$. Since
+$\ZZ[\sqrt{2}]$ is a PID, if $p \equiv 1 \, (8), p = \pi \bar{\pi}$ for some
+prime $\pi = x + y \sqrt{2}$ where $x^2 + 2y^2 = p$, so $x$ is odd and $x^2
+\equiv 1 \, (8)$
+If $y$ is also odd, $1 + 2y^2 \equiv 1 \, (8) \implies y^2 \equiv 1 \, (8)$, and
+we have $x^2 + 2y^2 \equiv 3 \, (8)$, a contradiction.
+If $y = 2k$ is even, we have $x^2 + 2y^2 = x^2 + 8y^3$ 
+
+To conclude the proof of the theorem, we can deduce from the lemma that
+\begin{itemize}
+  \item If $p \equiv 1 \, (8), A_p \equiv 4+4 \equiv 0 \, (8)$.
+  \item If $p \equiv 3 \, (8), A_p \equiv 4 + 0 \equiv 4 \, (8)$.
+  \item If $p \equiv 5, 7 \, (8), A_p \equiv 0 + 0 \equiv 0 \, (8)$.
+\end{itemize} 
+Looking at $A_p - \frac{1}{2} B_p$ modulo 4 gives the result.
+
+\message{ !name(calculations.tex) !offset(178) }
+
+\end{document} 

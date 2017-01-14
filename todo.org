@@ -1,0 +1,21 @@
+Project To-do List
+
+* Introduction
+* Chapter 1: Modular Forms
+** TODO Definitions: Modular forms, Congruence subgroups, Hecke operator
+** TODO Relation to Elliptic Curves
+* Chapter 2: Galois Cohomology & Elliptic Curves
+** TODO Definitions: Group and Galois Cohomology
+** TODO Sketch Mordel-Weil
+* Chapter 4: Calculations
+** TODO Homogeneous spaces
+*** n = p
+*** n = pq
+*** n = p_1 * ... * p_k
+** TODO Coefficients of Theta series
+*** p odd
+*** p even
+** TODO Tamagawa Numbers
+*** p odd
+*** p = 2
+
