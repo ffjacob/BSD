@@ -1,0 +1,72 @@
+% Latex template
+\documentclass[11pt,a4paper]{amsart}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,color,dsfont}
+
+\usepackage{hyperref}
+\usepackage[alphabetic,initials]{amsrefs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% preamble
+
+% theorem-type environments
+\theoremstyle{plain}
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}[prop]{Theorem}
+\newtheorem{cor}[prop]{Corollary}
+\newtheorem{lemma}[prop]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{example}[prop]{Example}
+\newtheorem{defn}[prop]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[prop]{Remark}
+
+\numberwithin{equation}{section}
+
+% user-defomed macros
+\newcommand{\defin}{\textbf}
+\newcommand{\CC}{{\mathbb C}}
+\newcommand{\cov}{{\operatorname{cov}}}
+\newcommand{\eE}{{\mathcal E}}
+\newcommand{\NN}{{\mathbb N}}
+\newcommand{\PP}{{\mathbb P}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\renewcommand{\SS}{{\mathbb S}}
+\newcommand{\DD}{{\mathbb D}}
+\newcommand{\RR}{{\mathbb R}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\rR}{{\mathcal R}}
+\newcommand{\p}{\partial}
+\newcommand{\mM}{{\mathcal M}}
+\newcommand{\pP}{{\mathcal P}}
+\newcommand{\iI}{{\mathcal I}}
+\newcommand{\jJ}{{\mathcal J}}
+\newcommand{\uU}{{\mathcal U}}
+\newcommand{\sS}{{\mathfrak S}}
+\newcommand{\1}{{\mathds 1}}
+\newcommand{\Crit}{\operatorname{Crit}}
+% colours
+\definecolor{red}{rgb}{1,0,0}
+\newcommand{\red}[1]{{\color{red}#1}}
+
+
+\title[Latex Template]{Basic Latex Template}
+
+\begin{document}
+
+\begin{abstract}
+\end{abstract}
+
+\maketitle
+
+\section{Modular Interpretation}
+
+
+\begin{bibdiv}
+\begin{biblist}
+\bibselect{asympCylindrical}
+\end{biblist}
+\end{bibdiv}
+
+
+\end{document}

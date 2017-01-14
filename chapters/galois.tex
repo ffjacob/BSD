@@ -1,0 +1,279 @@
+% Latex template
+\documentclass[11pt,a4paper]{amsart}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,color,dsfont,tikz-cd}
+
+\usepackage{hyperref}
+\usepackage[alphabetic,initials]{amsrefs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% preamble
+
+% theorem-type environments
+\theoremstyle{plain}
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}[prop]{Theorem}
+\newtheorem{cor}[prop]{Corollary}
+\newtheorem{lemma}[prop]{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{example}[prop]{Example}
+\newtheorem{defn}[prop]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[prop]{Remark}
+
+\numberwithin{equation}{section}
+
+% user-defomed macros
+\newcommand{\defin}{\textbf}
+\newcommand{\CC}{{\mathbb C}}
+\newcommand{\cov}{{\operatorname{cov}}}
+\newcommand{\eE}{{\mathcal E}}
+\newcommand{\NN}{{\mathbb N}}
+\newcommand{\PP}{{\mathbb P}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\renewcommand{\SS}{{\mathbb S}}
+\newcommand{\DD}{{\mathbb D}}
+\newcommand{\RR}{{\mathbb R}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\rR}{{\mathcal R}}
+\newcommand{\OO}{{\mathcal O}}
+\newcommand{\p}{\partial}
+\newcommand{\mM}{{\mathcal M}}
+\newcommand{\pP}{{\mathcal P}}
+\newcommand{\iI}{{\mathcal I}}
+\newcommand{\jJ}{{\mathcal J}}
+\newcommand{\uU}{{\mathcal U}}
+\newcommand{\sS}{{\mathfrak S}}
+\newcommand{\1}{{\mathds 1}}
+\newcommand{\Crit}{\operatorname{Crit}}
+% colours
+\definecolor{red}{rgb}{1,0,0}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\GKK}{{G_{\bar{K} : K}}}
+\newcommand{\st}{{\text{s.t.}}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Sel}{\text{Sel}}
+\newcommand{\TS}{\text{TS}}
+
+\title[Galois Cohomology]{Galois Cohomology}
+
+\begin{document}
+
+\maketitle
+
+\section{Group Cohmology}
+
+Let $G$ be a finite group. We say an abelian group $A$ is a $G$-module if $A$
+is a module for the group ring $\ZZ[G] = \{ \sum_{i=1}^n x_i g_i |
+x_i \in \ZZ , g_i \in G , n \, \text{finite}\}$. We define the
+first and second cohomology groups of $A$ by
+\[H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A)\] and
+\[H^1 (G, A) = \text{Ext}^1_{\ZZ[G]} (\ZZ, A)\]
+where $\ZZ$ is considered the trivial $G$-module where $g x = x$ for every
+$x \in \ZZ, g \in G$.
+Let $\phi : \ZZ \rightarrow A$ be a module homomorphism. Then
+\[\begin{split} \phi(1) &= \phi(g \cdot 1) \,\,\,\, \forall g \in G \\
+    &= g \cdot \phi(1) , \end{split}\]
+so $\phi(1) \in A^G = \{x \in A \, | \, gx = x, \forall g \in G\}$, the set
+of elements at which $G$ acts trivially. Since a $\ZZ$ homomorphism is
+completely determined by the image of 1, we can set
+\[ H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A) = A^G .\] 
+
+We can also define the first cohomology group as
+\[H^1(G, A) = \frac{Z^1(G,A)}{B^1(G,A)}\]
+where
+\[Z^1(G,A) = \{ \phi : G \rightarrow A \, | \phi(gh) = \phi(g) + g \phi(h)\}\]
+\[B^1(G,A) = \{ \delta \in Z^1 \, | \, \exists a \in A \,\,\text{such that}\,\, \delta(g)
+  = ga - a , \forall g \in G\}\]
+
+\begin{prop}
+  With this setup, we can take a short exact sequence of $G$-modules
+  \[ 0 \rightarrow A \rightarrow B \rightarrow C \rightarrow 0\]
+  and form the long exact sequence
+  \[ 0 \rightarrow H^0(G, A) \rightarrow H^0(G,B) \rightarrow H^0(G,C)
+    \rightarrow H^1(G, A) \rightarrow H^1(G,B) \rightarrow H^1(G,C) \]
+\end{prop}
+
+\section{Galois Cohomology}
+
+We can now use the machinery of group cohomology to study number fields.
+Let $L, K$ be number fields and $L : K$ a finite degree Galois
+extension with Galois group $G_{L:K}$.
+A Galois module $A$ is a module over $G_{L:K}$.
+
+\begin{example}
+  We can consider the Galois modules $A = L \simeq K[G], $ or $A =
+  L^{\times}$ where $L^{\times}$ is the multiplicative group of $L$.
+\end{example}
+
+\begin{example}
+  If $E$ is an elliptic curve over $K$ then $A = E(L)$ is a Galois module,
+  since the addition formulas are rational in $\QQ$.
+\end{example}
+
+\begin{defn}
+  The first Galois cohomology group is $H^1(L:K, A) = H^1(G_{L:K}, A)$.
+\end{defn}
+
+The following result gives an important terminating condition for the
+long exact sequences:
+
+\begin{thm}[Hilbert's Theorem 90]
+  $  H^1(L : K, L^{\times}) = 0$
+\end{thm}
+Proof: Serre \\
+
+In what follows we will take $L = \bar{K}$, the algebraic closure of K and
+$G_K = G_{\bar{K}:K}$ its Galois group. This extension is usually infinite, so
+it will be necessary to make amendmends to the previous defintions.
+
+\begin{defn}
+  A $G_K$-module $A$ is called a continuous $G_K$-module if for all $g \in G_K, a \in A$,
+  there exists a finite Galois extension $L:K$ such that $g(a)$
+  depends only on the image of $g$ in $G_{L:K}$.
+\end{defn}
+
+\begin{example}
+  $\bar{K}, \bar{K}^{\times}$ and $E(\bar{K})$ are all continuous $G_K$-modules.
+\end{example}
+
+To form homology groups, set
+\[H^1(K,A) = \frac{Z^1_{\text{cts}}(K,A)}{B^1(K,A)}\]
+where
+\[Z^1_{\text{cts}} = \{\phi : G_K \rightarrow A \, | \, \exists L : K
+  \text{ such that } \phi(g) \text{ depends only on } g / L\}.\]
+
+If we have a short exact sequence of continuous $G_K$-modules
+\[ 0 \ra A \ra B \ra C \ra 0\]
+this gives a long exact sequence of Galois cohomology groups
+\[0 -> A^{G_K} \ra B^{G_K} \ra C^{G_K} \ra H^1(K,A) \ra H^1(K,B) \ra H^1(K,C).\]
+
+\section{Applications to Elliptic Curves}
+A crucial step in the proof of the Mordell-Weil theorem, enough to show that
+the rank of an elliptic curve over $\QQ$ is finite, is the study of the size
+of the quotient $E(\QQ) / 2 E(\QQ)$. In curves with at least one 2-torsion
+point, this can be done with the help of an isogeny.
+
+Let $$E : y^2 = x^3 + ax^2 + bx$$ be an elliptic curve over $\QQ$. We know $E$
+has the rational points $\OO, T = (0,0)$.
+
+We also consider the curve
+\[ \bar{E} : y^2 = x^3 + \bar{a}x^2 + \bar{b}x \]
+where $\bar{a} = -2a$ and $\bar{b} = a^2 - 4b$. Repeating this process yields
+the curve
+\[ \bar{\bar{E}} : y^2 = x^3 +  4ax^2 + 16bx\]
+which is birationally equivalent to $E$ by the transformation $y \mapsto 8y,
+x \mapsto 4x$.
+
+\begin{prop}
+  Let $E, \bar{E}$ be as above. The maps $\phi : E \rightarrow \bar{E}$ and
+  $\psi : \bar{E} \rightarrow E$ defined by
+  \[\phi(P) =
+    \begin{cases}
+      (\frac{y^2}{x^2}, \frac{y(x^2-b)}{x^2}), & \text{ if } P \neq \OO, T \\
+      \bar{\OO}, & \text{ if } P = \OO \text{ or } P = T
+    \end{cases}\]
+  and
+  \[\psi(P) =
+    \begin{cases}
+      (\frac{\bar{y}^2}{4\bar{x}^2}, \frac{\bar{y}(\bar{x}^2-\bar{b})}{8\bar{x}^2}),
+      & \text{ if } P \neq \bar{\OO}, \bar{T} \\
+      \bar{\OO}, & \text{ if } \bar{P} = \bar{\OO} \text{ or } \bar{P} = \bar{T}
+    \end{cases}\]
+  are elliptic curve homomorphisms, $\text{Ker}(\phi) = \{\OO, T\}$ and
+  \[ \psi \circ \phi (P) = 2P , \text{ for all points } P \in E.\]
+\end{prop}
+Proof: Silverman and Tate
+
+\begin{lemma}
+  If $E / \psi(\bar{E}))$ and $\bar{E} / \phi(E)$ are finite, then so is $E/2E$
+\end{lemma}
+Proof: Silverman and Tate. 
+
+We are thus led to consider the quotient $E(\QQ) / \psi(\bar{E}(\QQ))$ (the
+other one can be treated identically).
+
+By the proposition, we have a short exact sequence of $G_{\QQ}$-modules
+\[ 0 \rightarrow \{\OO, T\} \rightarrow \bar{E}(\bar{\QQ}) \xrightarrow[]{\psi} E(\QQ)
+  \rightarrow 0\]
+and $\{\OO, T\} \simeq \ZZ/2\ZZ$. Taking Galois cohomology we get the long
+exact sequence
+
+\[ 0 \rightarrow \ZZ / 2\ZZ \rightarrow \bar{E}(\QQ) \xrightarrow[]{\psi} E(\QQ)
+  \rightarrow H^1(\QQ, \ZZ/2\ZZ) \rightarrow H^1(\QQ, \bar{E}) \xrightarrow{H^1(\psi)}
+  H^1(\QQ, E)\]
+This in turn gives us the short exact sequence
+\[ 0 \rightarrow \frac{E(\QQ)}{\psi(\bar{E} (\QQ))} \rightarrow
+  H^1(\QQ, \ZZ / 2\ZZ) \rightarrow H^1(\QQ, \bar{E}(\QQ))[\psi] \rightarrow 0\]
+
+where $H^1(\QQ,\bar{E}(\QQ))[\psi] = (H^1(\psi))^{-1}.$ \vspace{3mm}
+
+To get the order of $E(\QQ) / \psi(\bar{E}(\QQ))$ we need to know the order of
+$H^1(\QQ, \ZZ/2\ZZ)$.
+
+\begin{prop}
+  $H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times} / (\QQ^{\times})^2$
+\end{prop}
+Proof: Consider the exact sequence of Galois modules
+\[0 \rightarrow \mu_2 \rightarrow \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra
+  \, 0 \]
+where $\mu_2 = \text{Gal} (\QQ(i) : \QQ) \simeq \ZZ / 2\ZZ.$
+
+Taking cohomology gives the long exact sequence
+\[ 0 \ra \mu_2 \ra \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra H^1(\QQ, \ZZ/2\ZZ)
+  \ra H^1(\QQ, \bar{\QQ}^{\times})\]
+and $H^1(\QQ, \bar{\QQ}^{\times}) \simeq 0$ by Hilbert's Theorem 90. Thus,
+\[H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times}/(\QQ^{\times})^2. \]
+
+\section{The Selmer and Tate-Shafarevich Groups}
+
+In the effort to understand $E/2E$, we were led to consider the quotient
+$E(\QQ) / \psi(E(\QQ))$. Our application of Galois cohomology showed that this
+group is closed related to the multiplicative group of rationals modulo squares
+$\QQ^{\times} / (\QQ^{\times})^2$. This group, in turn, can be studied by means
+of local method.
+
+\begin{defn}
+  A place $\nu$ is either a prime number $p$ or $\infty$. $\QQ_\nu$ then is
+  either the field of p-adic numbers if $\nu = p$ or $\RR$ if $\nu = \infty$.
+\end{defn}
+There is then a natural inclusion $\QQ \ra \prod\limits_\nu \QQ_\nu,
+x \mapsto (x \mod 2, x \mod 3, \dots, x).$ This extends to the commutative diagram
+
+\begin{tikzcd}
+  0 \arrow[r] &
+  E(\QQ)/\psi(E(\QQ)) \arrow[r] &
+  \QQ^{\times}/(\QQ^{\times})^2 \arrow[r] \arrow[d] &
+  H^1(\QQ, \bar{E})[\psi] \arrow[r] \arrow[d] &
+  0 \\
+  0 \arrow[r] &
+  \prod\limits_{\nu} E(\QQ_\nu) / \psi(E(\QQ_\nu)) \arrow[r] &
+  \prod\limits_\nu(\QQ_\nu^{\times}/(\QQ_\nu)^{\times})^2 \arrow[r] &
+  \prod\limits_\nu H^1(\QQ_\nu, \bar{E})[\psi] \arrow[r] &
+  0
+\end{tikzcd}
+
+We are now ready to make the following definition
+
+\begin{defn}[Selmer Group]
+  The Selmer group of the elliptic curve $E$ is defined
+  $$\Sel(E) = \text{Ker}\big((\QQ^{\times}/(\QQ^{\times})^2 \ra
+  \prod\limits_\nu H^1(\QQ_\nu, \bar{E})[\psi]\big)$$
+\end{defn}
+
+This group is important in rank computations primarily because it is effectively
+computable.
+
+\begin{thm}
+  Let $E : y^2 = x^3 + ax^2 + bx$ and write $b = p_1^{e_1} \cdots p_t^{e_t}$.
+  Then $Sel \simeq \{b_1 = \pm p_1^{a_1} \cdots p_t^{a_t} \, | \, a_i = 0 \text { or }
+  1 \text{ and the equation } N^2 = b_1M^4 + \frac{b}{b_1}e^4 \text{ has a solution.}\}$
+
+\begin{defn}[Tate-Shafarevich Group]
+  The Tate-Shafarevich group of the elliptic curve $E$ is defined
+  $$ \TS(E / \QQ) = \text{Ker} \big((H^1(\QQ, \bar{E}) \ra \prod\limits_\nu H^1 (\QQ_\nu,
+  \bar{E})[\psi]\big) $$
+\end{defn}
+
+
+\end{document}
