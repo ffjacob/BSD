@@ -4,6 +4,13 @@
    (LaTeX-add-bibitems
     "koblitz"
     "arithmetic"
-    "rational"))
+    "rational"
+    "modular"
+    "simple"
+    "classical"
+    "cohomology"
+    "Serre"
+    "Granville"
+    "Tunnell"))
  :bibtex)
 

@@ -1,31 +1,1091 @@
-\documentclass[12pt]{report}
-\usepackage{amsmath}
+\documentclass[12pt, a4paper]{amsart}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,color,dsfont,tikz-cd,minitoc,pifont,tabu,biblatex}
+\addbibresource{references.bib}
+
+\usepackage{hyperref}
 
 \begin{document}
 
+% Latex template
+%%%%%%%%%%%%%%%%%%%%%%%%% preamble
+
+% theorem-type environments
+\theoremstyle{plain}
+\newtheorem{prop}{Proposition}[subsection]
+\newtheorem{thm}[prop]{Theorem}
+\newtheorem{cor}[prop]{Corollary}
+\newtheorem{lemma}[prop]{Lemma}
+\newtheorem{conj}[prop]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{example}[prop]{Example}
+\newtheorem{defn}[prop]{Definition}
+
+\theoremstyle{remark}
+\newtheorem{remark}[prop]{Remark}
+
+\numberwithin{equation}{subsection}
+
+% user-defomed macros
+\newcommand{\defin}{\textbf}
+\newcommand{\CC}{{\mathbb C}}
+\newcommand{\cov}{{\operatorname{cov}}}
+\newcommand{\eE}{{\mathcal E}}
+\newcommand{\NN}{{\mathbb N}}
+\newcommand{\PP}{{\mathbb P}}
+\newcommand{\ZZ}{{\mathbb Z}}
+\renewcommand{\SS}{{\mathbb S}}
+\newcommand{\DD}{{\mathbb D}}
+\newcommand{\RR}{{\mathbb R}}
+\newcommand{\QQ}{{\mathbb Q}}
+\newcommand{\rR}{{\mathcal R}}
+\newcommand{\OO}{{\mathcal O}}
+\newcommand{\p}{\partial}
+\newcommand{\mM}{{\mathcal M}}
+\newcommand{\pP}{{\mathcal P}}
+\newcommand{\iI}{{\mathcal I}}
+\newcommand{\jJ}{{\mathcal J}}
+\newcommand{\uU}{{\mathcal U}}
+\newcommand{\sS}{{\mathfrak S}}
+\newcommand{\1}{{\mathds 1}}
+\newcommand{\Crit}{\operatorname{Crit}}
+% colours
+\definecolor{red}{rgb}{1,0,0}
+\newcommand{\red}[1]{{\color{red}#1}}
+\newcommand{\GKK}{{G_{\bar{K} : K}}}
+\newcommand{\st}{{\text{s.t.}}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\Sel}{\text{Sel}}
+\newcommand{\Sha}{\text{Sha}}
+\newcommand{\TS}{\text{TS}}
+\newcommand{\Eb}{\bar{E}}
+\newcommand{\EQ}{E(\QQ)}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\newcommand{\EFp}{{\tilde{E}(\FF_p)}}
+\newcommand{\EFt}{{\tilde{E}(\FF_2)}}
+\newcommand{\EQp}{{E(\QQ_p)}}
+\newcommand{\FF}{\mathbb{F}}
+
+
 \title{
   {The Birch Swinnerton-Dyer Conjecture}\\
-  {\large University College London}\\
 }
 \author{Felipe Jacob}
 \date{5 December 2016}
 
-
-\chapter*{Abstract}
-Abstract goes here
-
 \tableofcontents
+\pagebreak
 
-\chapter{Introduction}
-\input{chapters/introduction} 
+\maketitle
 
-\chapter{Modular Forms}
-\input{chapters/modular}
+\section{Elliptic Curve Invariants and the BSD Conjecture}
 
-\chapter{Galois Cohomology}
-\input{chapters/galois}
+One of the major topics in modern number theory is the study of rational
+solutions to cubic equations in two variables, called elliptic curves.
+In this project we will
+investigate the relationships between the arithmetic invariants of such
+equations and certain analytic functions. Such relationships give rise to
+many conjectures with powerful implications, a few of which we will discuss.
+We will first define the objects of interest and their invariants, and then
+continue with the main calculations.
 
-\chapter{Calculations}
-\input{chapters/calculations}
+\subsection{Basic definitions and the group law}
+
+\begin{defn}
+  If $K$ is a perfect field,
+  we say an \defin{elliptic curve} over $K$ is a smotth cubic projective
+  curve $E$ defined over $K$ with at least one rational point $\OO \in E(K)$
+  that we call the \defin{point at infinity}.
+\end{defn}
+With the help of algebraic geometry, we know that such curves can be put
+into particularly simple forms.
+
+\begin{prop}
+  If $E$ is an elliptic curve over $K$, then it is birationally equivalent
+  to the curve
+  \begin{equation} \label{eq:weier2}
+    E: y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6
+  \end{equation}
+  with $a_1, a_2, a_3, a_4 \in K.$
+  Furthermore, when $\text{char}(K) \neq 2, E$ (such as in number fields)
+  can be written in the particularly simple form
+  \begin{equation} \label{eq:weier}
+    E: y^2 = x^3 + ax + b
+  \end{equation}
+  with $a, b \in K$.
+\end{prop}
+
+\begin{proof}
+  \cite[See][Chapter III, pages 42-43]{arithmetic}.
+\end{proof}
+
+From now on, unless said otherwise, we will take $K = \QQ$ and $E$ given
+by \autoref{eq:weier}.
+
+In this project we will be particularly interested in the following family
+of elliptic curves
+
+\begin{defn}
+  The family of \defin{quadratic twists of $E : y^2 = x^3 - x$} is the family of curves
+  \begin{equation} \label{eq:twist}
+    E_n : y^2 = x^3 - n^2 x
+  \end{equation}
+  where $n$ is a positive integer.
+\end{defn}
+
+Elliptic curves are of particular interest primarily because, besides being
+a variety, they also form an abelian group.
+
+\begin{prop}
+  If $P_1 = (x_1,y_1), P_2 = (x_2,y_2) \in E, P_1, P_2 \neq \OO$, let
+  $$\lambda = \frac{y_1-y_2}{x_1-x_2}.$$
+  We then set
+  \[P_1 + P_2 = (x_3,y_3)\]
+  where
+  \begin{equation} \label{eq:addx}
+    x_3 = \lambda^2 - a - x_1 - x_2
+  \end{equation}
+  \begin{equation} \label{eq:addy}
+    y_3 = \lambda x_2 + (y_1 - \lambda x_1)
+  \end{equation}
+  Under this addition law, $E(\QQ)$ is an abelian group.
+\end{prop}
+
+\begin{proof}
+  The easiest proof uses an equivalence between elliptic curves and lattices
+  in $\CC$. \cite[See][Chapter I, sections 6-7]{modular}.
+\end{proof}
+
+\begin{defn}
+  By the classification theorem of abelian groups, we can write
+\[\EQ =
+  \text{Tors}(E) \times \ZZ^r. \]
+Here $\text{Tors}(E)$ is the set of points in
+$\EQ$ with finite
+order, called the \defin{torsion group} of $E$,
+and $r$ is a not necessarily finite number called the \defin{rank of $E$}.
+We will also ocasionally write $r = R_E$.
+\end{defn}
+
+The following results about $\EQ$ were discussed in the course MATH3705,
+and their proofs can be found in \cite{rational}, chapters II and III.
+
+\begin{thm}[Nagell-Lutz Theorem] \label{thm:nagelllutz}
+  Let
+  \[E: y^2 = f(x) = x^3 + ax + b\]
+  be an elliptic curve over $\QQ$, and let $\Delta = -4a^3 -27b^2$ be the
+  polynomial discriminant of $f(x)$. If $P = (x,y)$ is a point of finite order,
+  then either $y = 0$, in which case $P$ has order 2, or we must have $y^2 | \Delta$.
+\end{thm}
+
+\begin{proof}
+  \cite[See][Chapter II, pages 49-56]{rational}.
+\end{proof}
+
+\begin{thm}[Mordell-Weil Theorem]
+  $r$ is a finite natural number.
+\end{thm}  
+
+\begin{proof}
+  \cite[See][Chapter III, pages 63-88]{rational}. Also see the discussion on
+  \autoref{sec:applications}.
+\end{proof}
+
+
+\subsection{The Hasse-Weil L-function}
+
+As with other projective varieties, we can define certain generating functions
+that capture the behaviour of $E$ locally, i.e. when $K = \FF_p$.
+
+\begin{defn}
+  The \defin{local zeta function of $E$ at $p$} is the formal power series
+  \[Z(E, p, z) = \exp \big( \sum\limits_{r=1}^{\infty} \# E(\FF_{p^r}) \frac{z^r}{r} \big)\]
+  where $\# E(\FF_{p^r})$ is the number of points of $E$ in the (unique) field
+  of $p^r$ elements.
+\end{defn}
+
+For our family $E_n$ the local zeta function is explicitly given by the
+following proposition
+
+\begin{prop}
+  If $p \not| \,\, 2n$, then
+  \[Z(E_n, p, z) = \frac{1 - 2az + pz^2}{(1-z)(1-pz)} \]
+  where $a = \Re(\alpha)$, and $\alpha$ is the complex number
+  \[ \alpha =
+    \begin{cases}
+      i \sqrt{p} & \text{ if } p \equiv 3 \, (4) \\
+      p & \text{ if } p \equiv 1 \, (4)
+    \end{cases}.\]
+\end{prop}
+
+\begin{proof}
+  \cite[See][Chater II-2, pages 59-61]{modular}.
+\end{proof}
+
+Encouraged by the local-global principles that work on quadratic curves, we
+amalgamate local zeta functions into a single object, hoping it will give us
+information about $E(\QQ)$.
+
+\begin{defn}
+  The \defin{Hasse-Weil L-function} of $E$ is written
+  \begin{equation} \label{eq:lfunction}
+    L(E, s) = \frac{\zeta(s) \zeta(s-1)}{\prod_p Z(E, p, p^{-s})}
+  \end{equation}
+  where $\zeta(s)$ is the Riemann-zeta function. The numerator is introduced
+  to clear the denominator of the local zeta functions.
+\end{defn}
+
+\subsection{The Regulator and Sha}
+
+Before we are ready to state the main conjecture, we need to define a few
+other invariants of $E$. 
+
+Firstly, we will define an invariant that controls the growth of the complexity
+of the points of $E$ as we take higher and higher multiples.
+
+\begin{defn}[Regulator] 
+  The \defin{regulator $\Omega_{E_n}$ of $E_n$} is the real number
+  \[ \Omega_{E_n} = \frac{1}{\sqrt{n}} \int_{E(\RR)} \frac{dx}{2y} =
+    \frac{1}{2 \sqrt{n}} \int_1^\infty \frac{dx}{\sqrt{x^3-x}}.\]
+\end{defn}
+\begin{remark}
+  The complete definition of the regulator in terms of the Neron-Tate pairing
+  won't be given here. It was discussed in MATH3703.
+  See also
+  \cite[Section 13-7, page 126]{Granville} and
+  \cite[Section VIII.9, pages 252-253]{arithmetic}.
+\end{remark}
+
+The next crucial invariant measures in some sense the hardness of working
+out the rank of $E$ by using local methods.
+
+\begin{defn}[Tate-Shafarevich Group]
+  We need more background material before we're ready to define $\Sha(E)$.
+  See Definition \autoref{defn:sha}.
+\end{defn}
+
+\subsection{Tamagawa Numbers}
+
+Finally, the product in \autoref{eq:lfunction} doesn't really capture any information
+about the primes where the curve is singular. The arithmetic data at those
+primes enters the Birch Swinnerton-Dyer conjecture by means of the Tamagawa
+Numbers.
+Again let
+$$ E_n : y^2 = x^3 - n^2 x. $$
+If $p \not| \,\, \Delta E = 4n^2$ then the reduction $\tilde{E} : y^2 \equiv x^3 - n^2 x \,
+(p)$ is
+also an elliptic curve. We have
+
+\begin{prop}[Reduction Modulo p]
+  The reduction map $E(\QQ) \rightarrow \tilde{E}(\FF_p)$ is a group homomorphism.
+\end{prop}
+\begin{proof}
+  \cite[See][Chapter IV, pages 121-123]{rational}.
+\end{proof}
+
+If $p | \Delta E$ then $\tilde{E}(\FF_p)$ is not a group, but
+\[
+  \tilde{E}(\FF_p)_{ns} := \{P \in \tilde{E}(\FF_p) \,|\, P \text{ is nonsingular}\}
+  \]
+is still a group.
+
+Looking at $E$ in the completion $\QQ_p$ we still have a map
+\[\EQp \rightarrow \EFp\].
+If we let $\EQp_0$ be the preimage of $\EFp_{ns}$ we get a group homomorphism
+\[ \EQp_0 \rightarrow \EFp_{ns} \].
+
+\begin{defn}
+  The Tamagawa Number of $E$ at $p$ is the number
+  $$c_p = \big| \frac{\EQp}{\EQp_0}
+  \big|.$$
+  If $p \not| \,\, \Delta$ then $c_p = 1$.
+\end{defn}  
+  
+\subsection{The BSD Conjecture and Tunnell's Theorem}
+
+During the 1960s, Bryan Birch and Peter Swinnerton-Dyer formulated, based
+on numerical evidence, an influential conjecture relating the Hasse-Weil
+L-function to the arithmetic invariants of $E$.
+
+\begin{conj}[Birch Swinnerton-Dyer Conjecture]
+  The Hasse-Weil L-function $L(E,s)$ can be written as
+  \[L(E,s) = C (s-1)^r + O((s-1)^2)\] where
+  \[C = \frac{|\Sha(E)| \, \Omega_E R_E}{|E(\QQ)_{\text{tors}}|^2} \prod_p c_p\]
+\end{conj}
+
+In particular, near 1, it predicts the value of the integer
+\[0^r \cdot | \Sha(E)| \prod_p c_p .\]
+
+The BSD conjecture is particularly powerful to gather information about
+parametrised families of elliptic curves, since we can then form a parametric
+family of L-functions and hope that by analysing those we can recover useful
+arithmetic information.
+In the case of our family $E_n$, the following remarkable result, proven using
+the machinery of modular forms, shows that
+$L(E_n,s)$ takes a particularly simple form.
+
+\begin{thm}[Tunnell's Theorem]
+  \begin{equation} \label{eq:tunnell}
+    L(E_n,1) = \begin{cases}
+      \frac{1}{2}\Omega_{E_n}a^2_n & \text{ if $n$ is odd} \\
+      \Omega_{E_n}a'^2_{n/2} & \text{ if $n$ is even}
+    \end{cases}
+  \end{equation}
+
+  where the $a_i, a'_i$ are coefficients of the fourier expansions of the
+  functions $f, f'$ given by
+  \[f(z) = \sum\limits_{m=-\infty}^\infty a_m q^m
+    = (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(2z)\]
+  and
+  \[f'(z) = \sum\limits_{m=-\infty}^\infty a'_m q^m =
+    (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(4z)\]
+  with $q = e^{2\pi i z}$.
+  
+  Here $\Theta(z)$ is the theta-function given by
+  \[ \Theta(z) = \sum\limits_{n = \infty}^{\infty} q^{n^2} \text{ where } q =
+    e^{2\pi iz}.\]
+\end{thm}
+
+\begin{proof}
+  \cite[See][pages 325-328]{Tunnell}. Also \cite[pages 212-222]{modular}
+  discusses the proof extensively.
+\end{proof}
+  
+In this project we will take advantage of the fact that the coefficients of
+$L(E_n,1)$ are given by relatively simple arithmetic functions, and use that
+to verify the BSD conjecture for the family $E_n$.
+
+To do this we will first compute all the invariants of $E_n$ as well as
+possible, and then find a simple form for the coefficients of $f$ and $f'$ modulo
+a high enough power of 2. This will enable us to predict the rank of $E_n$ as
+$n$ ranges over the prime numbers.
+
+
+  
+\section{Galois Cohomology}
+
+\subsection{Group Cohmology}
+
+Let $G$ be a finite group. We define the \defin{group ring $\ZZ[G]$} to
+be the ring of formal sums
+\[ \ZZ[G] = \big\{ \sum\limits_{i=1}^{|G|} x_i \, | \, x_i \in \ZZ, g_i \in G \big\}\]
+with identity $1 \cdot e_G$ and addition and multiplication defined by
+\[\sum\limits_{i=1}^{|G|} x_ig_i + \sum\limits_{i=1}^{|G|} y_ig_i =
+\sum\limits_{i=1}^{|G|} (x_i+y_i)g_i\]
+and \[(\sum\limits_{i=1}^{|G|} x_ig_i) \cdot (\sum\limits_{i=1}^{|G|} y_ig_i) =
+\sum\limits_{t=1}^{|G|} \sum\limits_{i+j = t} x_iy_jg_ig_j \].
+We say an abelian group $A$ is a \defin{$G$-module} if it is a module
+for the ring $\ZZ[G]$. This is a commutative module if $G$ is also abelian.
+
+We define the
+first and second cohomology groups of $A$ by
+\[H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A)\] and
+\[H^1 (G, A) = \text{Ext}^1_{\ZZ[G]} (\ZZ, A)\]
+where $\ZZ$ is considered the trivial $G$-module where $g x = x$ for every
+$x \in \ZZ, g \in G$.
+Let $\phi : \ZZ \rightarrow A$ be a module homomorphism. Then
+\[\begin{split} \phi(1) &= \phi(g \cdot 1) \,\,\,\, \forall g \in G \\
+    &= g \cdot \phi(1) , \end{split}\]
+so $\phi(1) \in A^G = \{x \in A \, | \, gx = x, \forall g \in G\}$, the set
+of elements at which $G$ acts trivially. Since a $\ZZ$ homomorphism is
+completely determined by the image of 1, we can set
+\[ H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A) = A^G .\] 
+
+We can also define the first cohomology group as
+\[H^1(G, A) = \frac{Z^1(G,A)}{B^1(G,A)}\]
+where
+\[Z^1(G,A) = \{ \phi : G \rightarrow A \, | \phi(gh) = \phi(g) + g \phi(h)\}\]
+\[B^1(G,A) = \{ \delta \in Z^1 \, | \, \exists a \in A \,\,\text{such that}\,\, \delta(g)
+  = ga - a , \forall g \in G\}\]
+
+\begin{prop}
+  With this setup, we can take a short exact sequence of $G$-modules
+  \[ 0 \rightarrow A \rightarrow B \rightarrow C \rightarrow 0\]
+  and form the long exact sequence
+  \[ 0 \rightarrow H^0(G, A) \rightarrow H^0(G,B) \rightarrow H^0(G,C)
+    \rightarrow H^1(G, A) \rightarrow H^1(G,B) \rightarrow H^1(G,C) \]
+\end{prop}
+
+\subsection{Galois Cohomology}
+
+We can now use the machinery of group cohomology to study number fields.
+Let $L, K$ be number fields and $L : K$ a finite degree Galois
+extension with Galois group $G_{L:K}$.
+A Galois module $A$ is a module over $G_{L:K}$.
+
+\begin{example}
+  We can consider the Galois modules $A = L \simeq K[G], $ or $A =
+  L^{\times}$ where $L^{\times}$ is the multiplicative group of $L$.
+\end{example}
+
+
+\begin{defn}
+  The \defin{zeroth and first Galois cohomology groups} are written
+        \[H^0(L:K, A) = H^0(G_{L:K}, A) = A^{G_{L:K}} \]
+        \[H^1(L:K, A) = H^1(G_{L:K}, A) \]
+\end{defn}
+
+\begin{example}
+  If $E$ is an elliptic curve over $K$ then $A = E(L)$ is a Galois module,
+  since the addition formulas are rational over $K$.
+
+  If $K = \QQ$, we have $H^0(\QQ,E(L)) = E(L)^{G_{L:\QQ}} = E(\QQ)$.
+\end{example}
+
+From now on we will write $H^1(\QQ, E)$ for the group $H^1(\QQ, E(\bar{\QQ}))$.kk
+
+The following result gives an important terminating condition for the
+long exact sequences:
+
+\begin{thm}[Hilbert's Theorem 90]
+  $  H^1(L : K, L^{\times}) = 0$
+\end{thm}
+\begin{proof}
+  \cite[See][Chapter X, page 150]{cohomology}
+\end{proof}
+
+In what follows we will take $L = \bar{K}$, the algebraic closure of K and
+$G_K = G_{\bar{K}:K}$ its Galois group. This extension is usually infinite, so
+it will be necessary to make amendmends to the previous defintions.
+
+\begin{defn}
+  A $G_K$-module $A$ is called a continuous $G_K$-module if for all $g \in G_K, a \in A$,
+  there exists a finite Galois extension $L:K$ such that $g(a)$
+  depends only on the image of $g$ in $G_{L:K}$.
+\end{defn}
+
+\begin{example}
+  $\bar{K}$ and $ \bar{K}^{\times}$ are continuous $G_K$-modules.
+\end{example}
+
+\begin{lemma}
+  $E(\bar{K})$ is a continuous $G_K$-module.
+\end{lemma}
+\begin{proof}
+  Note that if $P = (x,y) \in E(\bar{K})$ and $L$ the field generated
+  by the coordinates of $P$, then $P \in E(L)$ and $L$ is finite. This is
+  because $x, y$ satisfy an algebraic equation over $K$.
+  But then $g P = P, \forall g \in G_{\bar{K} : L}$, as wanted.
+\end{proof}
+  
+To form cohomology groups, set
+\[H^1(K,A) = \frac{Z^1_{\text{cts}}(K,A)}{B^1(K,A)}\]
+where
+\[Z^1_{\text{cts}} = \{\phi : G_K \rightarrow A \, | \, \exists L : K
+  \text{ such that } \phi(g) \text{ depends only on } g \text{ modulo } L\}.\]
+
+If we have a short exact sequence of continuous $G_K$-modules
+\[ 0 \ra A \ra B \ra C \ra 0\]
+this gives a long exact sequence of Galois cohomology groups
+\[0 \ra A^{G_K} \ra B^{G_K} \ra C^{G_K} \ra H^1(K,A) \ra H^1(K,B) \ra H^1(K,C).\]
+
+
+\subsection{Applications to Elliptic Curves} \label{sec:applications}
+A crucial step in the proof of the Mordell-Weil theorem, enough to show that
+the rank of an elliptic curve over $\QQ$ is finite, is the study of the size
+of the quotient $E(\QQ) / 2 E(\QQ)$. In curves with at least one 2-torsion
+point, this can be done with the help of an isogeny.
+
+Let $$E : y^2 = x^3 + ax^2 + bx$$ be an elliptic curve over $\QQ$. We know $E$
+has the rational points $\OO, T = (0,0)$.
+
+We also consider the curve
+\[ \bar{E} : y^2 = x^3 + \bar{a}x^2 + \bar{b}x \]
+where $\bar{a} = -2a$ and $\bar{b} = a^2 - 4b$. Repeating this process yields
+the curve
+\[ \bar{\bar{E}} : y^2 = x^3 +  4ax^2 + 16bx\]
+which is birationally equivalent to $E$ by the transformation $y \mapsto 8y,
+x \mapsto 4x$.
+
+\begin{prop}
+  Let $E, \bar{E}$ be as above. The maps $\phi : E \rightarrow \bar{E}$ and
+  $\psi : \bar{E} \rightarrow E$ defined by
+  \[\phi(P) =
+    \begin{cases}
+      (\frac{y^2}{x^2}, \frac{y(x^2-b)}{x^2}), & \text{ if } P \neq \OO, T \\
+      \bar{\OO}, & \text{ if } P = \OO \text{ or } P = T
+    \end{cases}\]
+  and
+  \[\psi(P) =
+    \begin{cases}
+      (\frac{\bar{y}^2}{4\bar{x}^2}, \frac{\bar{y}(\bar{x}^2-\bar{b})}{8\bar{x}^2}),
+      & \text{ if } P \neq \bar{\OO}, \bar{T} \\
+      \bar{\OO}, & \text{ if } \bar{P} = \bar{\OO} \text{ or } \bar{P} = \bar{T}
+    \end{cases}\]
+  are elliptic curve isogenies, $\text{Ker}(\phi) = \{\OO, T\}$ and
+  \[ \psi \circ \phi (P) = 2P , \text{ for all points } P \in E.\]
+\end{prop}
+\begin{proof}
+  See \cite[See][Chapter 4, page 79]{rational}.
+\end{proof}
+
+\begin{lemma} \label{lemma:rankformula}
+  If $E / \psi(\bar{E}))$ and $\bar{E} / \phi(E)$ are finite, then so is $E/2E$.
+  In fact, the rank $r$ of $E$ satisfies
+  \[2^r = \frac{\#E/\psi(\Eb) \cdot \#\Eb/\phi(E)}{4}\]
+\end{lemma}
+\begin{proof}
+  See \ref{rational}.
+\end{proof}
+
+We are thus led to consider the quotient $E(\QQ) / \psi(\bar{E}(\QQ))$ (the
+other one can be treated identically).
+
+By the proposition, we have a short exact sequence of $G_{\QQ}$-modules
+\[ 0 \rightarrow \{\OO, T\} \rightarrow \bar{E}(\bar{\QQ}) \xrightarrow[]{\psi}
+  E(\bar{\QQ})
+  \rightarrow 0\]
+and $\{\OO, T\} \simeq \ZZ/2\ZZ$.
+
+Taking Galois cohomology we get the long exact sequence
+
+\[ 0 \rightarrow \ZZ / 2\ZZ \rightarrow \bar{E}(\QQ) \xrightarrow[]{\psi} E(\QQ)
+  \rightarrow H^1(\QQ, \ZZ/2\ZZ) \rightarrow H^1(\QQ, \bar{E}) \xrightarrow{H^1(\psi)}
+  H^1(\QQ, E)\]
+This in turn gives us the short exact sequence
+\[ 0 \rightarrow \frac{E(\QQ)}{\psi(\bar{E} (\QQ))} \rightarrow
+  H^1(\QQ, \ZZ / 2\ZZ) \rightarrow H^1(\QQ, \bar{E}(\QQ))[\psi] \rightarrow 0\]
+
+where $H^1(\QQ,\bar{E}(\QQ))[\psi] = (H^1(\psi))^{-1}.$ \vspace{3mm}
+
+To get the order of $E(\QQ) / \psi(\bar{E}(\QQ))$ we need to investigate the group
+$H^1(\QQ, \ZZ/2\ZZ)$.
+
+\begin{prop}
+  There exists a canonical isomorphism so that
+  \[H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times} / (\QQ^{\times})^2\]
+\end{prop}
+\begin{proof}
+Consider the exact sequence of Galois modules
+\[0 \rightarrow \mu_2 \rightarrow \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra
+  \, 0 \]
+where $\mu_2 = \text{Gal} (\QQ(i) : \QQ) \simeq \ZZ / 2\ZZ.$
+
+Taking cohomology gives the long exact sequence
+\[ 0 \ra \mu_2 \ra \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra H^1(\QQ, \ZZ/2\ZZ)
+  \ra H^1(\QQ, \bar{\QQ}^{\times})\]
+and $H^1(\QQ, \bar{\QQ}^{\times}) \simeq 0$ by Hilbert's Theorem 90. Thus,
+\[H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times}/(\QQ^{\times})^2. \]
+\end{proof}
+
+\subsection{The Selmer and Tate-Shafarevich Groups}
+
+In the effort to understand $E/2E$, we were led to consider the quotient
+$E(\QQ) / \psi(E(\QQ))$. Our application of Galois cohomology showed that this
+group is a subsgroup of the multiplicative group of rationals modulo squares
+$\QQ^{\times} / (\QQ^{\times})^2$. This group, in turn, can be studied by means
+of local method.
+
+\begin{defn}
+  A \defin{place} $\nu$ is either a prime number $p$ or $\infty$. $\QQ_\nu$ then is
+  either the field of p-adic numbers if $\nu = p$ or $\RR$ if $\nu = \infty$.
+\end{defn}
+
+\begin{defn}
+  If $\phi: A \rightarrow B$ is a homomorphism, then write $A[\phi]$ for the
+  kernel of $\phi$.
+\end{defn}
+
+There is then a natural inclusion $\QQ \ra \prod\limits_\nu \QQ_\nu,
+x \mapsto (x, x, \dots)$ since $\QQ \subset \QQ_{\nu}$ for each $\nu$.
+
+\begin{tikzcd}
+  0 \arrow[r] &
+  E(\QQ)/\psi(E(\QQ)) \arrow[r] &
+  \QQ^{\times}/(\QQ^{\times})^2 \arrow[r] \arrow[d] &
+  H^1(\QQ, \bar{E})[\psi] \arrow[r] \arrow[d] &
+  0 \\
+  0 \arrow[r] &
+  \prod\limits_{\nu} E(\QQ_\nu) / \psi(E(\QQ_\nu)) \arrow[r] &
+  \prod\limits_\nu(\QQ_\nu^{\times}/(\QQ_\nu)^{\times})^2 \arrow[r] &
+  \prod\limits_\nu H^1(\QQ_\nu, \bar{E})[\psi] \arrow[r] &
+  0
+\end{tikzcd}
+
+We are now ready to make the following definition
+
+\begin{defn}[Selmer Group]
+  The Selmer group of the elliptic curve $E$ is defined
+  $$\Sel = \text{Ker}\big((\QQ^{\times}/(\QQ^{\times})^2 \ra
+  \prod\limits_\nu H^1(\QQ_\nu, \bar{E})[\psi]\big)$$
+\end{defn}
+
+This group is important in rank computations primarily because it is effectively
+computable. To understand $\EQ/\psi(\Eb(\QQ))$ fully, we also need
+
+\begin{defn}[Tate-Shafarevich Group] \label{defn:sha}
+  The Tate-Shafarevich group of the elliptic curve $E$ is defined
+  $$ \TS(\bar{E} / \QQ) = \text{Ker} \big((H^1(\QQ, \bar{E}) \ra \prod\limits_\nu H^1 (\QQ_\nu,
+  \bar{E})[\psi]\big) $$
+\end{defn}
+
+Finally, we have the important short exact sequence
+
+\[ 0 \ra \frac{E(\QQ)}{\psi(\bar{E}(\QQ))} \ra \Sel \ra \TS(\bar{E}/\QQ)[\psi] \ra 0\]
+
+If $\TS(\Eb/\QQ)[\psi] \simeq 0$, $Sel \simeq \EQ/\psi(\Eb(\QQ))$. By playing
+the same game with the isogeneous curve $\Eb$, if $\TS(E/\QQ)[\phi] \simeq 0$,
+we also know $\Eb(\QQ)/\phi(\EQ)$ and can use \ref{lemma:rankformula} to compute
+the rank of $E$. 
+
+\section{Calculations}
+
+\subsection{Introduction}
+
+The Birch Swinnerton-Dyer conjecture states that the Hasse-Weil L-function
+$L(E,s)$ of the elliptic curve $E$ can be written as
+\[L(E,s) = C (s-1)^r + O((s-1)^2)\] where
+\[C = \frac{|\text{Sha}(E)| \, \Omega_E R_E}{|E(\QQ)_{\text{tors}}|^2} \prod_p c_p\]
+In particular, near 1, it predicts the value of
+\[0^r \cdot |\text{Sha}(E)| \prod_p c_p \in \ZZ\].
+
+From Tunnell's theorem we know that $L(E_n,s)$ has a particularly simple
+form in terms of Theta functions. In this subsection we'll show that they
+can be used to predict whether $0^r |\text{Sha}(E)$ is even or odd, and that
+this agrees with what's the BSD conjecture.
+
+
+\subsection{Coefficients of Theta Series}
+Tunnell's theorem requires us to consider the quantities 
+\[  A_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 32z^2\} \]
+\[  B_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 8z^2\} \]
+\[  C_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 64z^2\} \]
+\[  D_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 16z^2\} \]
+
+depending on whether $n$ is odd or even. For our calculations we'll
+need to compute $A_n - \frac{1}{2}B_n$ and $C_n - \frac{1}{2}D_n$ modulo 4.
+
+\begin{thm}
+  $2A_p - B_p \equiv \begin{cases} 0, & p \equiv 1, 5, 7 \, (8) \\
+    2, & p \equiv 3 \, (8) \end{cases}
+  \, (4)$
+\end{thm}
+\begin{proof}
+  In computing $A_P$ and $B_P$ we only need to consider solutions
+  where at least 1 of $x, y, z$ is 0, since if neither is 0, all of $\pm x, \pm y, \pm z$
+  are solutions, and hence they together don't make a contribution to the total
+  number of solutions modulo 8. Furthermore, since we only need to consider $A_n$
+  modulo 4, we can also ignore solutions where exactly 1 of $x, y z$ are 0. But
+  there are no remaining solutions since p is prime and if 2 of $x, y, z$ are 0 we
+  arrive at the contradiction $x^2 = p$, so we have $A_p \equiv 0 \, (4)$.
+
+  With this we're left to consider $\frac{1}{2}B_p \, (4)$, or $B_p \, (8)$. Again we can
+  ignore solutions where all of $x, y, z$ are 0, so we have, by inclusion-exclusion
+
+  \( A_p \equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} + \#\{2x^2 + 8z^2 = p\} \\
+  \equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} \, (8)\)
+  since p is odd. To find the remaining quantities we need some algebraic number
+  theory.
+
+\begin{lemma}
+  For $p$ odd, $\#\{2x^2 + y^2 = p\} = \begin{cases} 4,
+    p \equiv 1 \, (8) \\
+    1, p \equiv 3 \, (8) \\
+    0, else \end{cases}$
+\end{lemma}
+\begin{proof} We must have $2x^2 + y^2 \equiv 0 \, (p)$, so we only have solutions if
+$(\frac{-2}{p}) = 1$, or equivalently if $p \equiv 1, 3 \, (8)$. Since
+$\ZZ[\sqrt{2}]$ is a PID, if $p \equiv 1 \, (8), p = \pi \bar{\pi}$ for some
+prime $\pi = x + y \sqrt{2}$ where $x^2 + 2y^2 = p$, so $x$ is odd and $x^2
+\equiv 1 \, (8)$
+If $y$ is also odd, $1 + 2y^2 \equiv 1 \, (8) \implies y^2 \equiv 1 \, (8)$, and
+we have $x^2 + 2y^2 \equiv 3 \, (8)$, a contradiction.
+If $y = 2k$ is even, we have $x^2 + 2y^2 = x^2 + 8y^3$ 
+\end{proof}
+
+To conclude the proof of the theorem, we can deduce from the lemma that
+\begin{itemize}
+  \item If $p \equiv 1 \, (8), A_p \equiv 4+4 \equiv 0 \, (8)$.
+  \item If $p \equiv 3 \, (8), A_p \equiv 4 + 0 \equiv 4 \, (8)$.
+  \item If $p \equiv 5, 7 \, (8), A_p \equiv 0 + 0 \equiv 0 \, (8)$.
+\end{itemize} 
+Looking at $A_p - \frac{1}{2} B_p$ modulo 4 gives the result.
+\end{proof}
+\subsection{Selmer Group}
+
+Now we proceed in the other direction, and examine the expected rank of the
+curve by studying its arithmetic invariants. We'll first compute the Selmer
+group of $E_p$ and $\Eb_p$.
+
+\begin{prop}
+  $\Sel(E_p)$ is a subgroup of the multiplicative group
+  $ \{ \pm 1, \pm p \}$, and $d_1 \in \Sel$ if and only if the equation
+  \begin{equation} \label{eq:hom}
+    N^2 = d_1 M^4 + \frac{p^2}{d_1}e^4
+  \end{equation}
+  has a solution in $\QQ_p$ for all $p$.
+  Similarly, $\Sel(\Eb_p)$ is a subgroup of $\{\pm 1, \pm 2, \pm p, \pm 2p\}$
+  consisting of elements $d_1$ at which \ref{eq:hom} has a p-adic solution for
+  all prime numbers.
+\end{prop}
+Proof: See \cite{rational}
+
+We will compute $\Sel$ by looking at the equation modulo different primes.
+There will be 3 cases to consider: 2, $p$, and any prime $l \neq p$.
+
+\subsubsection{l-adic case}
+
+In order to work out if equation \ref{eq:hom} has a solution in $\QQ_p$,
+we will first show it has a solution 
+in $\ZZ/p\ZZ$, and then lift this solution to $\QQ_p$ using:
+
+\begin{prop}[Hensel's Lemma]
+  Let $f \in \ZZ_p[X_1,\dots,X_m], x = (x_i) \in (\ZZ_p)^m, n, k \in \ZZ$ and
+  $j$ an integer such that $0 \leq j \leq m$. Suppose that $0 < 2k < n$ and that
+  \[ f(x) \equiv 0 \, (p^n) \text { and } \nu_p
+    \big(\frac{\partial f}{\partial X_j} (x) \big) = k.\]
+  Then there exists a zero $y$ of $f$ in $(\ZZ_p)^m$ which is congruent to $x$
+  modulo $p^{n-k}$.
+\end{prop}
+
+To show existence of local solutions, we will need the following results: 
+
+\begin{prop} 
+  The number of solutions $N_p$ to the equation
+  \[a_1x_1^{l_1} + \cdots a_rx_r^{l_r} \equiv 0 \, (p)\]
+  satisfies
+  \begin{equation} 
+    |N - p^{r-1}| \leq M(p-1)p^{(r/2)-1}
+  \end{equation} 
+  where $M$ is the number of $r$-tuples
+  of characters \linebreak
+  $\chi_1, \dots , \chi_r$
+  where $\chi_i^{l_i} = \varepsilon, \chi_i \neq \varepsilon$ for
+  $i = 1, \dots, r$ and $\chi_1 \chi_2 \cdots \chi_r = \varepsilon$.
+\end{prop} \label{prop:countsols}
+Proof: \cite[See][]{classical}.
+
+\begin{prop}[Chevalley Warning Theorem]
+  Let $f \in K[X_1, \dots , X_n]$ be a homogeneous polynomial
+  in $n$ variables such that $deg f \leq n$. Then $f$ has a nontrivial 0.
+\end{prop}
+
+\begin{proof}
+  \cite[See][Chapter 1, page 5]{Serre}
+\end{proof}
+
+We can apply these results to show that equation \ref{eq:hom} has solutions
+in $\ZZ/p\ZZ$.
+
+\begin{lemma}
+  If $l \neq 2, p$ is prime, then \ref{eq:hom} has a solution in $\QQ_l$.
+\end{lemma}
+Proof: We are looking at the number of solutions to
+\[ N^2 - d_1M^4 - \frac{p^2}{d_1}e^4 \equiv 0 \, (l)\]
+where $d_1 = \pm 1, \pm 2, \pm p, \pm 2p$. Since none of $1, d_1$ and
+$\frac{p^2}{d_1}$ are divisible by $l$, we may apply
+proposition \ref{prop:countsols}.
+
+If $l \equiv 1 \, (4)$, there are 2 characters modulo
+ $l$ of order dividing 4. The primitive quartic
+characters $\chi^{\pm 1}$ and the quadratic character $\chi^2$ where $\chi^2(n) =
+(\frac{n}{p})$. Thus, $M$ is the number of tuples $\chi, \chi^a, \chi^b,
+a,b = \pm 1, 2$ where $\chi \chi^a \chi^b = \varepsilon$, so $M = 2$. Plugin
+into the bound given by proposition \ref{eq:countsols} we get
+\[|N_l - l^{r-1} | \leq 2(l-1) l^{(3/2)-1}.\]
+The equation \ref{eq:hom} will have a nontrivial solution if $|N-p^2| \leq
+p^2-2$, but
+\[2(p-1)p^{1/2} \leq p^2 - 2\]
+is satisfied for all $p \geq 3$.
+If $l \equiv 3 \, (4)$, the values taken by $x^4$ are the same as those taken
+by $x^2$, so $N_l$ is also the number of solutions to
+\[N^2 - d_1M^2 - \frac{p^2}{d_1} e^2 \equiv 0 \, (l),\]
+which has a nontrivial solution by the Chevalley Warning theorem. \qedhere
+
+\begin{thm}[Existence of l-adic Solutions]
+  For $a, b \not\equiv 0 \, (l)$, there is always a triple
+  $x, y, z \in \QQ_p^{\times}$ such that $x^2 = ay^4 + bz^4$.
+\end{thm}
+Proof: Let $f(x,y,z) = x^2 - ay^4 - bz^4$. Then $f$ has a nontrivial root
+$(X,Y,Z)$ in $\ZZ/p\ZZ$ by the previous results, so we may assume for instance
+that $X \not\equiv 0 \, (p)$.
+Since $l$ is odd, neither partial derivative increases the $l$-adic valuation
+of $f$, so, for instance, $\nu_l(\frac{\partial f(X,Y,Z)}{\partial x}) =
+\nu_l(2X) = 0$ and $f(X,Y,Z) \equiv 0 \, (p)$, so $\nu_p(f(X,Y,Z)) \geq 1$.
+Thus, Hensel's lemma applies and we get a solution $\bar{X}, \bar{Y}, \bar{Z}
+\in \QQ_p$. \qedhere
+
+\subsubsection{p-adic case}
+Now there are a finite number of equations to check. We will proceed case by
+case. Remeber we're trying to find solutions in $\QQ_p$ to the equations
+\begin{equation} \label{eq:homcurve}
+  N^2 = d_1 M^4 - \frac{p^2}{d_1}e^4
+\end{equation}
+and
+\begin{equation} \label{eq:isocurve}
+  N^2 = d_1 M^4 + \frac{4p^2}{d_1}e^4
+\end{equation}
+corresponding to the curves $E_p$ and $\Eb_p$.
+
+\begin{thm}
+  The equations \ref{eq:homcurve} have a nontrivial solution in $\QQ_p$. In fact,
+  they have solutions in $\QQ$.
+\end{thm}
+Proof:
+\begin{itemize}
+\item If $d_1 = -1$, we have the rational solution $(p, 0, 1)$.
+\item If $d_1 = p$, we have the rational solution $(0, 1, 1)$.
+\item If $d_1 = -p$, we have the rational solution $(0, 1, 1)$.
+\end{itemize}
+\qedhere
+
+\begin{thm}
+  The equations \ref{eq:isocurve} have a nontrivial solution in $\QQ_p$ subject
+  to the following conditions: 
+
+  $\begin{tabu}{l*{2}{c}r}
+    d_1 & \text{condition} \\
+    \hline
+    1 & \cmark \\
+    2 & p \equiv \pm 1 \, (8) \\
+    p & p \equiv 1 \, (4) \\
+    2p & p \equiv 1 \, (8) \\
+    -1 & p \equiv 1 \, (4) \\
+    -2 & p \not\equiv 5 \, (8) \\
+    -p & p \equiv 1 \, (4) \\
+    -2p & p \equiv 1 \, (8)
+  \end{tabu}$
+\end{thm}
+\begin{proof} Proceeding case by case:
+  \begin{itemize}
+  \item If $d_1 = -1, N^2 \equiv -M^4 \, (p^2)$, so if $M \not\equiv 0 \, (p^2),
+    -1 \equiv (\frac{N}{M^2})^2 \, (p)$, which has a solution if and only if
+    $p \equiv 1 \, (4)$. If $M \equiv 0 \, (p^2), M = p^2M'$, so $N$ is also
+    divisble by $p$, and we don't have a nontrivial solution in $\ZZ/p\ZZ$.
+  \item If $d_1 = 2, N^2 \equiv 2M^4 \, (p^2)$, and by a similar argument we must
+    have $(\frac{2}{p}) = 1$, so we have a solution if and only if $p \equiv \pm 1
+    \, (8)$.
+  \item If $d_1 = p, N^2 \equiv 0 \, (p)$, so $N = pN'$ and $pN'^2 = M^4 + 4e^4$.
+    Since $M, e$ cannot be divisible by $p$, we must have
+    $-4 \equiv (\frac{M}{e})^4 \,\, (p)$. If $p \equiv 3 \, (4)$, this is
+    equivalent to $-4 \equiv X^2 \, (p)$, which is a contradiction.
+    Conversely, if $p \equiv 1 \, (8),$ 1 is a 4th power and $ (\frac{2}{p}) = 1$,
+    so $-4 = (\sqrt{2} \cdot \sqrt{-1})^4$. If $p \equiv 5 \, (8)$, let $\chi$ be
+    a primitive quartic character. Then $\chi(-4) = \chi(-1)\chi(2)^2
+    = \chi(-1) (\frac{2}{p}) = (-1) \cdot (-1) = 1$, since -1 is not a fourth
+    power. Thus, we have a solution if and only if $p \equiv 1 \, (4)$.
+  \item If $d_1 = 2p, N^2 \equiv 0 \, (p)$, so $N = pN'$ and $pN'^2 = 2M^4 +
+    2e^4$. Again, since we have$M, e \not\equiv 0 \, (p), -1 \equiv (\frac{M}{e})^4 \,
+    (p)$, so we must have $p \equiv 1 \, (8)$.
+  \item If $d_1 = -2$, a similar argument shows we must have $(\frac{-2}{p})=1$,
+    so $p \not\equiv 5 \, (8)$.
+  \item If $d_1 = -p$, again we have solutions if and only if -4 is a 4th power,
+    and then $p \equiv 1 \, (4)$. 
+  \item If $d_2 = -2p$, again we have solutions if and only if $p \equiv 1 \, (8)$.
+  \end{itemize} \qedhere
+\end{proof}
+
+\subsubsection{2-adic case}
+Finally, we consider the 2-adic solutions. Remembering \ref{eq:homcurve} has
+rational solutions, we only need to consider the isogeneous curve.
+
+\begin{thm}
+  The equations \ref{eq:isocurve} have a nontrivial solution in $\QQ_2$ subject
+  to the following conditions:
+  
+  $\begin{tabu}{l*{2}{c}r}
+    d_1 & \text{condition} \\
+    \hline
+    1 & \cmark \\
+    2 & \cmark \\
+    p & p \equiv 1 \, (4) \\
+    2p & p \equiv 1 \, (4) \\
+    -1 & \xmark \\
+    -2 & \xmark \\
+    -p & p \equiv 3 \, (4) \\
+    -2p & p \equiv 3 \, (4)
+  \end{tabu} $
+\end{thm}
+\begin{proof}
+  Note that $x^4 \equiv 1 \, (16)$ if $x$ is odd and 0 if it's even. Also
+  note that the squares modulo 16 are 0, 1, 4 and 9. Since
+  $M, e$ cannot both be even, we can check the following cases:
+  \begin{itemize}
+    \item If $d_1 = 2$, $N^2 \equiv \begin{cases} 2 + 2p^2 \\ 2 \\
+        2p^2 \end{cases} \, (16)$. \newline In particular, since $p^2 = 1$ or 9,
+      we can take the option
+      $2 + 2p^2 \equiv 4 \equiv 2^2 \, (16)$.
+    \item If $d_1 = p$, $N^2 \equiv \begin{cases} p + 4p \\ p \\
+        4p \end{cases} \, (16)$. \newline If $p \equiv 1 \, (4), 4p \equiv 1 \, (16)$.
+      The first equation has no solution since $5^{-1} \equiv 13 \not\equiv N^2
+      \, (16)$.
+    \item If $d_1 = 2p$, $N^2 \equiv \begin{cases} 2p +2p \\ 2p \\
+        2p \end{cases} \, (16)$. \newline We have a solution if $p \equiv 1
+      \, (4)$.
+    \item If $d_1 = -1$, $N^2 \equiv \begin{cases} -1 -4 p^2 \\ -1 \\
+        -4p^2 \end{cases} \, (16)$. \newline There are no solutions, since $p^2 = 1, 9$.
+    \item If $d_1 = -2$, $N^2 \equiv \begin{cases} -2 - 2p^2 \\ -2\\
+        -2p^2 \end{cases} \, (16)$. \newline There are also no solutions.
+    \item If $d_1 = -p$, $N^2 \equiv \begin{cases} -p -4p \\ -p \\
+        -4p \end{cases} \, (16)$. \newline The first 2 equations have no solutions, 
+      since $-5^{-1} \equiv 3$ and $-1^{-1} \equiv -1$, and neither is a square.
+      If $N^2 = 4 \equiv -4p \, (16), p \equiv -1 \, (4)$.
+    \item If $d_1 = -2p$, $N^2 \equiv \begin{cases} -2p -2p \\ -2p \\
+        -2p \end{cases} \, (16)$. If $N^2 \equiv 0 \, (16)$, there are no
+      solutions since p is odd. If $N^2 \equiv 4 \, (16), p \equiv -1 \, (4)$.
+  \end{itemize}
+\end{proof}
+
+We can now put everything together to work out the Selmer rank of $E_p$.
+
+$  \begin{tabu}{l*{5}{c}r}
+    d_1 & \text{l-adic} & \text{p-adic} & \text{2-adic} & \RR & \Sel \\
+    \hline
+    1 & \cmark & \cmark & \cmark & \cmark & \cmark \\
+    2 & \cmark & p \equiv \pm 1 \, (8) & \cmark & \cmark & p \equiv \pm 1 \, (8) \\
+    p & \cmark & p \equiv 1 \, (4) & p \equiv 1 \, (4) & \cmark & p \equiv 1 \, (4) \\
+    2p & \cmark & p \equiv 1 \, (8) & p \equiv 1 \, (4) & \cmark & p \equiv 1 \, (8)\\
+    -1 & \cmark & p \equiv 1 \, (4) & \xmark & \xmark & \xmark \\
+    -2 & \cmark & p \not\equiv 5 \, (8) & \xmark & \xmark & \xmark \\
+    -p & \cmark & p \equiv 1 \, (4) & p \equiv 3 \, (4) & \xmark & \xmark \\
+    -2p & \cmark & p \equiv 1 \, (8) & p \equiv 3 \, (4) & \xmark & \xmark 
+  \end{tabu}$
+
+\begin{cor}
+  The Selmer rank of $E$ is equal to 2 if $p \equiv 1 \, (8), 1$ if $p \equiv
+  3, 7 \, (8)$, and 0 if $p \equiv 5 \, (8)$.
+\end{cor}
+\begin{proof}
+  Let $r$ be the Selmer rank, then
+  \[2^r = \frac{\#\Sel(E) \cdot \#\Sel(\Eb)}{4} = \#\Sel(\Eb) =
+    \begin{cases}
+      4 & \text { if } p \equiv 1 \, (8) \\
+      2 & \text{ if } p \equiv 3, 7 \, (8) \\
+      1 & \text { otherwise}
+    \end{cases}\]
+\end{proof}
+
+\subsection{Tamagawa Numbers}
+
+
+\begin{thm}
+  The Tamagawa Number of $E_p$ at $p$ is 4.
+\end{thm}
+Proof: Working in $\QQ_p$, if $x \equiv 0$ then $y^2 = x^3 - p^2 x \equiv 0 \,
+(p^2) \implies y \equiv 0 \, (p)$, so $(x, y) \equiv (0,0) \, (p)$.
+If $x$ has nonpositive valuation, $x = p^{-n} u, u \in \ZZ_p^{\times}$ and $y^2 =
+p^{-3n}u^3 - p^{2-n} u$, so $n$ must be even. 
+
+Let $n = 2m$. Then $p^{6m} y^2 = u^3 - p^{2+2m}u \implies y = p^{-3m}v, v \in
+\ZZ_p^{\times}$. Since $u, v \not\equiv 0 
+\, (p)$, this has solutions if and only if $(\frac{u}{p}) = 1$, so $x$ is the
+reciprocal of a square in $\ZZ_p$.
+
+Setting $x = \frac {1}{r^2}, r^2 \in \ZZ_p$ we get $y^2 = \frac{1}{r^6} -
+\frac{p^2}{r^2} = \frac{1 - p^2r^4}{r^6}$, so we have a bijection
+\[\ZZ_p \rightarrow \EQp_0\]
+\[r \mapsto (\frac{1}{r^2}, \frac{\sqrt{1-p^2r^4}}{r^3})\]
+\[0 \mapsto \mathcal O\]
+To prove the theorem we will need the following lemma:
+
+\begin{lemma}
+  The torsion points $\OO, (0,0), (p,0), (-p,0)$ are a complete set of
+  representatives for $\frac{\EQp}{\EQp_0}$.
+\end{lemma}
+Proof: Let $P(r) = (\frac{1}{r^2}, \frac{\sqrt{1-p^2r^4}}{r^3}) = (x,y)$. We will
+compute $S := P(r) + Q$ for each torsion point $Q$.
+\begin{itemize}
+  \item $Q = \OO$: $P(r) + \OO = P(r)$.
+  \item $Q = (0,0)$:
+    We have $\lambda = \frac{y}{x}$, so
+    \begin{equation*}
+      \begin{split}
+        x(S)
+        &= \lambda^2 - x - 0 =
+        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{1}{r^4}} - \frac{1}{r^2} \\
+        &= -p^2r^2
+      \end{split}
+    \end{equation*}
+  \item $Q = (p, 0)$: We have $\lambda = \frac{y}{x-p}$, so
+    \begin{equation*}
+      \begin{split}
+        x(S)
+        &= \lambda^2 - x - p = 
+        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{(1-pr^2)^2}{r^4}} -
+        \frac{1}{r^2} - p \\
+        &= \frac{1-p^2r^4}{r^2(1-pr^2)^2} - \frac{1+pr^2}{r^2} \\
+        &= -p + \frac{2p}{1-pr^2}
+      \end{split}
+    \end{equation*}
+  \item $Q = (-p, 0)$: We have $\lambda = \frac{y}{x+p}$, so
+    \begin{equation*}
+      \begin{split}
+        x(S)
+        &= \lambda^2 - x + p = 
+        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{(1+pr^2)^2}{r^4}} -
+        \frac{1}{r^2} + p \\
+        &= p - \frac{2p}{1+pr^2}
+      \end{split}
+    \end{equation*}
+\end{itemize}
+
+Now let $S = (x,y)$.
+If $x \equiv 0 \, (p^2)$, $x = p^2 t, t \in \ZZ_p$ we want to show that $x = p^2r^2, r \in \ZZ_p$, so that $S$ lies
+in the coset $P(r) + (0,0)$. Note that
+\begin{equation*}
+  \begin{split}
+    y^2 &= x^3 - p^2x \\
+    &= x(x+p)(x-p) \\
+    x &= \frac{y^2}{(x+p)(x-p)} \\
+    &= \frac{y^2}{p^2(1+tp)(1-tp)}
+  \end{split}
+\end{equation*}
+and $1 \pm tp$ are squares in $\QQ_p$, so indeed $x$ is a square and we can set
+$r = \sqrt{\frac{x}{p^2}}$.
+
+If $x \equiv p \, (p^2), x = p + p^2t$ we want to solve
+\[p - \frac{2p}{1+pr^2} = x = p + p^2t \] or
+\[ \frac{-2}{1+pr^2} = pt\]
+to show that $S$ lies in the coset $P(r)+(-p,0)$.
+\begin{equation*}
+  \begin{split}
+    1+pr^2 &= \frac{-2}{pt} \\
+    r^2 &= \frac{-2-pt}{p^2t}
+  \end{split}
+\end{equation*}.
+Now
+\[ x = \frac{y^2}{(x+p)(x-p)} = \frac{y^2}{(p^2t+2p)(p^2t)}
+= \frac{y^2}{p^2t(2+pt)p}\]
+\[ \implies x = \frac{y^2}{-r^2 p}\]
+\[ \implies r^2 = \frac{y^2}{-px} = \frac{y^2}{p^2(-1-pt)}\]
+
+
+If $x \equiv -p \, (p^2), x = -p + p^2t$ and we solve
+\[ -p + \frac{2p}{1-pr^2} = x = -p + p^2t\] or
+\[ \frac{2}{1-pr^2} = pt\]
+\[ \implies r^2 = \frac{pt - 2}{p^2t}\]
+
+Now
+\[ x = \frac{y^2}{(x+p)(x-p)} = \frac{y^2}{(p^2t-2p)(p^2t)}
+= \frac{y^2}{p^2t(pt-2)p}\]
+\[\implies x = \frac{y^2}{r^2p}\]
+\[ r^2 = \frac{y^2}{xp} = \frac{y^2}{p^2(1+pt)}\]
+which is a square, so again we can solve for $r$.
+
+\begin{thm}
+  The Tamagawa Number of $E_P$ at 2 is 2.
+\end{thm}
+Proof: By checking all possibilities, we know that
+\[\EFt = \{\OO, (0,0), (1,0)\},\]
+with $(1,0)$ being the singular point. Let $\pi : E(\QQ_2)_0 \rightarrow
+\EFt_{ns}$ be the projection map. 
+or any $P = (x,y) \in E(\QQ_2)$, if $\pi(P) = (1,0)$ then $\pi(P * (p,0)) \neq (p,0)$.
+If $x$ is a unit, let $(x,y) * (p,0) = (x',y')$. We want to show that $x'$ is
+not a unit. Suppose it is, and let $\lambda$ be the gradient of the line through
+$(x,y), (p,0), (x',y')$, so that $\lambda = \frac{y}{x-p}$.
+Then $x + p + x' = \lambda^2$, so $\lambda \not\equiv 0 \, (2)$, so $\lambda$ is
+a unit. We also have
+\[
+  \begin{split}
+     y^2 &= x^3 - p^2x \\
+     \implies \lambda^2(x-p)^2 &= x (x+p) (x-p) \\
+     \implies u^2 &= \frac{x (x+p)}{x-p} 
+   \end{split}
+\]
+implying $\frac{x+p}{x-p}$ is a unit, which is a contradiction, since
+$x \pm p$ have different valuations.
+
+\printbibliography
 
 \end{document}
