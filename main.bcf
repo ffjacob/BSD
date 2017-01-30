@@ -2143,21 +2143,26 @@
   </bcf:bibdata>
   <bcf:section number="0">
     <bcf:citekey order="1">arithmetic</bcf:citekey>
-    <bcf:citekey order="2">modular</bcf:citekey>
-    <bcf:citekey order="3">rational</bcf:citekey>
+    <bcf:citekey order="2">Granville</bcf:citekey>
+    <bcf:citekey order="3">modular</bcf:citekey>
     <bcf:citekey order="4">rational</bcf:citekey>
     <bcf:citekey order="5">rational</bcf:citekey>
-    <bcf:citekey order="6">modular</bcf:citekey>
-    <bcf:citekey order="7">Granville</bcf:citekey>
-    <bcf:citekey order="8">arithmetic</bcf:citekey>
-    <bcf:citekey order="9">rational</bcf:citekey>
-    <bcf:citekey order="10">Tunnell</bcf:citekey>
-    <bcf:citekey order="11">modular</bcf:citekey>
-    <bcf:citekey order="12">cohomology</bcf:citekey>
-    <bcf:citekey order="13">rational</bcf:citekey>
-    <bcf:citekey order="14">rational</bcf:citekey>
-    <bcf:citekey order="15">classical</bcf:citekey>
-    <bcf:citekey order="16">Serre</bcf:citekey>
+    <bcf:citekey order="6">rational</bcf:citekey>
+    <bcf:citekey order="7">rational</bcf:citekey>
+    <bcf:citekey order="8">modular</bcf:citekey>
+    <bcf:citekey order="9">Granville</bcf:citekey>
+    <bcf:citekey order="10">Granville</bcf:citekey>
+    <bcf:citekey order="11">rational</bcf:citekey>
+    <bcf:citekey order="12">Tunnell</bcf:citekey>
+    <bcf:citekey order="13">modular</bcf:citekey>
+    <bcf:citekey order="14">cohomology</bcf:citekey>
+    <bcf:citekey order="15">rational</bcf:citekey>
+    <bcf:citekey order="16">rational</bcf:citekey>
+    <bcf:citekey order="17">rational</bcf:citekey>
+    <bcf:citekey order="18">rational</bcf:citekey>
+    <bcf:citekey order="19">rational</bcf:citekey>
+    <bcf:citekey order="20">classical</bcf:citekey>
+    <bcf:citekey order="21">Serre</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global/" type="entry" sortscheme="nty" sortnamekeyscheme="global" labelprefix="">
   <bcf:sorting>

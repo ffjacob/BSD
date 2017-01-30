@@ -49,9 +49,6 @@
 \newcommand{\sS}{{\mathfrak S}}
 \newcommand{\1}{{\mathds 1}}
 \newcommand{\Crit}{\operatorname{Crit}}
-% colours
-\definecolor{red}{rgb}{1,0,0}
-\newcommand{\red}[1]{{\color{red}#1}}
 \newcommand{\GKK}{{G_{\bar{K} : K}}}
 \newcommand{\st}{{\text{s.t.}}}
 \newcommand{\ra}{\rightarrow}
@@ -66,7 +63,12 @@
 \newcommand{\EFt}{{\tilde{E}(\FF_2)}}
 \newcommand{\EQp}{{E(\QQ_p)}}
 \newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\Tors}{{\text{Tors}}}
 
+% colours
+\definecolor{red}{rgb}{1,0,0}
+\newcommand{\red}[1]{{\color{red}#1}}
 
 \title{
   {The Birch Swinnerton-Dyer Conjecture}\\
@@ -94,7 +96,7 @@ continue with the main calculations.
 
 \begin{defn}
   If $K$ is a perfect field,
-  we say an \defin{elliptic curve} over $K$ is a smotth cubic projective
+  we say an \defin{elliptic curve} over $K$ is a smooth cubic projective
   curve $E$ defined over $K$ with at least one rational point $\OO \in E(K)$
   that we call the \defin{point at infinity}.
 \end{defn}
@@ -103,17 +105,21 @@ into particularly simple forms.
 
 \begin{prop}
   If $E$ is an elliptic curve over $K$, then it is birationally equivalent
-  to the curve
+  to the projective completion of the curve
   \begin{equation} \label{eq:weier2}
     E: y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6
   \end{equation}
   with $a_1, a_2, a_3, a_4 \in K.$
-  Furthermore, when $\text{char}(K) \neq 2, E$ (such as in number fields)
-  can be written in the particularly simple form
+  Furthermore, when $\text{char}(K) \neq 2$ (such as in number fields)
+  , the affine variety also can be written as the locus of
   \begin{equation} \label{eq:weier}
-    E: y^2 = x^3 + ax + b
+    E: y^2 = x^3 + ax^2 + bx + c
   \end{equation}
-  with $a, b \in K$.
+  with $a, b, c\in K$. This equivalence also takes the rational point $\OO$ to
+  $(0 : 1 : 0)$.
+  Conversely, an equation of the form \ref{eq:weier} is an elliptic curve if
+  \[\Delta(E) = -4a^3c + a^2b^2 + 18abc - 4b^3 - 27c^2 \neq 0,\]
+  i.e. if the RHS cubic has no repeated roots.
 \end{prop}
 
 \begin{proof}
@@ -135,41 +141,65 @@ of elliptic curves
 \end{defn}
 
 Elliptic curves are of particular interest primarily because, besides being
-a variety, they also form an abelian group.
+a variety, they also form an abelian group. To do this, taking the model of
+\autoref{eq:weier}, we define a geometric way to combine two points of $E$.
+
+If $P_1 \neq P_2, P_3$ is the third point in the projective line between $P_1$
+and $P_2$. If $P_1 = P_2, P_3$ is the other point in the tangent line of $E$
+through $P_1$.
+Such points are well defined since finding the third point amounts to solving
+a cubic equation with coefficients in $K$ and 2 known roots.
+Finally, we set
+\[P_1 + P_2 = (x_3, -y_3) \text{ where } (x_3,y_3) = P_1 * P_2.\]
+The verification that this is indeed a  group law involves either
+extensive case checking or
+some complex analysis, which we will not be going into, but see
+\cite[129-137]{Granville} for a sketch.
+
+A few explicit formulas that we will use are given in the next proposition. 
 
 \begin{prop}
   If $P_1 = (x_1,y_1), P_2 = (x_2,y_2) \in E, P_1, P_2 \neq \OO$, let
   $$\lambda = \frac{y_1-y_2}{x_1-x_2}.$$
-  We then set
-  \[P_1 + P_2 = (x_3,y_3)\]
+  then we have
+  \[P_1 + P_2 = (x_3,-y_3)\]
   where
-  \begin{equation} \label{eq:addx}
-    x_3 = \lambda^2 - a - x_1 - x_2
-  \end{equation}
-  \begin{equation} \label{eq:addy}
-    y_3 = \lambda x_2 + (y_1 - \lambda x_1)
-  \end{equation}
-  Under this addition law, $E(\QQ)$ is an abelian group.
-\end{prop}
 
+  \begin{equation} \label{eq:adddiff}
+    \begin{split}
+      x_3 &= \lambda^2 - a - x_1 - x_2 \\
+      y_3 &= \lambda x_3 + (y_1 - \lambda x_1).
+    \end{split}
+  \end{equation}
+
+  If $P_1 = P_2,$ let
+  \[\lambda = \frac{3x_1^2 + 2ax_1 + b}{2y_1}.\]
+  we similarly have
+  \[P_1 + P_2 = (x_3,-y_3)\]
+  where
+  
+  \begin{equation} \label {eq:addsim}
+    \begin{split}
+      x_3 &= \lambda^2 - a - 2x_1 \\
+      y_3 &= \lambda x_3 + (y_1 - \lambda x_1).
+    \end{split}
+  \end{equation}
+\end{prop}
 \begin{proof}
-  The easiest proof uses an equivalence between elliptic curves and lattices
-  in $\CC$. \cite[See][Chapter I, sections 6-7]{modular}.
+  \cite[See][Chapter 1.7, page 34]{modular}.
 \end{proof}
 
-\begin{defn}
-  By the classification theorem of abelian groups, we can write
-\[\EQ =
-  \text{Tors}(E) \times \ZZ^r. \]
-Here $\text{Tors}(E)$ is the set of points in
-$\EQ$ with finite
-order, called the \defin{torsion group} of $E$,
-and $r$ is a not necessarily finite number called the \defin{rank of $E$}.
-We will also ocasionally write $r = R_E$.
-\end{defn}
-
 The following results about $\EQ$ were discussed in the course MATH3705,
-and their proofs can be found in \cite{rational}, chapters II and III.
+and their proofs can be found in \cite{rational}, chapters II and III for the
+case where \autoref{weier} has at least 1 rational root.
+
+\begin{thm}[Mordell-Weil Theorem]
+  The group $\EQ$ is a finitely generated abelian group.
+\end{thm}  
+\begin{proof}
+  \cite[See][Chapter III, pages 63-88]{rational}. Also see the discussion on
+  \autoref{sec:applications}.
+\end{proof}
 
 \begin{thm}[Nagell-Lutz Theorem] \label{thm:nagelllutz}
   Let
@@ -178,20 +208,24 @@ and their proofs can be found in \cite{rational}, chapters II and III.
   polynomial discriminant of $f(x)$. If $P = (x,y)$ is a point of finite order,
   then either $y = 0$, in which case $P$ has order 2, or we must have $y^2 | \Delta$.
 \end{thm}
-
 \begin{proof}
   \cite[See][Chapter II, pages 49-56]{rational}.
 \end{proof}
 
-\begin{thm}[Mordell-Weil Theorem]
-  $r$ is a finite natural number.
-\end{thm}  
+By the classification theorem of finitely generated abelian groups, covered in
+MATH3201, we can write
+\[\EQ = \Tors(E) \times \ZZ^r\]
+for some natural number $r$, where $\Tors(E)$ is the set of points of finite
+order in $\EQ$.
 
 \begin{proof}
-  \cite[See][Chapter III, pages 63-88]{rational}. Also see the discussion on
+  \cite[See][Chapter III, pages 63-88]{rational}. See also the discussion on
   \autoref{sec:applications}.
 \end{proof}
 
+Finding the number $r$, called the \defin{rank of $E$}, is in some sense the
+main problem of the theory of elliptic curves. In the next section we will
+develop a different set of tools that will enable us to tackle this problem.
 
 \subsection{The Hasse-Weil L-function}
 
@@ -199,12 +233,52 @@ As with other projective varieties, we can define certain generating functions
 that capture the behaviour of $E$ locally, i.e. when $K = \FF_p$.
 
 \begin{defn}
-  The \defin{local zeta function of $E$ at $p$} is the formal power series
-  \[Z(E, p, z) = \exp \big( \sum\limits_{r=1}^{\infty} \# E(\FF_{p^r}) \frac{z^r}{r} \big)\]
-  where $\# E(\FF_{p^r})$ is the number of points of $E$ in the (unique) field
+  Let $V$ be a projective variaty.
+  The \defin{local zeta function of $V$ at $p$} is the formal power series
+  \[Z(V, p, z) = \exp \left( \sum\limits_{r=1}^{\infty} \# V(\FF_{p^r}) \frac{z^r}{r} \right)\]
+  where $\# V(\FF_{p^r})$ is the number of points of $V$ in the (unique) field
   of $p^r$ elements.
 \end{defn}
 
+\begin{example}
+  If $V = (x_0:y_0:z_0)$ is a point, then $\#V(\FF_{p^r}) = 1$, so
+  \begin{equation*}
+    \begin{split}
+      Z(V,p,z) &= \exp \left( \sum\limits_{r=1}^{\infty} \frac{z^r}{r} \right) \\
+               &= \exp (-\log (1-z)) \\
+               &= \frac{1}{1-z}.
+    \end{split}
+  \end{equation*}
+             
+\end{example}
+
+\begin{example}
+  If $V = \mathbb{A}^n \subset \mathbb{P}^n$ is the affine
+  k$n$-space $, \#(\FF_{p^r})\AA^n = p^r$, so
+  \begin{equation*}
+    \begin{split}
+      Z(\mathbb{A}^n) &= \exp \left(  \sum\limits_{r=1}^\infty \frac{(pz)^r}{r} \right) \\
+      &= \exp ( - \log (1-pz) ) \\
+      &= \frac{1}{1-pz}
+    \end{split}
+  \end{equation*}
+\end{example}
+
+\begin{example}
+  If $V = \mathbb{H}^n \subset \mathbb{P}^n$ is the hiperplane at infinity
+  $(x:y:0)$, then $\# \FF_{p^r} (\mathbb{H}^n) = \# \FF_{p^r} (\mathbb{P}^{n-1})
+  = 1 + p^r + \cdots + p^{r(n-1)}$. So
+
+  \begin{equation*}
+    \begin{split}
+      Z(\mathbb{A}^n) &= \exp \left(  \sum\limits_{r=1}^\infty
+        \sum\limits_{s=0}^{n-1} \left(  \frac{z^r}{r}  \right) \right) \\
+      &= - \sum\limits_{s=0}^{n-1} \log (1 - p^n z) \\
+      &= \frac{1}{(1-z) (1-pz) \cdots (1-p^{n-1} z)}
+    \end{split}
+  \end{equation*}
+\end{example}
+  
 For our family $E_n$ the local zeta function is explicitly given by the
 following proposition
 
@@ -212,11 +286,8 @@ following proposition
   If $p \not| \,\, 2n$, then
   \[Z(E_n, p, z) = \frac{1 - 2az + pz^2}{(1-z)(1-pz)} \]
   where $a = \Re(\alpha)$, and $\alpha$ is the complex number
-  \[ \alpha =
-    \begin{cases}
-      i \sqrt{p} & \text{ if } p \equiv 3 \, (4) \\
-      p & \text{ if } p \equiv 1 \, (4)
-    \end{cases}.\]
+  $i\sqrt{p}$ if $p \equiv 3 \, (4)$ and the unique element of $\ZZ[i]$ of
+  norm $p$ congruent to $(\frac{n}{p})$ modulo $2+2i$ if $p \equiv 1 \, (4)$. 
 \end{prop}
 
 \begin{proof}
@@ -236,34 +307,92 @@ information about $E(\QQ)$.
   to clear the denominator of the local zeta functions.
 \end{defn}
 
-\subsection{The Regulator and Sha}
+\subsection{The Regulator}
+
+Going back to considering elliptic curves, the next invariant measures the
+rate of growth of the complexity of points as we take higher and higher
+multiples of a fixed point. We first need a few definitions.
+
+\begin{defn}
+  Let $P = (\frac{a}{b},y) \in E, (a,b) = 1$. The \defin{height of $P$} is
+  defined to be the number
+  \[ H(P) = \max \{|a|, |b| \}.\]
+\end{defn}
+
+It turns out that taking an integer multiple of a point of $E$ has an
+exponential effect on its height, so we prefer to work with the logarithmic
+height $h(P) = \log (H(P))$. To better yet capture the now almost linear
+behaviour of $h(P)$, we define
+
+\begin{defn}[Neron-Tate height]
+  Let $P \in E$. Then the \defin{Neron-Tate height of $P$} is defined to be
+  \[ \hat{h}(P) = \lim\limits_{n \rightarrow \infty} \frac{\log H(2^n P)}{4^n}. \]
+\end{defn}
+
+It turns out that the Neron-Tate height enables us to define an inner product
+on $\EQ$.
+
+\begin{defn}[Neron-Tate pairing]
+  Let $P, Q \in \EQ$. Then the pairing
+  \[ \langle P,Q \rangle =
+    \frac{1}{2} \left( \hat{h}(P+Q) - \hat{h}(P) - \hat{h}(Q) \right)\]
+  is an inner product on $\EQ$ called the \defin{Neron-Tate pairing}.
+\end{defn}
+
+We will use the Neron-Tate pairing to define an invariant that plays a role
+similar to that of the determinant of a linear map in measuring the size of
+the image of the unit cube.
+
+\begin{defn}[Regulator]
+  Let $P_1, \dots P_r$ be a basis for $\frac{{\EQ}}{\Tors (E)}$.
+  Then the \defin{regulator of $\EQ$} is the number
+  \[R_E = \det ( \langle P_i, P_j \rangle)_{1\leq i, j \leq r}.\]
+\end{defn}
+
+The importance of the regulator is justified by the following proposition
+
+\begin{prop}
+  Let $r$ be the rank of $\EQ$.
+
+  If $r = 0$ then $\# \EQ = \# \Tors(E)$.
+
+  If $r \geq 1$ then, as $x \rightarrow \infty$,
+  \[\# \{P \in \EQ \, | \, \hat{h}(P) \leq x \} \approx \frac{\#
+      \Tors(E)}{R_E^{1/2}}
+    B_r x^{r/2}\]
+  where $B_r$ is the volume of the $r$-dimensional unit ball.
+\end{prop}
+\begin{proof}
+  \cite[See][Chapter 13.7, page 127]{Granville}.
+\end{proof}
+  
+
+\begin{remark}
+  To check that all definitions given in this section behave precisely as
+  stated, see \cite[Chapter 13.7-8, pages 123-127]{Granville}.
+\end{remark}
+  
+
+\subsection{The Period and Sha}
 
 Before we are ready to state the main conjecture, we need to define a few
 other invariants of $E$. 
 
-Firstly, we will define an invariant that controls the growth of the complexity
-of the points of $E$ as we take higher and higher multiples.
-
-\begin{defn}[Regulator] 
-  The \defin{regulator $\Omega_{E_n}$ of $E_n$} is the real number
+\begin{defn}[Real Period] 
+  The \defin{real period $\Omega_{E_n}$ of $E_n$} is the real number
   \[ \Omega_{E_n} = \frac{1}{\sqrt{n}} \int_{E(\RR)} \frac{dx}{2y} =
     \frac{1}{2 \sqrt{n}} \int_1^\infty \frac{dx}{\sqrt{x^3-x}}.\]
+  The last integral can't be evaluated in terms of elementary functions,
+  but its value is a real number $p \approx 2.622 \dots$.
 \end{defn}
 \begin{remark}
-  The complete definition of the regulator in terms of the Neron-Tate pairing
-  won't be given here. It was discussed in MATH3703.
-  See also
-  \cite[Section 13-7, page 126]{Granville} and
-  \cite[Section VIII.9, pages 252-253]{arithmetic}.
+  This is not the complete definition, but it suffices for our family $E_n$.
 \end{remark}
 
-The next crucial invariant measures in some sense the hardness of working
-out the rank of $E$ by using local methods.
-
-\begin{defn}[Tate-Shafarevich Group]
-  We need more background material before we're ready to define $\Sha(E)$.
-  See Definition \autoref{defn:sha}.
-\end{defn}
+The next invariant is the \defin{Tate Shafarevich group $\Sha(E)$}, which will
+be defined in \autoref{defn:sha}. It is an abelian group which intuitively measures
+the hardness of working out the rank of $E$ by local methods, and is conjectured
+to be finite.
 
 \subsection{Tamagawa Numbers}
 
@@ -278,7 +407,8 @@ If $p \not| \,\, \Delta E = 4n^2$ then the reduction $\tilde{E} : y^2 \equiv x^3
 also an elliptic curve. We have
 
 \begin{prop}[Reduction Modulo p]
-  The reduction map $E(\QQ) \rightarrow \tilde{E}(\FF_p)$ is a group homomorphism.
+  If $p \not| \,\, \Delta(E)$, the reduction map
+  $$E(\QQ) \rightarrow \tilde{E}(\FF_p)$$ is a group homomorphism.
 \end{prop}
 \begin{proof}
   \cite[See][Chapter IV, pages 121-123]{rational}.
@@ -297,8 +427,8 @@ If we let $\EQp_0$ be the preimage of $\EFp_{ns}$ we get a group homomorphism
 
 \begin{defn}
   The Tamagawa Number of $E$ at $p$ is the number
-  $$c_p = \big| \frac{\EQp}{\EQp_0}
-  \big|.$$
+  $$c_p = \left| \frac{\EQp}{\EQp_0}
+  \right|.$$
   If $p \not| \,\, \Delta$ then $c_p = 1$.
 \end{defn}  
   
@@ -308,10 +438,10 @@ During the 1960s, Bryan Birch and Peter Swinnerton-Dyer formulated, based
 on numerical evidence, an influential conjecture relating the Hasse-Weil
 L-function to the arithmetic invariants of $E$.
 
-\begin{conj}[Birch Swinnerton-Dyer Conjecture]
-  The Hasse-Weil L-function $L(E,s)$ can be written as
-  \[L(E,s) = C (s-1)^r + O((s-1)^2)\] where
-  \[C = \frac{|\Sha(E)| \, \Omega_E R_E}{|E(\QQ)_{\text{tors}}|^2} \prod_p c_p\]
+\begin{conj}[Birch Swinnerton-Dyer Conjecture] \normalfont
+  \textit{The Hasse-Weil L-function $L(E,s)$ can be written as
+  \[L(E,s) = C (s-1)^r + O((s-1)^2)\] where}
+  \[C = \frac{|\text{Sha}(E)| \, \Omega_E R_E}{|E(\QQ)_{\text{tors}}|^2} \prod_p c_p\]
 \end{conj}
 
 In particular, near 1, it predicts the value of the integer
@@ -343,7 +473,7 @@ $L(E_n,s)$ takes a particularly simple form.
   with $q = e^{2\pi i z}$.
   
   Here $\Theta(z)$ is the theta-function given by
-  \[ \Theta(z) = \sum\limits_{n = \infty}^{\infty} q^{n^2} \text{ where } q =
+  \[ \Theta(z) = \sum\limits_{n = -\infty}^{\infty} q^{n^2} \text{ where } q =
     e^{2\pi iz}.\]
 \end{thm}
 
@@ -361,8 +491,6 @@ possible, and then find a simple form for the coefficients of $f$ and $f'$ modul
 a high enough power of 2. This will enable us to predict the rank of $E_n$ as
 $n$ ranges over the prime numbers.
 
-
-  
 \section{Galois Cohomology}
 
 \subsection{Group Cohmology}
@@ -422,8 +550,12 @@ A Galois module $A$ is a module over $G_{L:K}$.
 
 \begin{defn}
   The \defin{zeroth and first Galois cohomology groups} are written
-        \[H^0(L:K, A) = H^0(G_{L:K}, A) = A^{G_{L:K}} \]
-        \[H^1(L:K, A) = H^1(G_{L:K}, A) \]
+  \begin{equation*}
+    \begin{split}
+      H^0(L:K, A) &= H^0(G_{L:K}, A) = A^{G_{L:K}} \\
+      H^1(L:K, A) &= H^1(G_{L:K}, A)
+     \end{split}
+   \end{equation*}
 \end{defn}
 
 \begin{example}
@@ -431,9 +563,8 @@ A Galois module $A$ is a module over $G_{L:K}$.
   since the addition formulas are rational over $K$.
 
   If $K = \QQ$, we have $H^0(\QQ,E(L)) = E(L)^{G_{L:\QQ}} = E(\QQ)$.
+  From now on we will write $H^1(\QQ, E)$ for the group $H^1(\QQ, E(\bar{\QQ}))$.
 \end{example}
-
-From now on we will write $H^1(\QQ, E)$ for the group $H^1(\QQ, E(\bar{\QQ}))$.kk
 
 The following result gives an important terminating condition for the
 long exact sequences:
@@ -445,7 +576,7 @@ long exact sequences:
   \cite[See][Chapter X, page 150]{cohomology}
 \end{proof}
 
-In what follows we will take $L = \bar{K}$, the algebraic closure of K and
+In what follows we will take $L = \bar{K}$, the algebraic closure of $K$ and
 $G_K = G_{\bar{K}:K}$ its Galois group. This extension is usually infinite, so
 it will be necessary to make amendmends to the previous defintions.
 
@@ -465,8 +596,8 @@ it will be necessary to make amendmends to the previous defintions.
 \begin{proof}
   Note that if $P = (x,y) \in E(\bar{K})$ and $L$ the field generated
   by the coordinates of $P$, then $P \in E(L)$ and $L$ is finite. This is
-  because $x, y$ satisfy an algebraic equation over $K$.
-  But then $g P = P, \forall g \in G_{\bar{K} : L}$, as wanted.
+  because $x, y$ satisfy an algebraic equation over $K$. But then
+  $g P = P, \forall g \in G_{\bar{K} : L}$, as wanted.
 \end{proof}
   
 To form cohomology groups, set
@@ -517,7 +648,7 @@ x \mapsto 4x$.
   \[ \psi \circ \phi (P) = 2P , \text{ for all points } P \in E.\]
 \end{prop}
 \begin{proof}
-  See \cite[See][Chapter 4, page 79]{rational}.
+  \cite[See][Chapter 4, page 79]{rational}.
 \end{proof}
 
 \begin{lemma} \label{lemma:rankformula}
@@ -526,8 +657,13 @@ x \mapsto 4x$.
   \[2^r = \frac{\#E/\psi(\Eb) \cdot \#\Eb/\phi(E)}{4}\]
 \end{lemma}
 \begin{proof}
-  See \ref{rational}.
+  \cite[See][Chapter 4, page 83]{rational}.
 \end{proof}
+
+\begin{defn}
+  From now on, for any morphism $\phi : A \ra B$, we
+  will write $\text{Ker}(\phi) = A[\phi]$.
+\end{defn}
 
 We are thus led to consider the quotient $E(\QQ) / \psi(\bar{E}(\QQ))$ (the
 other one can be treated identically).
@@ -539,7 +675,6 @@ By the proposition, we have a short exact sequence of $G_{\QQ}$-modules
 and $\{\OO, T\} \simeq \ZZ/2\ZZ$.
 
 Taking Galois cohomology we get the long exact sequence
-
 \[ 0 \rightarrow \ZZ / 2\ZZ \rightarrow \bar{E}(\QQ) \xrightarrow[]{\psi} E(\QQ)
   \rightarrow H^1(\QQ, \ZZ/2\ZZ) \rightarrow H^1(\QQ, \bar{E}) \xrightarrow{H^1(\psi)}
   H^1(\QQ, E)\]
@@ -560,7 +695,6 @@ $H^1(\QQ, \ZZ/2\ZZ)$.
 Consider the exact sequence of Galois modules
 \[0 \rightarrow \mu_2 \rightarrow \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra
   \, 0 \]
-where $\mu_2 = \text{Gal} (\QQ(i) : \QQ) \simeq \ZZ / 2\ZZ.$
 
 Taking cohomology gives the long exact sequence
 \[ 0 \ra \mu_2 \ra \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra H^1(\QQ, \ZZ/2\ZZ)
@@ -571,7 +705,7 @@ and $H^1(\QQ, \bar{\QQ}^{\times}) \simeq 0$ by Hilbert's Theorem 90. Thus,
 
 \subsection{The Selmer and Tate-Shafarevich Groups}
 
-In the effort to understand $E/2E$, we were led to consider the quotient
+In the effort to understand $E(\QQ)/2E(\QQ)$, we were led to consider the quotient
 $E(\QQ) / \psi(E(\QQ))$. Our application of Galois cohomology showed that this
 group is a subsgroup of the multiplicative group of rationals modulo squares
 $\QQ^{\times} / (\QQ^{\times})^2$. This group, in turn, can be studied by means
@@ -579,7 +713,7 @@ of local method.
 
 \begin{defn}
   A \defin{place} $\nu$ is either a prime number $p$ or $\infty$. $\QQ_\nu$ then is
-  either the field of p-adic numbers if $\nu = p$ or $\RR$ if $\nu = \infty$.
+  either the field of $p$-adic numbers if $\nu = p$ or $\RR$ if $\nu = \infty$.
 \end{defn}
 
 \begin{defn}
@@ -588,11 +722,11 @@ of local method.
 \end{defn}
 
 There is then a natural inclusion $\QQ \ra \prod\limits_\nu \QQ_\nu,
-x \mapsto (x, x, \dots)$ since $\QQ \subset \QQ_{\nu}$ for each $\nu$.
+x \mapsto (x, x, \dots)$ since $\QQ \subset \QQ_{\nu}$ canonically for each $\nu$.
 
 \begin{tikzcd}
   0 \arrow[r] &
-  E(\QQ)/\psi(E(\QQ)) \arrow[r] &
+  E(\QQ)/\psi(E(\QQ)) \arrow[r] \arrow[d]&
   \QQ^{\times}/(\QQ^{\times})^2 \arrow[r] \arrow[d] &
   H^1(\QQ, \bar{E})[\psi] \arrow[r] \arrow[d] &
   0 \\
@@ -607,7 +741,7 @@ We are now ready to make the following definition
 
 \begin{defn}[Selmer Group]
   The Selmer group of the elliptic curve $E$ is defined
-  $$\Sel = \text{Ker}\big((\QQ^{\times}/(\QQ^{\times})^2 \ra
+  $$\Sel_\psi = \text{Ker}\big((\QQ^{\times}/(\QQ^{\times})^2 \ra
   \prod\limits_\nu H^1(\QQ_\nu, \bar{E})[\psi]\big)$$
 \end{defn}
 
@@ -616,42 +750,51 @@ computable. To understand $\EQ/\psi(\Eb(\QQ))$ fully, we also need
 
 \begin{defn}[Tate-Shafarevich Group] \label{defn:sha}
   The Tate-Shafarevich group of the elliptic curve $E$ is defined
-  $$ \TS(\bar{E} / \QQ) = \text{Ker} \big((H^1(\QQ, \bar{E}) \ra \prod\limits_\nu H^1 (\QQ_\nu,
+  $$ \Sha(\bar{E} / \QQ) = \text{Ker} \big((H^1(\QQ, \bar{E}) \ra \prod\limits_\nu H^1 (\QQ_\nu,
   \bar{E})[\psi]\big) $$
 \end{defn}
 
 Finally, we have the important short exact sequence
 
-\[ 0 \ra \frac{E(\QQ)}{\psi(\bar{E}(\QQ))} \ra \Sel \ra \TS(\bar{E}/\QQ)[\psi] \ra 0\]
+\[ 0 \ra \frac{E(\QQ)}{\psi(\bar{E}(\QQ))} \ra \Sel \ra \Sha(\bar{E}/\QQ)[\psi] \ra 0\]
 
-If $\TS(\Eb/\QQ)[\psi] \simeq 0$, $Sel \simeq \EQ/\psi(\Eb(\QQ))$. By playing
-the same game with the isogeneous curve $\Eb$, if $\TS(E/\QQ)[\phi] \simeq 0$,
+If $\Sha(\Eb/\QQ)[\psi] \simeq 0$, $Sel \simeq \EQ/\psi(\Eb(\QQ))$. By playing
+the same game with the isogeneous curve $\Eb$, if $\Sha(E/\QQ)[\phi] \simeq 0$,
 we also know $\Eb(\QQ)/\phi(\EQ)$ and can use \ref{lemma:rankformula} to compute
 the rank of $E$. 
+
+\begin{remark}
+  The map $\alpha \EQ / \psi(\bar{E}(\QQ)) \ra \QQ^\times / (\QQ^\times)^2$ has been
+  explicitly computed in \cite{rational} for curves with a 2-torsion point, and
+  has been shown to be the map $(x,y) \mapsto x \mod (\QQ^\times)^2$.
+  Furthermore, \cite{rational} also shows that the image of $\alpha$ is
+  contained in the subgroup
+  \[\{\pm 1, \pm p_1^{e_1}, \dots, \pm p_t^{e_t} \}\]
+  where the $p_i$ are the prime factors of $\Delta(E)$ and $e_i =$ 0 or 1.
+\end{remark}
+
+\pagebreak
 
 \section{Calculations}
 
 \subsection{Introduction}
 
-The Birch Swinnerton-Dyer conjecture states that the Hasse-Weil L-function
-$L(E,s)$ of the elliptic curve $E$ can be written as
-\[L(E,s) = C (s-1)^r + O((s-1)^2)\] where
-\[C = \frac{|\text{Sha}(E)| \, \Omega_E R_E}{|E(\QQ)_{\text{tors}}|^2} \prod_p c_p\]
-In particular, near 1, it predicts the value of
-\[0^r \cdot |\text{Sha}(E)| \prod_p c_p \in \ZZ\].
-
 From Tunnell's theorem we know that $L(E_n,s)$ has a particularly simple
 form in terms of Theta functions. In this subsection we'll show that they
-can be used to predict whether $0^r |\text{Sha}(E)$ is even or odd, and that
-this agrees with what's the BSD conjecture.
+can be used to predict whether $0^r \#\text{Sha}(E)$ is even or odd, and that
+this agrees with the BSD conjecture.
 
 
 \subsection{Coefficients of Theta Series}
-Tunnell's theorem requires us to consider the quantities 
-\[  A_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 32z^2\} \]
-\[  B_n = \#\{(x,y,z) | n = 2x^2 + y^2 + 8z^2\} \]
-\[  C_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 64z^2\} \]
-\[  D_n = \#\{(x,y,z) | n = 8x^2 + 2y^2 + 16z^2\} \]
+Tunnell's theorem leads us to consider the quantities 
+\begin{equation*}
+  \begin{split}
+    A_n &= \#\{(x,y,z) \,|\, n = 2x^2 + y^2 + 32z^2\} \\
+    B_n &= \#\{(x,y,z) \,|\, n = 2x^2 + y^2 + 8z^2\} \\
+    C_n &= \#\{(x,y,z) \,|\, n = 8x^2 + 2y^2 + 64z^2\} \\
+    D_n &= \#\{(x,y,z) \,|\, n = 8x^2 + 2y^2 + 16z^2\}
+  \end{split}
+\end{equation*}
 
 depending on whether $n$ is odd or even. For our calculations we'll
 need to compute $A_n - \frac{1}{2}B_n$ and $C_n - \frac{1}{2}D_n$ modulo 4.

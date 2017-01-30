@@ -61,13 +61,14 @@
     "EFp"
     "EFt"
     "EQp"
-    "FF")
+    "FF"
+    "HH"
+    "Tors")
    (LaTeX-add-labels
     "eq:weier2"
     "eq:weier"
     "eq:twist"
-    "eq:addx"
-    "eq:addy"
+    "eq:adddiff"
     "thm:nagelllutz"
     "eq:lfunction"
     "eq:tunnell"
