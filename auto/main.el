@@ -28,6 +28,8 @@
     "hyperref")
    (TeX-add-symbols
     '("red" 1)
+    '("legendre" 2)
+    '("parder" 2)
     "defin"
     "CC"
     "cov"
@@ -63,7 +65,8 @@
     "EQp"
     "FF"
     "HH"
-    "Tors")
+    "Tors"
+    "Zpx")
    (LaTeX-add-labels
     "eq:weier2"
     "eq:weier"
@@ -78,7 +81,8 @@
     "eq:hom"
     "prop:countsols"
     "eq:homcurve"
-    "eq:isocurve")
+    "eq:isocurve"
+    "eq:p-param")
    (LaTeX-add-bibliographies
     "references")
    (LaTeX-add-amsthm-newtheorems

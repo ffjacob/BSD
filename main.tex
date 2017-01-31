@@ -52,9 +52,9 @@
 \newcommand{\GKK}{{G_{\bar{K} : K}}}
 \newcommand{\st}{{\text{s.t.}}}
 \newcommand{\ra}{\rightarrow}
-\newcommand{\Sel}{\text{Sel}}
-\newcommand{\Sha}{\text{Sha}}
-\newcommand{\TS}{\text{TS}}
+\newcommand{\Sel}{\text{\normalfont Sel}}
+\newcommand{\Sha}{\text{\normalfont Sha}}
+\newcommand{\TS}{\text{\normalfont TS}}
 \newcommand{\Eb}{\bar{E}}
 \newcommand{\EQ}{E(\QQ)}
 \newcommand{\cmark}{\ding{51}}
@@ -64,7 +64,10 @@
 \newcommand{\EQp}{{E(\QQ_p)}}
 \newcommand{\FF}{\mathbb{F}}
 \newcommand{\HH}{\mathbb{H}}
-\newcommand{\Tors}{{\text{Tors}}}
+\newcommand{\Tors}{{\text{\normalfont Tors}}}
+\newcommand{\parder}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\Zpx}{\mathbb{Z}_p^\times}
+\newcommand{\legendre}[2]{(\frac{#1}{#2})}
 
 % colours
 \definecolor{red}{rgb}{1,0,0}
@@ -1101,67 +1104,208 @@ $  \begin{tabu}{l*{5}{c}r}
 
 \subsection{Tamagawa Numbers}
 
+The final step of our calculations is to work out the Tamagawa numbers of the
+curves $E_n$. Recall that
+\[ c_p = \left| \frac{E(\QQ_p)}{E(\QQ_p)_0} \right|\]
+where $\EQp_0$ is the preimage of the nonsigular points of the reduced curve
+modulo $p$ of the homomorphism
+\[ \EQp \ra \EFp.\]
 
-\begin{thm}
-  The Tamagawa Number of $E_p$ at $p$ is 4.
-\end{thm}
-Proof: Working in $\QQ_p$, if $x \equiv 0$ then $y^2 = x^3 - p^2 x \equiv 0 \,
-(p^2) \implies y \equiv 0 \, (p)$, so $(x, y) \equiv (0,0) \, (p)$.
-If $x$ has nonpositive valuation, $x = p^{-n} u, u \in \ZZ_p^{\times}$ and $y^2 =
-p^{-3n}u^3 - p^{2-n} u$, so $n$ must be even. 
-
-Let $n = 2m$. Then $p^{6m} y^2 = u^3 - p^{2+2m}u \implies y = p^{-3m}v, v \in
-\ZZ_p^{\times}$. Since $u, v \not\equiv 0 
-\, (p)$, this has solutions if and only if $(\frac{u}{p}) = 1$, so $x$ is the
-reciprocal of a square in $\ZZ_p$.
-
-Setting $x = \frac {1}{r^2}, r^2 \in \ZZ_p$ we get $y^2 = \frac{1}{r^6} -
-\frac{p^2}{r^2} = \frac{1 - p^2r^4}{r^6}$, so we have a bijection
-\[\ZZ_p \rightarrow \EQp_0\]
-\[r \mapsto (\frac{1}{r^2}, \frac{\sqrt{1-p^2r^4}}{r^3})\]
-\[0 \mapsto \mathcal O\]
-To prove the theorem we will need the following lemma:
+We begin with a straightforward lemma.
 
 \begin{lemma}
-  The torsion points $\OO, (0,0), (p,0), (-p,0)$ are a complete set of
-  representatives for $\frac{\EQp}{\EQp_0}$.
+  The curve
+  \[ \EFp : y^2 \equiv x^3 - n^2x \mod{p}\]
+  is nonsigular unless $p \, | \, 2n$.
+
+  If $p = 2$ the singular point if $(1,0)$.
+
+  If $p \, | \, n$ the singuar point is $(0,0)$.
+
 \end{lemma}
-Proof: Let $P(r) = (\frac{1}{r^2}, \frac{\sqrt{1-p^2r^4}}{r^3}) = (x,y)$. We will
-compute $S := P(r) + Q$ for each torsion point $Q$.
-\begin{itemize}
-  \item $Q = \OO$: $P(r) + \OO = P(r)$.
-  \item $Q = (0,0)$:
-    We have $\lambda = \frac{y}{x}$, so
-    \begin{equation*}
-      \begin{split}
-        x(S)
-        &= \lambda^2 - x - 0 =
-        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{1}{r^4}} - \frac{1}{r^2} \\
-        &= -p^2r^2
-      \end{split}
-    \end{equation*}
-  \item $Q = (p, 0)$: We have $\lambda = \frac{y}{x-p}$, so
-    \begin{equation*}
-      \begin{split}
-        x(S)
-        &= \lambda^2 - x - p = 
-        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{(1-pr^2)^2}{r^4}} -
-        \frac{1}{r^2} - p \\
-        &= \frac{1-p^2r^4}{r^2(1-pr^2)^2} - \frac{1+pr^2}{r^2} \\
-        &= -p + \frac{2p}{1-pr^2}
-      \end{split}
-    \end{equation*}
-  \item $Q = (-p, 0)$: We have $\lambda = \frac{y}{x+p}$, so
-    \begin{equation*}
-      \begin{split}
-        x(S)
-        &= \lambda^2 - x + p = 
-        \frac{\frac{1 - p^2r^4}{r^6}}{\frac{(1+pr^2)^2}{r^4}} -
-        \frac{1}{r^2} + p \\
-        &= p - \frac{2p}{1+pr^2}
-      \end{split}
-    \end{equation*}
-\end{itemize}
+
+\begin{proof}
+  Since $\OO$ may could also turn out to be singular, we consider
+  the projective comlpletion completion
+  \[f(x,y,z) = y^2z - x^3 + n^2 xz^2.\]
+  A point is singular if and only if all partial derivatives vanish.
+  We have
+  \begin{equation*}
+    \begin{split}
+      \parder{f}{x} &= -3x^2 + n^2z^2 \\
+      \parder{f}{y} &= 2yz \\
+      \parder{f}{z} &= y^2 + n^2x
+    \end{split}
+  \end{equation*}
+ 
+  There are 3 cases to consider.
+  
+  \begin{itemize}
+  \item If $p = 2$, working modulo 2 we get
+    \[\parder{f}{x} = x^2+z^2 = (x-z)^2, \,\,\,\,
+      \parder {f}{y} = 0, \,\,\,\,
+      \parder{f}{z} = y^2.\]
+    Thus, we must have $x = z, y = 0$. Since $x, y, z$ can't be 0
+    simultaneously, the only candidate is the point $(1:0:1)$, which
+    is in fact in the curve, and descends to the point $(1,0)$ in the
+    affine model.
+    
+  \item If $p | n$, working modulo $p$ we get
+    \[  \parder{f}{x} = -3x^2, \,\,\,\,
+        \parder{f}{y} = 2yz, \,\,\,\,
+        \parder{f}{z} = y^2.
+      \]
+    If $y = 0$, we have $f(x,y,z) = -x^3 = 0$, so $x = 0$.
+    Thus,  only $(0:0:1)$ is singular, and it descends to the point $(0,0) \in \EFp$.
+
+  \item If $p \not| \,\, 2n$, the equations for the partial derivatives
+    require us to have either $y = 0$ or $z = 0$.
+   
+    If $z = 0$, we must have $-x^3 = 0$, so $y = 1$. But then $\parder{f}{z}
+    \neq 0$.
+
+    If $y = 0, \parder{f}{z} = n^2x = 0$, so $x = 0$, and $\parder{f}{x} =
+    n^2z^2 = 0$ and $ z = 0$, a contradiction.
+
+    Thus, there are no singular points on $\bar{E_n}(\FF_p)$ if $p \not|
+    \,\, n$. \qedhere
+  \end{itemize}
+\end{proof}
+
+As an easy application, we have
+
+\begin{cor}
+  If $p \not| \,\, 2n$, the Tamagawa number $c_p = 1$.
+\end{cor}
+
+\begin{proof}
+  In this case, all points are nonsigular, so $\EQp_0 = \EQp$, and
+  \[c_p = \left| \{1\} \right| = 1\]
+  as wanted.
+\end{proof}
+
+It now remains to consider the Tamagawa number at the primes where $E_n$ has
+bad reduction. We first consider the case where $p \, | \, n$. To do this
+we will give an explict parametrization for the homomorphism
+\[\psi : \EQp \ra \EFp\]
+
+Working in $\QQ_p$, if $x \equiv 0 \, (p)$ then
+\[y^2 = x^3 - p^{2}b^2 x \equiv 0 \mod{p^2}, \]
+where we write $n = p b$ with $p \not| \,\, b $, since $n$ is squarefree.
+Thus, $y \equiv 0 \, (p)$ and we have the singular point.
+
+If $x \not\in \ZZ_p^\times$, we can write $x = p^{-n} u$ for some $u \in
+\ZZ_p^\times$, and
+\[y^2 = p^{-3n}u^3 - p^{2-n}b^2u,\]
+so $n$ must be even. Writing $n = 2m$ we get
+\[p^{6m}y^2 = u^3 - p^{2+2m}b^2u.\]
+We can't have $p^{6m}y^2 \equiv 0 \, (p)$ since then
+$u \equiv 0 \, (p),$ a contradiction. Thus we can write
+$y = p^{-3m}v$ for some $v \in \Zpx$. We arrive at the equation
+\[v^2 = u^3 - p^{2+2m}b^2u, \text{ with } u, v \in \Zpx,\]
+giving
+\[v^2 \equiv b^2u^3 \mod{p}.\]
+For this to have a solution, we must have $\legendre{u}{p} = 1,$
+so $x$ is the reciprocal of a square in $\ZZ_p$.
+
+Setting 
+\[x = \frac{1}{r^2}, \,\, r \in \ZZ_p\]
+we get
+\[y^2 = \frac{1}{r^6}-{n^2}{r^2} = \frac{1-n^2r^4}{r^6}.\]
+
+We can thus parametrise the points in $\EQp_0$ by the map
+\[
+    P : \ZZ_p \ra \EQp_0  \]
+mapping
+\begin{equation} \label{eq:p-param}
+  \begin{split}
+    r &\mapsto (\frac{1}{r^2}, \frac{\sqrt{1-n^2r^4}}{r^3}), \text{ if } r \neq 0 \\
+    0 &\mapsto \OO.
+  \end{split}
+\end{equation}
+
+We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
+\right|$.
+
+\begin{thm}
+  If $p \, | \, n, n$ squarefree, the torsion points $\OO, (0,0), (n,0), (-n,0)$
+  are a complete set of representatives for $\frac{\EQp}{\EQp_0}$.
+\end{thm}
+\begin{proof}
+  From \autoref{eq:p-param} we have, for $r \in \ZZ_p$,
+  $P(r) = (\frac{1}{r^2}, \frac{\sqrt{1-n^2r^4}}{r^3}) = (x,y)$.
+
+  We will compute $S := P(r) + Q$ for each torsion point $Q$ using
+  the addition formulas from \autoref{eq:adddiff}.
+   
+  If $Q = \OO$: $P(r) + \OO = P(r)$.
+
+  Now suppose the line between $P(r)$ and $Q$ is given by
+  \[y = \lambda x + \nu.\]
+    
+  If $Q = (0,0)$:
+  We have $\lambda = \frac{y}{x}$, so
+  \begin{equation*}
+    \begin{split}
+      x(S)
+      &= \lambda^2 - x - 0 =
+      \frac{\frac{1 - n^2r^4}{r^6}}{\frac{1}{r^4}} - \frac{1}{r^2} \\
+      &= -n^2r^2.
+    \end{split}
+  \end{equation*}
+  In particular, $x \equiv 0 \mod{p^2}.$
+  \newline
+  
+  If $Q = (n, 0)$: We have $\lambda = \frac{y}{x-n}$, so
+  \begin{equation*}
+    \begin{split}
+      x(S)
+      &= \lambda^2 - x - n = 
+      \frac{\frac{1 - p^2r^4}{r^6}}{\frac{(1-pr^2)^2}{r^4}} -
+      \frac{1}{r^2} - n \\
+      &= \frac{1-n^2r^4}{r^2(1-nr^2)^2} - \frac{1+nr^2}{r^2} \\
+      &= -n + \frac{2n}{1-nr^2}
+    \end{split}
+  \end{equation*}
+  In particular $x \equiv -p + 2p \equiv p \mod{p^2}.$
+  \newline
+  
+  If $Q = (-n, 0)$: We have $\lambda = \frac{y}{x+n}$, so
+  \begin{equation*}
+    \begin{split}
+      x(S)
+      &= \lambda^2 - x + n = 
+      \frac{\frac{1 - n^2r^4}{r^6}}{\frac{(1+nr^2)^2}{r^4}} -
+      \frac{1}{r^2} + p \\
+      &= n - \frac{2n}{1+nr^2}
+    \end{split}
+  \end{equation*}
+  In particular, $x \equiv p-2p \equiv -p \mod{p^2}$.
+
+  We now show that indeed those are all the possibilities for $x$ modulo $p^2$.
+  Note that if $x \not\equiv 0 \, (p)$, then also $y \not\equiv 0 \, (p)$, so
+  $(x,y) \neq (0,0)$ in $\EFp$ and thus $(x,y)$ is the preimage of a nonsigular
+  point, and belongs to $\EQp_0$.
+
+  If $x \equiv 0 \, (p)$,
+  \[y^2 = x^3 - p^2bx\equiv 0 \,(p^3)\]
+  so
+  \[y \equiv 0 \, (p^2)\]
+  and
+  \[ x^3-p^2b^2x \equiv 0 \, (p^4).\]
+  Letting $x = pa$ we get
+  \[p^3a^3-p^3b^2a \equiv 0 \, (p^4)\]
+  so finally
+  \[a^3 - b^2a \equiv 0 \, (p).\]
+  Since $\FF_p$ is a field, we have unique factorization and thus must have
+  $a \equiv 0, \pm 1 \, (p)$, so
+  \[x \equiv 0, p, -p \mod{p^2}\]
+  as wanted.
+
+  
+  
+
+  
 
 Now let $S = (x,y)$.
 If $x \equiv 0 \, (p^2)$, $x = p^2 t, t \in \ZZ_p$ we want to show that $x = p^2r^2, r \in \ZZ_p$, so that $S$ lies
@@ -1205,6 +1349,8 @@ Now
 \[\implies x = \frac{y^2}{r^2p}\]
 \[ r^2 = \frac{y^2}{xp} = \frac{y^2}{p^2(1+pt)}\]
 which is a square, so again we can solve for $r$.
+
+\end{proof}
 
 \begin{thm}
   The Tamagawa Number of $E_P$ at 2 is 2.
