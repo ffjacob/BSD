@@ -1,5 +1,6 @@
 \documentclass[12pt, a4paper]{amsart}
-\usepackage{amsmath,amsfonts,amsthm,amssymb,color,dsfont,tikz-cd,minitoc,pifont,tabu,biblatex}
+\usepackage{amsmath,amsfonts,amsthm,amssymb,color}
+\usepackage{dsfont,tikz-cd,minitoc,pifont,tabu,biblatex}
 \addbibresource{references.bib}
 
 \usepackage{hyperref}
@@ -57,8 +58,8 @@
 \newcommand{\TS}{\text{\normalfont TS}}
 \newcommand{\Eb}{\bar{E}}
 \newcommand{\EQ}{E(\QQ)}
-\newcommand{\cmark}{\ding{51}}
-\newcommand{\xmark}{\ding{55}}
+\newcommand{\cmark}{\textrm{\ding{51}}}
+\newcommand{\xmark}{\textrm{\ding{55}}}
 \newcommand{\EFp}{{\tilde{E}(\FF_p)}}
 \newcommand{\EFt}{{\tilde{E}(\FF_2)}}
 \newcommand{\EQp}{{E(\QQ_p)}}
@@ -1438,12 +1439,6 @@ It remains to compute the Tamagawa number of $E_n$ at 2.
 
   Thus, $u$ is not a unit, and $\pi(P+(n,0)) \neq (1,0)$, which concludes our proof.
 \end{proof}
-
-
-
-
-
-
 
 
 \printbibliography
