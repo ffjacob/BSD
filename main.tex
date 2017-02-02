@@ -1113,7 +1113,7 @@ modulo $p$ of the homomorphism
 
 We begin with a straightforward lemma.
 
-\begin{lemma}
+\begin{lemma} \label{singularity_condition}
   The curve
   \[ \EFp : y^2 \equiv x^3 - n^2x \mod{p}\]
   is nonsigular unless $p \, | \, 2n$.
@@ -1141,16 +1141,16 @@ We begin with a straightforward lemma.
   There are 3 cases to consider.
   
   \begin{itemize}
-  \item If $p = 2$, working modulo 2 we get
+  \item If $p = 2$, working in $\FF_2$ we get
     \[\parder{f}{x} = x^2+z^2 = (x-z)^2, \,\,\,\,
       \parder {f}{y} = 0, \,\,\,\,
       \parder{f}{z} = y^2.\]
-    Thus, we must have $x = z, y = 0$. Since $x, y, z$ can't be 0
+    Thus, we must have $x = z$ and $ y = 0$. Since $x, y, z$ can't be 0
     simultaneously, the only candidate is the point $(1:0:1)$, which
     is in fact in the curve, and descends to the point $(1,0)$ in the
     affine model.
     
-  \item If $p | n$, working modulo $p$ we get
+  \item If $p | n$, working in $\FF_n$ we get
     \[  \parder{f}{x} = -3x^2, \,\,\,\,
         \parder{f}{y} = 2yz, \,\,\,\,
         \parder{f}{z} = y^2.
@@ -1235,42 +1235,53 @@ We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
   From \autoref{eq:p-param} we have, for $r \in \ZZ_p$,
   $P(r) = (\frac{1}{r^2}, \frac{\sqrt{1-n^2r^4}}{r^3}) = (x,y)$.
 
-  We will compute $S := P(r) + Q$ for each torsion point $Q$ using
+  \textbf{Step 1:} We will compute $$S := P(r) + Q$$ for each torsion point $Q$ using
   the addition formulas from \autoref{eq:adddiff}.
    
   If $Q = \OO$: $P(r) + \OO = P(r)$.
 
   Now suppose the line between $P(r)$ and $Q$ is given by
   \[y = \lambda x + \nu.\]
+
+  \begin{itemize}
     
-  If $Q = (0,0)$:
+  \item If $Q = \OO$: $S = P(r) + \OO = P(r)$, and
+    \[x(S) = \frac{1}{r^2}.\]
+    Since $r \in \ZZ_p$, we have in particular
+    \[x(S) \not\equiv 0 \mod{p}.\]
+    
+  \item If $Q = (0,0)$:
   We have $\lambda = \frac{y}{x}$, so
   \begin{equation*}
     \begin{split}
       x(S)
       &= \lambda^2 - x - 0 =
       \frac{\frac{1 - n^2r^4}{r^6}}{\frac{1}{r^4}} - \frac{1}{r^2} \\
-      &= -n^2r^2.
+      &= -n^2r^2 = -p^2b^2r^2.
     \end{split}
   \end{equation*}
-  In particular, $x \equiv 0 \mod{p^2}.$
-  \newline
+  In particular, 
+  \[x(S) \equiv 0 \mod{p^2}.\]
   
-  If $Q = (n, 0)$: We have $\lambda = \frac{y}{x-n}$, so
+\item If $Q = (n, 0)$: We have $\lambda = \frac{y}{x-n} =
+  \frac{\frac{\sqrt{1-n^2r^4}}{r^3}}{\frac{1-nr^2}{r^2}}$, so
   \begin{equation*}
     \begin{split}
       x(S)
       &= \lambda^2 - x - n = 
-      \frac{\frac{1 - p^2r^4}{r^6}}{\frac{(1-pr^2)^2}{r^4}} -
+      \frac{\frac{1 - n^2r^4}{r^6}}{\frac{(1-nr^2)^2}{r^4}} -
       \frac{1}{r^2} - n \\
       &= \frac{1-n^2r^4}{r^2(1-nr^2)^2} - \frac{1+nr^2}{r^2} \\
       &= -n + \frac{2n}{1-nr^2}
     \end{split}
   \end{equation*}
-  In particular $x \equiv -p + 2p \equiv p \mod{p^2}.$
-  \newline
-  
-  If $Q = (-n, 0)$: We have $\lambda = \frac{y}{x+n}$, so
+  But considering the $p$-adic power series for the quotient, we have
+  \[\frac{1}{1-nr^2} = 1 - nr^2 + O(n^2) \equiv 1-nr^2 \, (p^2),\] and 
+  \[-n + \frac{2n}{1-nr^2} \equiv -n + 2n - 2n^2r^2 \equiv n \, (p^2).\]
+  Thus, in this case we have
+  \[x(S) \equiv pb \mod{p^2}.\]
+
+  \item If $Q = (-n, 0)$: We have $\lambda = \frac{y}{x+n}$, so
   \begin{equation*}
     \begin{split}
       x(S)
@@ -1280,15 +1291,21 @@ We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
       &= n - \frac{2n}{1+nr^2}
     \end{split}
   \end{equation*}
-  In particular, $x \equiv p-2p \equiv -p \mod{p^2}$.
+  A similar calculation shows that 
+  \[x(S) \equiv -pb \mod{p^2}.\]
+  \end{itemize}
 
-  We now show that indeed those are all the possibilities for $x$ modulo $p^2$.
+  As a consequence, the 4 cosets are distinct, since the $x$ coordinates of
+  $P(r) + Q$ for each $Q$ are all incongruent modulo $p^2$.
+
+  \textbf{Step 2:} We now show that indeed those are all the possibilities for $x$ modulo $p^2$.
+
   Note that if $x \not\equiv 0 \, (p)$, then also $y \not\equiv 0 \, (p)$, so
   $(x,y) \neq (0,0)$ in $\EFp$ and thus $(x,y)$ is the preimage of a nonsigular
-  point, and belongs to $\EQp_0$.
+  point, and belongs to the trivial coset $\EQp_0$.
 
-  If $x \equiv 0 \, (p)$,
-  \[y^2 = x^3 - p^2bx\equiv 0 \,(p^3)\]
+  Otherwise, if $x \equiv 0 \, (p)$,
+  \[y^2 = x^3 - p^2b^2x\equiv 0 \,(p^3)\]
   so
   \[y \equiv 0 \, (p^2)\]
   and
@@ -1298,82 +1315,136 @@ We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
   so finally
   \[a^3 - b^2a \equiv 0 \, (p).\]
   Since $\FF_p$ is a field, we have unique factorization and thus must have
-  $a \equiv 0, \pm 1 \, (p)$, so
-  \[x \equiv 0, p, -p \mod{p^2}\]
+  $a \equiv 0, \pm b \, (p)$, so
+  \[x \equiv 0, bp, -bp \mod{p^2}\]
   as wanted.
 
-  
-  
+  \textbf{Step 3:} The next step is to show that indeed those cosets span all of
+  $\frac{\EQp}{\EQp_0}$. To do this we need to show that for each possible
+  residue $x \equiv 0, bp, -bp \, (p^2)$ we can solve for $r$ to find a preimage
+  in $\ZZ_p$.
 
-  
+  Let $S = (x,y).$ Again we proceed in cases.
 
-Now let $S = (x,y)$.
-If $x \equiv 0 \, (p^2)$, $x = p^2 t, t \in \ZZ_p$ we want to show that $x = p^2r^2, r \in \ZZ_p$, so that $S$ lies
-in the coset $P(r) + (0,0)$. Note that
-\begin{equation*}
-  \begin{split}
-    y^2 &= x^3 - p^2x \\
-    &= x(x+p)(x-p) \\
-    x &= \frac{y^2}{(x+p)(x-p)} \\
-    &= \frac{y^2}{p^2(1+tp)(1-tp)}
-  \end{split}
-\end{equation*}
-and $1 \pm tp$ are squares in $\QQ_p$, so indeed $x$ is a square and we can set
-$r = \sqrt{\frac{x}{p^2}}$.
-
-If $x \equiv p \, (p^2), x = p + p^2t$ we want to solve
-\[p - \frac{2p}{1+pr^2} = x = p + p^2t \] or
-\[ \frac{-2}{1+pr^2} = pt\]
-to show that $S$ lies in the coset $P(r)+(-p,0)$.
-\begin{equation*}
-  \begin{split}
-    1+pr^2 &= \frac{-2}{pt} \\
-    r^2 &= \frac{-2-pt}{p^2t}
-  \end{split}
-\end{equation*}.
-Now
-\[ x = \frac{y^2}{(x+p)(x-p)} = \frac{y^2}{(p^2t+2p)(p^2t)}
-= \frac{y^2}{p^2t(2+pt)p}\]
-\[ \implies x = \frac{y^2}{-r^2 p}\]
-\[ \implies r^2 = \frac{y^2}{-px} = \frac{y^2}{p^2(-1-pt)}\]
+  \begin{itemize}
+    \item If $x \equiv 0 \, (p^2),$ we can write $x = p^2t$ for some $t \in
+      \ZZ_p$. We want to show that $S$ is a member of the coset $P(r) + (0,0)$,
+      i.e. that we can solve
+      \[x = -p^2b^2r^2\]
+      for some $r \in \ZZ_p$.
+      From the equation of the curve we have
+      \begin{equation*}
+        \begin{split}
+          y^2 &= x^3 - (pb)^2x \\
+          &= x(x+pb)(x-pb) \\
+          x &= \frac{y^2}{(x+pb)(x-pb)} \\
+          &= \frac{-y^2}{p^2(1+tpb)(1-tpb)}
+        \end{split}
+      \end{equation*}
+      where in the last line we substituted our hypothesis $x = p^2t.$ But
+      $1 + tpb$ and $1-tpb$ are squares in $\ZZ_p$, since they are congruent to
+      1 modulo $p$, $\legendre{1}{p} = 1$, and we can lift them noting that
+      $\nu_p(1 \pm tpb) = 0$. Thus, 
+      \[\sqrt{-x} = \frac{y}{p (1+tpb)^{1/2} (1-tpb)^{1/2}}, \in \QQ_p,\]
+      and is in fact in $\ZZ_p$ since $x$ also is. Finally, we have the solution
+      \[r = \frac{\sqrt{-x}}{pb},\]
+      so indeed $S \in P(r) + (0,0).$
 
 
-If $x \equiv -p \, (p^2), x = -p + p^2t$ and we solve
-\[ -p + \frac{2p}{1-pr^2} = x = -p + p^2t\] or
-\[ \frac{2}{1-pr^2} = pt\]
-\[ \implies r^2 = \frac{pt - 2}{p^2t}\]
+    \item If $x \equiv pb \, (p^2)$, we want to show that $S \in P(r) + (n,0)$.
+      Writing $x = pb + tp^2$ for some $t \in \ZZ_p$, we want to find $r \in
+      \ZZ_p$ such that
+      \[x = -n + \frac{n}{1-nr^2} \]
+      or equivalently
+      \[r^2 = \frac{1}{n} \cdot \frac{x-n}{x+n}. \]
+      Again using the equation of the curve,
+      \[ \begin{split} r^2 &= \frac{1}{n} \cdot \frac{x (x-n)^2}{x
+            (x+n)(x-n)} \\
+          &= \frac{(x-n)^2x}{n y^2}. \\
+        \end{split}\]
+      But $x = pb + p^2t$, so
+      \[ r^2 = \left(\frac{x-n}{y}\right)^2 (1+pb^{-1}t).\]
+      A similar argument to the above case shows that $1+pb^{-1}t$ is
+      a square in $\ZZ_p$ enabling us to solve for $r \in \ZZ_p$.
+      Thus, we have $S \in P(r) + (n,0)$.
 
-Now
-\[ x = \frac{y^2}{(x+p)(x-p)} = \frac{y^2}{(p^2t-2p)(p^2t)}
-= \frac{y^2}{p^2t(pt-2)p}\]
-\[\implies x = \frac{y^2}{r^2p}\]
-\[ r^2 = \frac{y^2}{xp} = \frac{y^2}{p^2(1+pt)}\]
-which is a square, so again we can solve for $r$.
+    \item If $x \equiv -pb \, (p^2)$, we want to show that $S \in P(r) +
+      (-n,0)$. After writing $x = -pb + tp^2$, an entirely analogous computation
+      to the previous case using the corresponding formulas gives
+      \[r^2 = \left( \frac{x+n}{y} \right)^2 (1 - pb^{-1}t).\]
+      Again we know $1-pb^{-1}t$ is a square in $\ZZ_p$, and can solve for
+      $r$. Thus, we have $S \in P(r) + (-n,0)$.
+  \end{itemize}
 
+  Since, as we noted, the cosets are distinct, this finishes the proof of the theorem.
 \end{proof}
 
+As an immediate consequence, we have: 
+
 \begin{thm}
-  The Tamagawa Number of $E_P$ at 2 is 2.
+  Let $n$ be a odd squarefree integer.
+  If $p \not| \,\, 2n $, the Tamagawa number $c_p$ of $E_n$ is 4.
 \end{thm}
-Proof: By checking all possibilities, we know that
-\[\EFt = \{\OO, (0,0), (1,0)\},\]
-with $(1,0)$ being the singular point. Let $\pi : E(\QQ_2)_0 \rightarrow
-\EFt_{ns}$ be the projection map. 
-or any $P = (x,y) \in E(\QQ_2)$, if $\pi(P) = (1,0)$ then $\pi(P * (p,0)) \neq (p,0)$.
-If $x$ is a unit, let $(x,y) * (p,0) = (x',y')$. We want to show that $x'$ is
-not a unit. Suppose it is, and let $\lambda$ be the gradient of the line through
-$(x,y), (p,0), (x',y')$, so that $\lambda = \frac{y}{x-p}$.
-Then $x + p + x' = \lambda^2$, so $\lambda \not\equiv 0 \, (2)$, so $\lambda$ is
-a unit. We also have
-\[
-  \begin{split}
-     y^2 &= x^3 - p^2x \\
-     \implies \lambda^2(x-p)^2 &= x (x+p) (x-p) \\
-     \implies u^2 &= \frac{x (x+p)}{x-p} 
-   \end{split}
-\]
-implying $\frac{x+p}{x-p}$ is a unit, which is a contradiction, since
-$x \pm p$ have different valuations.
+
+It remains to compute the Tamagawa number of $E_n$ at 2.
+
+\begin{thm}
+  Let $n$ be an odd squarefree integer. Then the Tamagawa number $c_2$
+  of $E_n$ is 2.
+\end{thm}
+
+\begin{proof}
+  Modulo 2, the equation of the curve reduces to
+  \[y^2 = x^3 - x.\]
+  Checking manually, we get that 
+  \[\tilde{E}(\FF_2) = \{\OO, (0,0), (1,0)\},\]
+  where we remember that $(1,0)$ is the singular point
+  (see \autoref{singularity_condition}).
+  Let $P = (x,y) \in E(\QQ_2)$. We will consider the homomorphism
+  \[\pi: E(\QQ_2) \ra \tilde{E}(\FF_2)_{ns}.\]
+
+  We have
+  \[E(\QQ_2)_0 = \{P \in E(\QQ_2) \, | \, \pi(P) \in \{ \OO, (1,0)\}\}.\]
+  We need to show that
+  \[\left| \frac{E(\QQ_2)}{E(\QQ_2)_0} \right| = 2.\]
+  Clearly $\OO$ has it's own coset, so we only need to show that the preimages
+  of $(0,0)$ and $(1,0)$ are in the same coset.
+  
+  Equivalently, we will show that if $\pi(P) = (1,0)$, then there is an
+  element $Q \in E(\QQ_2)_0$ such that $\overline{P+Q} = \overline{(0,0)}$,
+  i.e. $\pi(P+Q) = (0,0)$.
+  
+  Assume $\pi(P) = (1,0)$, so $P$ is the preimage of the nonsigular point.
+  Let $(u,v) = P + (1,0)$. It will be sufficient to show that $\pi(u,v) = (0,0)$.
+
+  If not, then $u \in \ZZ_2^{\times}$ is a unit. Let $\lambda$ be the gradient of the
+  line between $(x,y), (n,0)$ and $(u,v)$, so $\lambda = \frac{y}{x-n}$.
+  From the addition formulas, we have
+  \[u = \lambda^2 - x - n,\]
+  so $\lambda^2 = u + x + n \equiv 1 + 1 + 1\, (2)$, and we see that $\lambda$
+  is a 2-adic unit. Writing
+  \[\lambda = \frac{y}{x-n} = w \in \ZZ_2^{\times},\]
+  we have
+  \[(w(x-n))^2 = y^2 = x^3 -nx = x(x+n)(x-n),\]
+  so
+  \[w^2 = \frac{x(x+n)}{x-n}.\]
+  Since $x$ is a unit, $\frac{x+n}{x-n}$ must also be.
+
+  This is a contradiction since if
+  $$x+n = 2^n, n \in \NN,$$ then $$x-n = 2^n - 2n
+  = 2^{n-1}(2-n).$$
+  But $2-n$ odd, so $x+n$ and $x-n$ must have different 2-adic
+  valuations, and their quotient can't be a unit.
+
+  Thus, $u$ is not a unit, and $\pi(P+(n,0)) \neq (1,0)$, which concludes our proof.
+\end{proof}
+
+
+
+
+
+
+
 
 \printbibliography
 

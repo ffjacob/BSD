@@ -82,6 +82,7 @@
     "prop:countsols"
     "eq:homcurve"
     "eq:isocurve"
+    "singularity_condition"
     "eq:p-param")
    (LaTeX-add-bibliographies
     "references")

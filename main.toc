@@ -42,4 +42,4 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {3.4} Tamagawa Numbers}{21}{subsection.3.4}
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{\relax References}{26}{section*.2}
+\contentsline {section}{\relax References}{27}{section*.2}
