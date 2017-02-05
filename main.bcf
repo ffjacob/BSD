@@ -2160,9 +2160,10 @@
     <bcf:citekey order="16">rational</bcf:citekey>
     <bcf:citekey order="17">rational</bcf:citekey>
     <bcf:citekey order="18">rational</bcf:citekey>
-    <bcf:citekey order="19">rational</bcf:citekey>
-    <bcf:citekey order="20">classical</bcf:citekey>
-    <bcf:citekey order="21">Serre</bcf:citekey>
+    <bcf:citekey order="19">marcus</bcf:citekey>
+    <bcf:citekey order="20">Serre</bcf:citekey>
+    <bcf:citekey order="21">classical</bcf:citekey>
+    <bcf:citekey order="22">Serre</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="nty/global/" type="entry" sortscheme="nty" sortnamekeyscheme="global" labelprefix="">
   <bcf:sorting>

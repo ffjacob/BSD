@@ -28,6 +28,7 @@
     "hyperref")
    (TeX-add-symbols
     '("red" 1)
+    '("quadring" 1)
     '("legendre" 2)
     '("parder" 2)
     "defin"
@@ -66,7 +67,8 @@
     "FF"
     "HH"
     "Tors"
-    "Zpx")
+    "Zpx"
+    "Ip")
    (LaTeX-add-labels
     "eq:weier2"
     "eq:weier"
@@ -74,7 +76,10 @@
     "eq:adddiff"
     "thm:nagelllutz"
     "eq:lfunction"
+    "eq:bsd"
     "eq:tunnell"
+    "eq:mododd"
+    "eq:modeven"
     "sec:applications"
     "lemma:rankformula"
     "defn:sha"

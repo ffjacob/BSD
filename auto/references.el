@@ -4,6 +4,7 @@
    (LaTeX-add-bibitems
     "koblitz"
     "arithmetic"
+    "marcus"
     "rational"
     "modular"
     "simple"

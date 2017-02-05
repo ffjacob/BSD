@@ -68,7 +68,9 @@
 \newcommand{\Tors}{{\text{\normalfont Tors}}}
 \newcommand{\parder}[2]{\frac{\partial #1}{\partial #2}}
 \newcommand{\Zpx}{\mathbb{Z}_p^\times}
-\newcommand{\legendre}[2]{(\frac{#1}{#2})}
+\newcommand{\legendre}[2]{\left(\frac{#1}{#2}\right)}
+\newcommand{\quadring}[1]{\ZZ[\sqrt{#1}]}
+\newcommand{\Ip}{\mathfrak{p}}
 
 % colours
 \definecolor{red}{rgb}{1,0,0}
@@ -445,7 +447,9 @@ L-function to the arithmetic invariants of $E$.
 \begin{conj}[Birch Swinnerton-Dyer Conjecture] \normalfont
   \textit{The Hasse-Weil L-function $L(E,s)$ can be written as
   \[L(E,s) = C (s-1)^r + O((s-1)^2)\] where}
-  \[C = \frac{|\text{Sha}(E)| \, \Omega_E R_E}{|E(\QQ)_{\text{tors}}|^2} \prod_p c_p\]
+\begin{equation} \label{eq:bsd}
+  C = \frac{|\text{Sha}(E)| \, \Omega_E R_E}{|E(\QQ)_{\text{tors}}|^2} \prod_p c_p
+\end{equation}
 \end{conj}
 
 In particular, near 1, it predicts the value of the integer
@@ -469,11 +473,15 @@ $L(E_n,s)$ takes a particularly simple form.
 
   where the $a_i, a'_i$ are coefficients of the fourier expansions of the
   functions $f, f'$ given by
-  \[f(z) = \sum\limits_{m=-\infty}^\infty a_m q^m
-    = (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(2z)\]
+  \begin{equation} \label{eq:mododd}
+    f(z) = \sum\limits_{m=-\infty}^\infty a_m q^m
+    = (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(2z)
+  \end{equation}
   and
-  \[f'(z) = \sum\limits_{m=-\infty}^\infty a'_m q^m =
-    (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(4z)\]
+  \begin{equation} \label{eq:modeven}
+    f'(z) = \sum\limits_{m=-\infty}^\infty a'_m q^m =
+    (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(4z)
+  \end{equation}
   with $q = e^{2\pi i z}$.
   
   Here $\Theta(z)$ is the theta-function given by
@@ -777,7 +785,6 @@ the rank of $E$.
   where the $p_i$ are the prime factors of $\Delta(E)$ and $e_i =$ 0 or 1.
 \end{remark}
 
-\pagebreak
 
 \section{Calculations}
 
@@ -790,65 +797,162 @@ this agrees with the BSD conjecture.
 
 
 \subsection{Coefficients of Theta Series}
-Tunnell's theorem leads us to consider the quantities 
+We recall Tunnel's theorem leads us to consider the function given by the
+Fourier expansion given in \autoref{eq:mododd}:
+\[
+  f(z) = \sum\limits_{m=-\infty}^\infty a_m q^m
+  = (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(2z).
+\]
+
+Here we will compute the coefficients $a_m$ and give a very simple expression for
+their residues modulo 4. This will enable us to match our previous calculations
+to what the BSD conjecture predicts.
+
+Expanding out the theta-series, we get
+\[
+    (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(2z)
+    = \sum\limits_{x, y, z \in \ZZ} q^{2x^2+y^2+32z^2} - \frac{1}{2}
+    \sum\limits_{x,y,z \in \ZZ} q^{2x^2+y^2+8z^2}.
+\]
+To put it differently, set
 \begin{equation*}
   \begin{split}
     A_n &= \#\{(x,y,z) \,|\, n = 2x^2 + y^2 + 32z^2\} \\
-    B_n &= \#\{(x,y,z) \,|\, n = 2x^2 + y^2 + 8z^2\} \\
-    C_n &= \#\{(x,y,z) \,|\, n = 8x^2 + 2y^2 + 64z^2\} \\
-    D_n &= \#\{(x,y,z) \,|\, n = 8x^2 + 2y^2 + 16z^2\}
+    B_n &= \#\{(x,y,z) \,|\, n = 2x^2 + y^2 + 8z^2\}.
   \end{split}
 \end{equation*}
-
-depending on whether $n$ is odd or even. For our calculations we'll
-need to compute $A_n - \frac{1}{2}B_n$ and $C_n - \frac{1}{2}D_n$ modulo 4.
-
-\begin{thm}
-  $2A_p - B_p \equiv \begin{cases} 0, & p \equiv 1, 5, 7 \, (8) \\
-    2, & p \equiv 3 \, (8) \end{cases}
-  \, (4)$
-\end{thm}
+Then, the $n$-th coefficient of $f$ will be
+\[a_n = A_n - \frac{1}{2}B_n.\]
+Note that whenever we have a solution to either equation in $A_n$ or $B_n$,
+if $x, y, z \neq 0$, there are in fact 8 distinct solutions given by
+$\pm x, \pm y, \pm z$, so they together make no contribution to $a_n$ modulo 4.
+Similarly, if only one of $x,y,z$ is 0, say $z$, then each combination from
+$\pm x, \pm y$ gives a distinct solution, and hence they make no contribution
+to $A_n$ modulo 4.
+\begin{lemma}
+  The sum $A_n$ is congruent to 0 modulo 4.
+\end{lemma}
 \begin{proof}
-  In computing $A_P$ and $B_P$ we only need to consider solutions
-  where at least 1 of $x, y, z$ is 0, since if neither is 0, all of $\pm x, \pm y, \pm z$
-  are solutions, and hence they together don't make a contribution to the total
-  number of solutions modulo 8. Furthermore, since we only need to consider $A_n$
-  modulo 4, we can also ignore solutions where exactly 1 of $x, y z$ are 0. But
-  there are no remaining solutions since p is prime and if 2 of $x, y, z$ are 0 we
-  arrive at the contradiction $x^2 = p$, so we have $A_p \equiv 0 \, (4)$.
+  As we saw above, solutions with 0 or only 1 of $x,y,z = 0$ make no
+  contribution to $A_n$ modulo 4, so we're left to consider solutions when
+  either 2 or 3 of $x,y,z$ are 0.
+  But there are none, since by assumption $n$ is squarefree and positive, and
+  hence is not equal to $2x^2, y^2, $ or $32z^2$ for any $x,y,z \in \ZZ$.
+\end{proof}
 
-  With this we're left to consider $\frac{1}{2}B_p \, (4)$, or $B_p \, (8)$. Again we can
-  ignore solutions where all of $x, y, z$ are 0, so we have, by inclusion-exclusion
+If remains to compute $\frac{1}{2}B_n$ modulo 4. The factor of $\frac{1}{2}$
+requires us to consider the more refined information of $B_n$ modulo 8.
+An identical argument shows that solutions with 2 of $x,y,z = 0$, so
+we're left to consider solutions with only 1 of $x,y,z = 0$.
+We define the quatities
+\[
+  \begin{split}
+    P_n &= \#\{(x,y) \,|\, n = x^2 + 2y^2\} \\
+    Q_n &= \#\{(x,y) \,|\, n = x^2 + 8y^2\} \\
+    R_n &= \#\{(x,y) \,|\, n = 2x^2 + 8y^2\}.
+  \end{split}
+\]
+so that
+\[
+  B_n \equiv P_n + Q_n + R_n \mod{8}.
+\]
 
-  \( A_p \equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} + \#\{2x^2 + 8z^2 = p\} \\
-  \equiv \#\{ 2x^2 + y^2 = p\} + \#\{y^2 + 8z^2 = p\} \, (8)\)
-  since p is odd. To find the remaining quantities we need some algebraic number
-  theory.
+Clearly $R_n = 0$ since $n$ is odd. We will now use some algebraic number theory
+to compute $P_n$ and $Q_n$.
 
 \begin{lemma}
-  For $p$ odd, $\#\{2x^2 + y^2 = p\} = \begin{cases} 4,
-    p \equiv 1 \, (8) \\
-    1, p \equiv 3 \, (8) \\
-    0, else \end{cases}$
+  Let $n = p_1 \cdots p_k$ where $p_i \neq p_j, i \neq j$. We have
+  \[P_n = 2 \times \prod\limits_{p_i \nmid n} \left( 1+ \legendre{-2}{p_i} \right) \]
 \end{lemma}
-\begin{proof} We must have $2x^2 + y^2 \equiv 0 \, (p)$, so we only have solutions if
-$(\frac{-2}{p}) = 1$, or equivalently if $p \equiv 1, 3 \, (8)$. Since
-$\ZZ[\sqrt{2}]$ is a PID, if $p \equiv 1 \, (8), p = \pi \bar{\pi}$ for some
-prime $\pi = x + y \sqrt{2}$ where $x^2 + 2y^2 = p$, so $x$ is odd and $x^2
-\equiv 1 \, (8)$
-If $y$ is also odd, $1 + 2y^2 \equiv 1 \, (8) \implies y^2 \equiv 1 \, (8)$, and
-we have $x^2 + 2y^2 \equiv 3 \, (8)$, a contradiction.
-If $y = 2k$ is even, we have $x^2 + 2y^2 = x^2 + 8y^3$ 
+
+\begin{proof}
+  In algebraic number theory parlance, the question is equivalent to counting
+  the number of elements with norm $N$ in $\quadring{-2}$.
+
+  Since $\ZZ[\sqrt{-2}]$ is a PID with 2 units, $a_n$ is equal to twice the
+  number of ideals in $\quadring{-2}$ of norm $N$.
+  By uniqueness of factorization of ideals, a simple combinatorial argument
+  shows that
+  \[P_n = 2 \times \prod\limits_{i=1}^k \alpha_i\]
+  where $\alpha_i$ is the number of ideals of norm $p_i$.
+  By \cite[Page 74, Theorem 25]{marcus},
+  \[\alpha_i = 1 + \legendre{-2}{p_i},\] which gives the result.
+\end{proof}
+\begin{remark}
+  Note that \[\legendre{-2}{p} = \legendre{-1}{p} \legendre{2}{p} = \begin{cases}
+      1 \text{ if } p \equiv 1,3 \mod{8} \\
+      -1 \text{ if } p \equiv 5,7 \mod{8}.
+    \end{cases}\]
+\end{remark}
+
+In order to compute $Q_n$, we have to check, among numbers giving a solution to
+\[x^2 + 2y^2 = n,\]
+which also give a solution to
+\[x^2 + 8y^2 = n\]
+i.e. which give a solution with $y$ even, and in this case, how many.
+
+Firstly, let's consider the case where $n = p$ has a single prime factor.
+
+If $\legendre{-2}{p} = -1$ there are no solutions in $P_p$, and hence definitely
+none in $Q_p$.
+If $\legendre{-2}{p} = 1$, $p$ splits in $\quadring{-2}$, and we can write
+\[p = \pi \bar{\pi}\]
+where $\pi = x + y\sqrt{-2}$ and $x^2 + 2y^2 = p$.
+Note that
+\[x^2 \equiv p \equiv 1 \mod{2},\]
+so $x$ is always odd. In particular, we can check explicitly that
+\[\{1^2,3^2,5^2,7^2\} \equiv \{1,1,1,1\} \mod{8},\]
+and we also must have
+\[x^2 \equiv 1 \mod{8}.\]
+
+There are 2 cases to consider.
+
+\begin{itemize}
+\item If $p \equiv 1 \, (8)$:
+  Assume $y$ is also odd, $y^2$ is also 1 modulo 8, so
+  \[p = x^2 + 2y^2 \equiv 3 \mod{8},\]
+  a contradiction.
+  Thus, $y$ is always even, and we get 4 different solutions $(x,y)$ given by
+  $\pi, \bar{\pi}, -\pi, -\bar{\pi}$.
+
+\item If $p \equiv 3 \, (8)$:
+  We see from the previous case that it's consistent that $y$ be odd.
+  If $y$ is even,
+  \[p \equiv x^2 + 2y^2 \equiv 1 \mod{8},\]
+  a contradiction, so no solutions contributing to $P_p$ also contriute to $Q_p$.
+\end{itemize}
+
+We record the explicit formula for when $n = p$.
+
+\begin{cor}
+  The $p$-th coefficient $a_p$ of $f(z)$ satifies
+  \[a_p \equiv \begin{cases}
+      0 \text{ if } p \equiv 1,5,7 \mod{8} \\
+      2 \text{ if } p \equiv 3 \mod{8}.
+    \end{cases}\]
+\end{cor}
+\begin{proof}
+  Recall that
+  \[
+    \begin{split}
+      a_p &= A_p - \frac{1}{2}B_p \\
+      &\equiv -\frac{1}{2}(P_p + Q_p) \mod{4}. \\
+    \end{split}
+  \]
+  Looking at $P_p, Q_p$ modulo 8, we have:
+
+  \begin{itemize}
+  \item If $p \equiv 1 \, (8), P_p = 2\cdot 2 = 4$ and $Q_p = 4.$
+
+  \item If $p \equiv 3 \, (8), P_p = 4$ but $Q_p = 0$.
+
+  \item If $p \equiv 5, 7 \, (8), P_p = Q_p = 0$.
+  \end{itemize}
+  Thus, $-\frac{1}{2} (P_p + Q_p) = 0$ unless $p \equiv 3 \, (8)$, in which case
+  it equals $-2$. This gives the result.
 \end{proof}
 
-To conclude the proof of the theorem, we can deduce from the lemma that
-\begin{itemize}
-  \item If $p \equiv 1 \, (8), A_p \equiv 4+4 \equiv 0 \, (8)$.
-  \item If $p \equiv 3 \, (8), A_p \equiv 4 + 0 \equiv 4 \, (8)$.
-  \item If $p \equiv 5, 7 \, (8), A_p \equiv 0 + 0 \equiv 0 \, (8)$.
-\end{itemize} 
-Looking at $A_p - \frac{1}{2} B_p$ modulo 4 gives the result.
-\end{proof}
+
 \subsection{Selmer Group}
 
 Now we proceed in the other direction, and examine the expected rank of the
@@ -866,7 +970,6 @@ group of $E_p$ and $\Eb_p$.
   consisting of elements $d_1$ at which \ref{eq:hom} has a p-adic solution for
   all prime numbers.
 \end{prop}
-Proof: See \cite{rational}
 
 We will compute $\Sel$ by looking at the equation modulo different primes.
 There will be 3 cases to consider: 2, $p$, and any prime $l \neq p$.
@@ -881,12 +984,17 @@ in $\ZZ/p\ZZ$, and then lift this solution to $\QQ_p$ using:
   Let $f \in \ZZ_p[X_1,\dots,X_m], x = (x_i) \in (\ZZ_p)^m, n, k \in \ZZ$ and
   $j$ an integer such that $0 \leq j \leq m$. Suppose that $0 < 2k < n$ and that
   \[ f(x) \equiv 0 \, (p^n) \text { and } \nu_p
-    \big(\frac{\partial f}{\partial X_j} (x) \big) = k.\]
+    \left(\frac{\partial f}{\partial X_j} (x) \right) = k.\]
   Then there exists a zero $y$ of $f$ in $(\ZZ_p)^m$ which is congruent to $x$
   modulo $p^{n-k}$.
 \end{prop}
+\begin{proof}
+  \cite[See][Chapter 2-2, page 14]{Serre}.
+\end{proof}
 
-To show existence of local solutions, we will need the following results: 
+To show existence of local solutions, we will need to state a few results.
+The first gives a bound on the number of solutions in $\ZZ_p$ for an equation
+where all variables can be isolated.
 
 \begin{prop} 
   The number of solutions $N_p$ to the equation
@@ -901,7 +1009,12 @@ To show existence of local solutions, we will need the following results:
   where $\chi_i^{l_i} = \varepsilon, \chi_i \neq \varepsilon$ for
   $i = 1, \dots, r$ and $\chi_1 \chi_2 \cdots \chi_r = \varepsilon$.
 \end{prop} \label{prop:countsols}
-Proof: \cite[See][]{classical}.
+\begin{proof}
+  \cite[See][Chapter 8-7, page 103]{classical}.
+\end{proof}
+
+The following proposition will be useful to show existence of solutions to
+polynomial of low enough degree.
 
 \begin{prop}[Chevalley Warning Theorem]
   Let $f \in K[X_1, \dots , X_n]$ be a homogeneous polynomial
@@ -918,41 +1031,45 @@ in $\ZZ/p\ZZ$.
 \begin{lemma}
   If $l \neq 2, p$ is prime, then \ref{eq:hom} has a solution in $\QQ_l$.
 \end{lemma}
-Proof: We are looking at the number of solutions to
-\[ N^2 - d_1M^4 - \frac{p^2}{d_1}e^4 \equiv 0 \, (l)\]
-where $d_1 = \pm 1, \pm 2, \pm p, \pm 2p$. Since none of $1, d_1$ and
-$\frac{p^2}{d_1}$ are divisible by $l$, we may apply
-proposition \ref{prop:countsols}.
-
-If $l \equiv 1 \, (4)$, there are 2 characters modulo
- $l$ of order dividing 4. The primitive quartic
-characters $\chi^{\pm 1}$ and the quadratic character $\chi^2$ where $\chi^2(n) =
-(\frac{n}{p})$. Thus, $M$ is the number of tuples $\chi, \chi^a, \chi^b,
-a,b = \pm 1, 2$ where $\chi \chi^a \chi^b = \varepsilon$, so $M = 2$. Plugin
-into the bound given by proposition \ref{eq:countsols} we get
-\[|N_l - l^{r-1} | \leq 2(l-1) l^{(3/2)-1}.\]
-The equation \ref{eq:hom} will have a nontrivial solution if $|N-p^2| \leq
-p^2-2$, but
-\[2(p-1)p^{1/2} \leq p^2 - 2\]
-is satisfied for all $p \geq 3$.
-If $l \equiv 3 \, (4)$, the values taken by $x^4$ are the same as those taken
-by $x^2$, so $N_l$ is also the number of solutions to
-\[N^2 - d_1M^2 - \frac{p^2}{d_1} e^2 \equiv 0 \, (l),\]
-which has a nontrivial solution by the Chevalley Warning theorem. \qedhere
+\begin{proof}
+  We are looking at the number of solutions to
+  \[ N^2 - d_1M^4 - \frac{p^2}{d_1}e^4 \equiv 0 \, (l)\]
+  where $d_1 = \pm 1, \pm 2, \pm p, \pm 2p$. Since none of $1, d_1$ and
+  $\frac{p^2}{d_1}$ are divisible by $l$, we may apply
+  proposition \ref{prop:countsols}.
+  
+  If $l \equiv 1 \, (4)$, there are 2 characters modulo
+  $l$ of order dividing 4. The primitive quartic
+  characters $\chi^{\pm 1}$ and the quadratic character $\chi^2$ where $\chi^2(n) =
+  (\frac{n}{p})$. Thus, $M$ is the number of tuples $\chi, \chi^a, \chi^b,
+  a,b = \pm 1, 2$ where $\chi \chi^a \chi^b = \varepsilon$, so $M = 2$. Plugin
+  into the bound given by proposition \ref{eq:countsols} we get
+  \[|N_l - l^{r-1} | \leq 2(l-1) l^{(3/2)-1}.\]
+  The equation \ref{eq:hom} will have a nontrivial solution if $|N-p^2| \leq
+  p^2-2$, but
+  \[2(p-1)p^{1/2} \leq p^2 - 2\]
+  is satisfied for all $p \geq 3$.
+  If $l \equiv 3 \, (4)$, the values taken by $x^4$ are the same as those taken
+  by $x^2$, so $N_l$ is also the number of solutions to
+  \[N^2 - d_1M^2 - \frac{p^2}{d_1} e^2 \equiv 0 \, (l),\]
+  which has a nontrivial solution by the Chevalley Warning theorem. 
+\end{proof}
 
 \begin{thm}[Existence of l-adic Solutions]
   For $a, b \not\equiv 0 \, (l)$, there is always a triple
   $x, y, z \in \QQ_p^{\times}$ such that $x^2 = ay^4 + bz^4$.
 \end{thm}
-Proof: Let $f(x,y,z) = x^2 - ay^4 - bz^4$. Then $f$ has a nontrivial root
-$(X,Y,Z)$ in $\ZZ/p\ZZ$ by the previous results, so we may assume for instance
-that $X \not\equiv 0 \, (p)$.
-Since $l$ is odd, neither partial derivative increases the $l$-adic valuation
-of $f$, so, for instance, $\nu_l(\frac{\partial f(X,Y,Z)}{\partial x}) =
-\nu_l(2X) = 0$ and $f(X,Y,Z) \equiv 0 \, (p)$, so $\nu_p(f(X,Y,Z)) \geq 1$.
-Thus, Hensel's lemma applies and we get a solution $\bar{X}, \bar{Y}, \bar{Z}
-\in \QQ_p$. \qedhere
-
+\begin{proof}
+  Let $f(x,y,z) = x^2 - ay^4 - bz^4$. Then $f$ has a nontrivial root
+  $(X,Y,Z)$ in $\ZZ/p\ZZ$ by the previous results, so we may assume for instance
+  that $X \not\equiv 0 \, (p)$.
+  Since $l$ is odd, neither partial derivative increases the $l$-adic valuation
+  of $f$, so, for instance, $\nu_l(\frac{\partial f(X,Y,Z)}{\partial x}) =
+  \nu_l(2X) = 0$ and $f(X,Y,Z) \equiv 0 \, (p)$, so $\nu_p(f(X,Y,Z)) \geq 1$.
+  Thus, Hensel's lemma applies and we get a solution $\bar{X}, \bar{Y}, \bar{Z}
+  \in \QQ_p$. 
+\end{proof}
+  
 \subsubsection{p-adic case}
 Now there are a finite number of equations to check. We will proceed case by
 case. Remeber we're trying to find solutions in $\QQ_p$ to the equations
@@ -989,37 +1106,92 @@ Proof:
     p & p \equiv 1 \, (4) \\
     2p & p \equiv 1 \, (8) \\
     -1 & p \equiv 1 \, (4) \\
-    -2 & p \not\equiv 5 \, (8) \\
+    -2 & p \equiv 1, 3 \, (8) \\
     -p & p \equiv 1 \, (4) \\
     -2p & p \equiv 1 \, (8)
   \end{tabu}$
 \end{thm}
 \begin{proof} Proceeding case by case:
   \begin{itemize}
-  \item If $d_1 = -1, N^2 \equiv -M^4 \, (p^2)$, so if $M \not\equiv 0 \, (p^2),
-    -1 \equiv (\frac{N}{M^2})^2 \, (p)$, which has a solution if and only if
-    $p \equiv 1 \, (4)$. If $M \equiv 0 \, (p^2), M = p^2M'$, so $N$ is also
-    divisble by $p$, and we don't have a nontrivial solution in $\ZZ/p\ZZ$.
-  \item If $d_1 = 2, N^2 \equiv 2M^4 \, (p^2)$, and by a similar argument we must
-    have $(\frac{2}{p}) = 1$, so we have a solution if and only if $p \equiv \pm 1
-    \, (8)$.
-  \item If $d_1 = p, N^2 \equiv 0 \, (p)$, so $N = pN'$ and $pN'^2 = M^4 + 4e^4$.
+  \item If $d_1 = 2,$ we're trying to solve
+    \[N^2 = 2M^4 + 2p^2.\]
+      
+      In particular,
+      \[N^2 \equiv 2M^4 \mod{p^2},\]
+      or
+      \[2 \equiv \legendre{N}{M^2}^2 \mod{p^2}.\]
+
+      This has a nontrivial solution if and only if $\legendre{2}{p} = 1$ i.e.
+      if $p \equiv \pm 1 \, (8).$
+
+  \item If $d_1 = p,$ we're trying to solve
+    \[N^2 = pM^4 + 4pe^4.\]
+
+    We have $N^2 \equiv 0 \, (p)$, so we can write $N = pN'$ and
+    \[pN'^2 = M^4 + 4e^4.\]
+
     Since $M, e$ cannot be divisible by $p$, we must have
-    $-4 \equiv (\frac{M}{e})^4 \,\, (p)$. If $p \equiv 3 \, (4)$, this is
-    equivalent to $-4 \equiv X^2 \, (p)$, which is a contradiction.
-    Conversely, if $p \equiv 1 \, (8),$ 1 is a 4th power and $ (\frac{2}{p}) = 1$,
-    so $-4 = (\sqrt{2} \cdot \sqrt{-1})^4$. If $p \equiv 5 \, (8)$, let $\chi$ be
-    a primitive quartic character. Then $\chi(-4) = \chi(-1)\chi(2)^2
-    = \chi(-1) (\frac{2}{p}) = (-1) \cdot (-1) = 1$, since -1 is not a fourth
-    power. Thus, we have a solution if and only if $p \equiv 1 \, (4)$.
-  \item If $d_1 = 2p, N^2 \equiv 0 \, (p)$, so $N = pN'$ and $pN'^2 = 2M^4 +
-    2e^4$. Again, since we have$M, e \not\equiv 0 \, (p), -1 \equiv (\frac{M}{e})^4 \,
-    (p)$, so we must have $p \equiv 1 \, (8)$.
-  \item If $d_1 = -2$, a similar argument shows we must have $(\frac{-2}{p})=1$,
-    so $p \not\equiv 5 \, (8)$.
-  \item If $d_1 = -p$, again we have solutions if and only if -4 is a 4th power,
-    and then $p \equiv 1 \, (4)$. 
-  \item If $d_2 = -2p$, again we have solutions if and only if $p \equiv 1 \, (8)$.
+    $$-4 \equiv \left(\frac{M}{e}\right)^4 \mod{p}.$$
+
+    If $p \equiv 3 \, (4)$, the values taken by $x^4$ are the same as those
+    taken by $x^2$, so the equation is equivalent to  
+    $$-4 \equiv X^2 \, (p).$$
+    This is a contradiction, since $\legendre{-1}{p} = -1$.
+
+    If $p \equiv 1 \, (4)$ there are 2 cases to consider:
+
+    If $p \equiv 1 \, (8),$ 1 is a 4th power and $ (\frac{2}{p}) = 1$,
+    so $$-4 = (\sqrt{2} \cdot \sqrt{-1})^4.$$
+
+    Hence, we have the solution $(0,(-4)^{1/4},1)$.
+
+    If $p \equiv 5 \, (8)$, let $\chi$ be
+    a primitive quartic character.
+    Then $$\chi(-4) = \chi(-1)\chi(2)^2 = \chi(-1) \legendre{2}{p} = (-1) \cdot
+    (-1) = 1,$$ since -1 is not a fourth power.
+    Again we have the solution $(0,(4)^{1/4},1).$
+
+    Thus, we have a solution if and only if $p \equiv 1 \, (4)$.
+
+  \item If $d_1 = 2p$, we're trying to solve
+    \[N^2 = 2pM^4 + 2pe^4.\]
+    Again we may set $N = pN'$ so our equation reduces to
+    $$pN'^2 = 2M^4 + 2e^4.$$
+    By the same argument as the previous case, we must have
+    \[-1 \equiv \legendre{M}{e}^4 \mod{p},\]
+    and 1 is a $p$-adic 4th power if and only if $p \equiv 1 \, (8)$.
+    In this case a solution is given by $(0, (-1)^{1/4}, 0)$.
+
+  \item If $d_1 = -1,$ we're trying to solve
+    \[N^2 = -M^4 + 4p^2e^4.\]
+    In particular,
+    $$N^2 \equiv -M^4 \mod{p^2},$$ so if $M \not\equiv 0 \, (p^2),
+    -1 \equiv (\frac{N}{M^2})^2 \, (p)$, which has a solution if and only if
+    $p \equiv 1 \, (4)$ given by $(\sqrt{-1},1,0)$.
+
+    If $M \equiv 0 \, (p^2)$, $N$ must also be
+    divisble by $p$, and we don't have a nontrivial solution in $\ZZ/p\ZZ$.
+
+  \item If $d_1 = -2$, we're trying to solve
+    \[N^2 = -2M^4 + 2p^2e^4,\]
+    a similar argument shows we must have $\legendre{-2}{p}=1$,
+    so $p$ must be either 1 or 3 modulo 4. A solution is then given by
+    $(\sqrt{-2},1,0).$
+
+  \item If $d_1 = -p$, we're trying to solve
+    \[N^2 = -pM^4 + -4pe^4.\]
+    Again we may set $N = pN'$ so our equation reduces to
+    $$pN'^2 = -M^4 + -4e^4.$$
+    Imitating the proof for the case $d_1 = p$, we have a soltion if
+    and only if -4 is a 4th power, so we must have $p \equiv 1 \, (4)$.
+    It is given  by $(0,(-4)^{1/4},1).$
+
+  \item If $d_2 = -2p$, we're trying to solve
+    \[N^2 = -2pM^4 + -2pe^4.\]
+    Again we may set $N = pN'$ so our equation reduces to
+    $$pN'^2 = -2M^4 + -2e^4.$$
+    Imitaing the proof for the case $d_1 = 2p$ we have a solution
+    if and only if $p \equiv 1 \, (8)$. It is given by $(0,(-1)^{1/4},1).$
   \end{itemize} \qedhere
 \end{proof}
 
@@ -1073,10 +1245,9 @@ rational solutions, we only need to consider the isogeneous curve.
       solutions since p is odd. If $N^2 \equiv 4 \, (16), p \equiv -1 \, (4)$.
   \end{itemize}
 \end{proof}
-
 We can now put everything together to work out the Selmer rank of $E_p$.
 
-$  \begin{tabu}{l*{5}{c}r}
+$$  \begin{tabu}{l*{5}{c}r}
     d_1 & \text{l-adic} & \text{p-adic} & \text{2-adic} & \RR & \Sel \\
     \hline
     1 & \cmark & \cmark & \cmark & \cmark & \cmark \\
@@ -1084,10 +1255,10 @@ $  \begin{tabu}{l*{5}{c}r}
     p & \cmark & p \equiv 1 \, (4) & p \equiv 1 \, (4) & \cmark & p \equiv 1 \, (4) \\
     2p & \cmark & p \equiv 1 \, (8) & p \equiv 1 \, (4) & \cmark & p \equiv 1 \, (8)\\
     -1 & \cmark & p \equiv 1 \, (4) & \xmark & \xmark & \xmark \\
-    -2 & \cmark & p \not\equiv 5 \, (8) & \xmark & \xmark & \xmark \\
+    -2 & \cmark & p \equiv 1,3 \, (8) & \xmark & \xmark & \xmark \\
     -p & \cmark & p \equiv 1 \, (4) & p \equiv 3 \, (4) & \xmark & \xmark \\
     -2p & \cmark & p \equiv 1 \, (8) & p \equiv 3 \, (4) & \xmark & \xmark 
-  \end{tabu}$
+  \end{tabu}$$
 
 \begin{cor}
   The Selmer rank of $E$ is equal to 2 if $p \equiv 1 \, (8), 1$ if $p \equiv
@@ -1384,7 +1555,7 @@ As an immediate consequence, we have:
 
 \begin{thm}
   Let $n$ be a odd squarefree integer.
-  If $p \not| \,\, 2n $, the Tamagawa number $c_p$ of $E_n$ is 4.
+  If $p \nmid 2n $, the Tamagawa number $c_p$ of $E_n$ is 4.
 \end{thm}
 
 It remains to compute the Tamagawa number of $E_n$ at 2.
@@ -1406,6 +1577,15 @@ It remains to compute the Tamagawa number of $E_n$ at 2.
 
   We have
   \[E(\QQ_2)_0 = \{P \in E(\QQ_2) \, | \, \pi(P) \in \{ \OO, (1,0)\}\}.\]
+
+  We will first investigate the preimages of $\OO$. Note that if $\nu_2(x) \geq
+  0$, $\pi(P)$ must be $(0,0)$, so we can rule that out. 
+  Assume $\nu_2(x) = a$ and $\nu_2(y) = b$. From the equation of the curve we
+  have
+  \[2^{2b}y'^2 = 2^{3a}x'^3 - 2^an^2 x' = 2^a(2^{2a}x'^2 - n^2x')\]
+  where $x', y'$ are units. Note that $2^{2a}x'^2 - x' \equiv -x' \not\equiv 0
+  \, (2)$, so $a \mid 2b$.
+  
   We need to show that
   \[\left| \frac{E(\QQ_2)}{E(\QQ_2)_0} \right| = 2.\]
   Clearly $\OO$ has it's own coset, so we only need to show that the preimages
@@ -1413,7 +1593,7 @@ It remains to compute the Tamagawa number of $E_n$ at 2.
   
   Equivalently, we will show that if $\pi(P) = (1,0)$, then there is an
   element $Q \in E(\QQ_2)_0$ such that $\overline{P+Q} = \overline{(0,0)}$,
-  i.e. $\pi(P+Q) = (0,0)$.
+  i.e. $\pi(P+Q) = (0,0)$. We will see that $Q = (1,0)$ does the job.
   
   Assume $\pi(P) = (1,0)$, so $P$ is the preimage of the nonsigular point.
   Let $(u,v) = P + (1,0)$. It will be sufficient to show that $\pi(u,v) = (0,0)$.
@@ -1432,14 +1612,41 @@ It remains to compute the Tamagawa number of $E_n$ at 2.
   Since $x$ is a unit, $\frac{x+n}{x-n}$ must also be.
 
   This is a contradiction since if
-  $$x+n = 2^n, n \in \NN,$$ then $$x-n = 2^n - 2n
-  = 2^{n-1}(2-n).$$
-  But $2-n$ odd, so $x+n$ and $x-n$ must have different 2-adic
+  $$x+n = 2^n\alpha, n \in \NN, \alpha \in \ZZ_2^{\times}$$ then $$x-n = 2^n\alpha - 2n
+  = 2^{n-1}(2\alpha-n).$$
+  But $2\alpha-n \not\equiv 0 \, (2)$, so $x+n$ and $x-n$ must have different 2-adic
   valuations, and their quotient can't be a unit.
 
   Thus, $u$ is not a unit, and $\pi(P+(n,0)) \neq (1,0)$, which concludes our proof.
 \end{proof}
 
+\section{Conclusion}
+Having computed all the invariants for the family $E_p$, we now check whether
+the BSD conjecture makes correct predictions.
+
+Recall Tunnell's theorem (\autoref{eq:tunnell}), which in our case states that
+\[L(E_p,1) = \frac{1}{2}\Omega_{E_p}a_p^2\]
+
+Summarizing the information we have,
+\[ \#\Tors(E) = 4 \\ \]
+\[ c_p = 4 \\ \]
+\[c_2 = 2 \\  \]
+\[c_l = 0, \text{ if } l  \neq p \]
+\[R_{E_p} = 1. \]
+
+Assuming the BSD conjecture (\autoref{eq:bsd}), we have
+\begin{equation*}
+  L(E_p,1) = \frac{\# \Sha(E) \cdot \Omega_E \cdot 8}{16} = \frac{\#\Sha(E)\cdot\Omega_E}{2}
+\end{equation*}
+
+Putting both expressions together gives
+\[
+  a_p^2 = \Sha(E_p).
+\]
+
+We now use our knowledge of $\Sel(E)$ to predict when the value of
+\[0^r \cdot \Sha(E_p)\]
+is even or odd.
 
 \printbibliography
 
