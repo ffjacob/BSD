@@ -3,12 +3,14 @@
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
                      '(("amsart" "12pt" "a4paper")))
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (TeX-add-to-alist 'LaTeX-provided-package-options
+                     '(("biblatex" "style=alphabetic")))
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
@@ -87,8 +89,16 @@
     "prop:countsols"
     "eq:homcurve"
     "eq:isocurve"
+    "vanilla"
+    "eq:multvanilla"
+    "multp2"
+    "eq:multp2"
+    "multpp"
+    "eq:multpp"
+    "2adic"
     "singularity_condition"
-    "eq:p-param")
+    "eq:p-param"
+    "eq:selmer_rank_p")
    (LaTeX-add-bibliographies
     "references")
    (LaTeX-add-amsthm-newtheorems

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.12.9)  5 FEB 2017 18:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Arch Linux) (preloaded format=pdflatex 2016.12.9)  11 FEB 2017 00:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -643,6 +643,8 @@ Package biblatex Info: Trying to load biblatex default data model...
 Package biblatex Info: ... file 'blx-dm.def' found.
 
 (/usr/share/texmf-dist/tex/latex/biblatex/blx-dm.def)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'alphabetic.dbx' not found.
 Package biblatex Info: Trying to load biblatex custom data model...
 Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
 \c@afterword=\count175
@@ -736,11 +738,11 @@ File: biblatex.def 2016/09/17 v3.6 biblatex compatibility (PK/JW/AB)
 \c@biburllcpenalty=\count313
 \c@smartand=\count314
 )
-Package biblatex Info: Trying to load bibliography style 'numeric'...
-Package biblatex Info: ... file 'numeric.bbx' found.
+Package biblatex Info: Trying to load bibliography style 'alphabetic'...
+Package biblatex Info: ... file 'alphabetic.bbx' found.
 
-(/usr/share/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
-File: numeric.bbx 2016/09/17 v3.6 biblatex bibliography style (PK/JW/AB)
+(/usr/share/texmf-dist/tex/latex/biblatex/bbx/alphabetic.bbx
+File: alphabetic.bbx 2016/09/17 v3.6 biblatex bibliography style (PK/JW/AB)
 Package biblatex Info: Trying to load bibliography style 'standard'...
 Package biblatex Info: ... file 'standard.bbx' found.
 
@@ -749,17 +751,16 @@ File: standard.bbx 2016/09/17 v3.6 biblatex bibliography style (PK/JW/AB)
 \c@bbx:relatedcount=\count315
 \c@bbx:relatedtotal=\count316
 ))
-Package biblatex Info: Trying to load citation style 'numeric'...
-Package biblatex Info: ... file 'numeric.cbx' found.
+Package biblatex Info: Trying to load citation style 'alphabetic'...
+Package biblatex Info: ... file 'alphabetic.cbx' found.
 
-(/usr/share/texmf-dist/tex/latex/biblatex/cbx/numeric.cbx
-File: numeric.cbx 2016/09/17 v3.6 biblatex citation style (PK/JW/AB)
+(/usr/share/texmf-dist/tex/latex/biblatex/cbx/alphabetic.cbx
+File: alphabetic.cbx 2016/09/17 v3.6 biblatex citation style (PK/JW/AB)
 Package biblatex Info: Redefining '\cite'.
 Package biblatex Info: Redefining '\parencite'.
 Package biblatex Info: Redefining '\footcite'.
 Package biblatex Info: Redefining '\footcitetext'.
 Package biblatex Info: Redefining '\smartcite'.
-Package biblatex Info: Redefining '\supercite'.
 Package biblatex Info: Redefining '\textcite'.
 Package biblatex Info: Redefining '\textcites'.
 Package biblatex Info: Redefining '\cites'.
@@ -882,25 +883,25 @@ Package biblatex Warning: Patching footnotes failed.
 (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 8.
-LaTeX Font Info:    ... okay on input line 8.
-LaTeX Font Info:    Try loading font information for U+msa on input line 8.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Try loading font information for U+msa on input line 19.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 8.
+LaTeX Font Info:    Try loading font information for U+msb on input line 19.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -975,10 +976,10 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
 (./main.bbl)
-Package biblatex Info: Reference section=0 on input line 8.
-Package biblatex Info: Reference segment=0 on input line 8.
+Package biblatex Info: Reference section=0 on input line 19.
+Package biblatex Info: Reference segment=0 on input line 19.
 \AtBeginShipoutBox=\box48
-Package hyperref Info: Link coloring OFF on input line 8.
+Package hyperref Info: Link coloring OFF on input line 19.
  (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
@@ -987,9 +988,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count335
 )
-LaTeX Info: Redefining \ref on input line 8.
-LaTeX Info: Redefining \pageref on input line 8.
-LaTeX Info: Redefining \nameref on input line 8.
+LaTeX Info: Redefining \ref on input line 19.
+LaTeX Info: Redefining \pageref on input line 19.
+LaTeX Info: Redefining \nameref on input line 19.
  (./main.out)
 (./main.out)
 \@outlinefile=\write7
@@ -1029,177 +1030,203 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
 
-LaTeX Warning: Reference `weier' on page 3 undefined on input line 200.
+LaTeX Warning: Reference `weier' on page 3 undefined on input line 211.
 
 
-Overfull \hbox (26.22125pt too wide) in paragraph at lines 198--201
-[]\OT1/cmr/m/n/12 The fol-low-ing re-sults about $\OML/cmm/m/it/12 E\OT1/cmr/m/
-n/12 (\U/msb/m/n/12 Q\OT1/cmr/m/n/12 )$ were dis-cussed in the course MATH3705,
-
- []
-
-[3] [4]
-
-LaTeX Warning: Command \r invalid in math mode on input line 263.
-
-[5] [6]
-
-Package hyperref Warning: No autoref name for `prop' on input line 399.
-
-[7] [8] [9]
-Overfull \hbox (47.59143pt too wide) detected at line 547
-\OT1/cmr/m/n/12 0 \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 H[]\OT1/cmr/m/n/12 (\OML/
-cmm/m/it/12 G; A\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 H[]\OT1/c
-mr/m/n/12 (\OML/cmm/m/it/12 G; B\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m
-/it/12 H[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 G; C\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n
-/12 ! \OML/cmm/m/it/12 H[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 G; A\OT1/cmr/m/n/12
- ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 H[]\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 G; 
-B\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 H[]\OT1/cmr/m/n/12 (\OML
-/cmm/m/it/12 G; C\OT1/cmr/m/n/12 )
+Overfull \hbox (2.5513pt too wide) in paragraph at lines 232--234
+[]\OT1/cmr/m/n/12 By the clas-si-fi-ca-tion the-o-rem of finitely gen-er-ated a
+belian groups, cov-ered in MATH3201,
  []
 
 
-Overfull \hbox (2.64148pt too wide) in paragraph at lines 564--565
-[][]\OT1/cmr/bx/n/12 Definition 2.2.2. []\OT1/cmr/m/n/12 The \OT1/cmr/bx/n/12 z
-e-roth and first Ga-lois co-ho-mol-ogy groups
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[3]
+
+LaTeX Warning: Command \r invalid in math mode on input line 274.
+
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[4]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[5]
+
+Package hyperref Warning: No autoref name for `prop' on input line 410.
+
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[6]
+Overfull \hbox (12.7078pt too wide) in paragraph at lines 460--460
+[][]\OT1/cmr/bx/n/12 Conjecture 1.6.1 \OT1/cmr/m/n/12 (Birch Swin-ner-ton-Dyer 
+Con-jec-ture)\OT1/cmr/bx/n/12 . []\OT1/cmr/m/it/12 The Hasse-Weil L-function $\
+OML/cmm/m/it/12 L\OT1/cmr/m/n/12 (\OML/cmm/m/it/12 E; s\OT1/cmr/m/n/12 )$
  []
+
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[7]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[8]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[9]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
 
 [10]
-Overfull \hbox (24.24359pt too wide) detected at line 619
-\OML/cmm/m/it/12 Z[] \OT1/cmr/m/n/12 = \OMS/cmsy/m/n/12 f\OML/cmm/m/it/12 ^^^ \
-OT1/cmr/m/n/12 : \OML/cmm/m/it/12 G[] \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 A \OM
-S/cmsy/m/n/12 j 9\OML/cmm/m/it/12 L \OT1/cmr/m/n/12 : \OML/cmm/m/it/12 K[]^^^\O
-T1/cmr/m/n/12 (\OML/cmm/m/it/12 g\OT1/cmr/m/n/12 )[]\OML/cmm/m/it/12 g[]L\OMS/c
-msy/m/n/12 g\OML/cmm/m/it/12 :
+Overfull \hbox (26.13034pt too wide) in paragraph at lines 731--736
+ \OT1/cmr/bx/n/12 2.4 The Selmer and Tate-Shafarevich Groups[][] \OT1/cmr/m/n/1
+2 In the ef-fort to un-der-stand $\OML/cmm/m/it/12 E\OT1/cmr/m/n/12 (\U/msb/m/n
+/12 Q\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 =\OT1/cmr/m/n/12 2\OML/cmm/m/it/12 E\OT1
+/cmr/m/n/12 (\U/msb/m/n/12 Q\OT1/cmr/m/n/12 )$,
  []
+
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
 
 [11]
-Overfull \hbox (24.6535pt too wide) detected at line 692
-\OT1/cmr/m/n/12 0 \OMS/cmsy/m/n/12 ! \U/msb/m/n/12 Z\OML/cmm/m/it/12 =\OT1/cmr/
-m/n/12 2\U/msb/m/n/12 Z \OMS/cmsy/m/n/12 ! []\OT1/cmr/m/n/12 (\U/msb/m/n/12 Q\O
-T1/cmr/m/n/12 ) [] \OML/cmm/m/it/12 E\OT1/cmr/m/n/12 (\U/msb/m/n/12 Q\OT1/cmr/m
-/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 H[]\OT1/cmr/m/n/12 (\U/msb/m/n/12 Q
-\OML/cmm/m/it/12 ; \U/msb/m/n/12 Z\OML/cmm/m/it/12 =\OT1/cmr/m/n/12 2\U/msb/m/n
-/12 Z\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ! \OML/cmm/m/it/12 H[]\OT1/cmr/m/n/12 (
-\U/msb/m/n/12 Q\OML/cmm/m/it/12 ; []\OT1/cmr/m/n/12 ) [] \OML/cmm/m/it/12 H[]\O
-T1/cmr/m/n/12 (\U/msb/m/n/12 Q\OML/cmm/m/it/12 ; E\OT1/cmr/m/n/12 )
- []
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
 
 [12]
-Overfull \hbox (36.72975pt too wide) in paragraph at lines 720--725
-\OT1/cmr/m/n/12 un-der-stand $\OML/cmm/m/it/12 E\OT1/cmr/m/n/12 (\U/msb/m/n/12 
-Q\OT1/cmr/m/n/12 )\OML/cmm/m/it/12 =\OT1/cmr/m/n/12 2\OML/cmm/m/it/12 E\OT1/cmr
-/m/n/12 (\U/msb/m/n/12 Q\OT1/cmr/m/n/12 )$, we were led to con-sider the quo-ti
-ent $\OML/cmm/m/it/12 E\OT1/cmr/m/n/12 (\U/msb/m/n/12 Q\OT1/cmr/m/n/12 )\OML/cm
-m/m/it/12 = \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 E\OT1/cmr/m/n/12 (\U/msb/m/n/12 Q
-\OT1/cmr/m/n/12 ))$.
- []
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
 
-
-Overfull \hbox (3.89413pt too wide) in paragraph at lines 720--725
-\OT1/cmr/m/n/12 group of the mul-ti-plica-tive group of ra-tio-nals mod-ulo squ
-ares $\U/msb/m/n/12 Q[]\OML/cmm/m/it/12 =\OT1/cmr/m/n/12 (\U/msb/m/n/12 Q[]\OT1
-/cmr/m/n/12 )[]$.
- []
-
-
-Overfull \hbox (90.78946pt too wide) in paragraph at lines 750--751
-[][] 
- []
-
-
-Overfull \hbox (11.64024pt too wide) in paragraph at lines 764--765
-[][]\OT1/cmr/bx/n/12 Definition 2.4.4 \OT1/cmr/m/n/12 (Tate-Sha-fare-vich Group
-)\OT1/cmr/bx/n/12 . []\OT1/cmr/m/n/12 The Tate-Shafarevich group
- []
 
 [13]
-Overfull \hbox (49.30417pt too wide) detected at line 816
-\OT1/cmr/m/n/12 (^^B(\OML/cmm/m/it/12 z\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^@ \
-OT1/cmr/m/n/12 ^^B(4\OML/cmm/m/it/12 z\OT1/cmr/m/n/12 ))(^^B(32\OML/cmm/m/it/12
- z\OT1/cmr/m/n/12 ) \OMS/cmsy/m/n/12 ^^@ []\OT1/cmr/m/n/12 ^^B(8\OML/cmm/m/it/1
-2 z\OT1/cmr/m/n/12 ))^^B(2\OML/cmm/m/it/12 z\OT1/cmr/m/n/12 ) = [] \OML/cmm/m/i
-t/12 q[] \OMS/cmsy/m/n/12 ^^@ [] [] \OML/cmm/m/it/12 q[]:
- []
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
 
-[14] [15] [16]
-Underfull \hbox (badness 10000) in paragraph at lines 1005--1011
+
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 1017--1023
 \OT1/cmr/m/it/12 where $\OML/cmm/m/it/12 M$ \OT1/cmr/m/it/12 is the num-ber of 
 $\OML/cmm/m/it/12 r$\OT1/cmr/m/it/12 -tuples of char-ac-ters
  []
 
-[17]
-Overfull \hbox (17.7498pt too wide) in paragraph at lines 1020--1022
-[][]\OT1/cmr/bx/n/12 Proposition 3.3.4 \OT1/cmr/m/n/12 (Cheval-ley Warn-ing The
--o-rem)\OT1/cmr/bx/n/12 . []\OT1/cmr/m/it/12 Let $\OML/cmm/m/it/12 f \OMS/cmsy/
-m/n/12 2 \OML/cmm/m/it/12 K\OT1/cmr/m/n/12 [\OML/cmm/m/it/12 X[]; [] ; X[]\OT1/
-cmr/m/n/12 ]$
- []
 
-
-LaTeX Warning: Reference `eq:countsols' on page 18 undefined on input line 1046
+LaTeX Warning: Reference `eq:countsols' on page 15 undefined on input line 1058
 .
 
 
-Overfull \hbox (8.10973pt too wide) in paragraph at lines 1063--1071
-\OT1/cmr/m/n/12 creases the $\OML/cmm/m/it/12 l$\OT1/cmr/m/n/12 -adic val-u-a-t
-ion of $\OML/cmm/m/it/12 f$\OT1/cmr/m/n/12 , so, for in-stance, $\OML/cmm/m/it/
-12 ^^W[]\OT1/cmr/m/n/12 ([]) = \OML/cmm/m/it/12 ^^W[]\OT1/cmr/m/n/12 (2\OML/cmm
-/m/it/12 X\OT1/cmr/m/n/12 ) =
- []
-
-[18] [19] [20] [21]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [22]
-[23] [24]
-Overfull \hbox (41.30463pt too wide) in paragraph at lines 1403--1405
-[][]\OT1/cmr/bx/n/12 Theorem 3.4.3. []\OT1/cmr/m/it/12 If $\OML/cmm/m/it/12 p \
-OMS/cmsy/m/n/12 j \OML/cmm/m/it/12 n; n$ \OT1/cmr/m/it/12 square-free, the tor-
-sion points $\OMS/cmsy/m/n/12 O\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 (0\OML/cmm/m/
-it/12 ; \OT1/cmr/m/n/12 0)\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 (\OML/cmm/m/it/12 
-n; \OT1/cmr/m/n/12 0)\OML/cmm/m/it/12 ; \OT1/cmr/m/n/12 (\OMS/cmsy/m/n/12 ^^@\O
-ML/cmm/m/it/12 n; \OT1/cmr/m/n/12 0)$
- []
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
 
 
-Overfull \hbox (4.11761pt too wide) in paragraph at lines 1410--1412
-\OT1/cmr/m/n/12 for each tor-sion point $\OML/cmm/m/it/12 Q$ \OT1/cmr/m/n/12 us
--ing the ad-di-tion for-mu-las from []Equa-tion 1.1.4[][]. 
- []
-
-[25] [26] [27] [28]
-
-Package hyperref Warning: No autoref name for `prop' on input line 1574.
-
-[29] [30]
-Overfull \hbox (7.63808pt too wide) in paragraph at lines 1652--1652
-[]\OT1/cmr/m/n/12 Joseph Sil-ver-man and John Tate. \OT1/cmr/m/it/12 Ra-tio-nal
- Points on El-lip-tic Curves\OT1/cmr/m/n/12 .
- []
+[15]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
 
 
-Overfull \hbox (5.78453pt too wide) in paragraph at lines 1652--1652
-[]\OT1/cmr/m/n/12 J.B. Tun-nell. ``A Clas-si-cal Dio-phan-tine Prob-lem and Mod
--u-lar Forms
- []
+[16]
 
+Package hyperref Warning: No autoref name for `prop' on input line 1155.
+
+
+Package hyperref Warning: No autoref name for `prop' on input line 1196.
+
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[17]
+
+Package hyperref Warning: No autoref name for `prop' on input line 1203.
+
+
+Package hyperref Warning: No autoref name for `prop' on input line 1245.
+
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[18]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[19]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[20]
+
+Package hyperref Warning: No autoref name for `prop' on input line 1412.
+
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[21]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[22]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[23]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[24]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[25]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[26]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[27]
+
+Package hyperref Warning: No autoref name for `prop' on input line 1868.
+
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[28]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[29]
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
+[30]
 Package minitoc Info: I0009
 (minitoc)             Listing minitoc auxiliary files. 
 (minitoc)             Creating the main.maf file.
 \openout4 = `main.maf'.
 
 
+
 Package minitoc(hints) Warning: W0024
 (minitoc(hints))                Some hints have been written 
 (minitoc(hints))                in the main.log file.
 
+
+Overfull \vbox (6.14998pt too high) has occurred while \output is active []
+
+
 [31]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1653.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1653.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 2006.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 2006.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1653.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1653.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 2006.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 2006.
 
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 94E9F494A4EBD2059A2F916A5D46FB11;1394.
@@ -1212,13 +1239,13 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26268 strings out of 493013
- 482186 string characters out of 6139317
- 930659 words of memory out of 5000000
- 28904 multiletter control sequences out of 15000+600000
+ 26282 strings out of 493013
+ 482351 string characters out of 6139317
+ 931647 words of memory out of 5000000
+ 28906 multiletter control sequences out of 15000+600000
  14485 words of font info for 54 fonts, out of 8000000 for 9000
  1302 hyphenation exceptions out of 8191
- 61i,17n,82p,824b,1282s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 61i,18n,82p,793b,1303s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/publ
@@ -1237,10 +1264,10 @@ e/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/share/texmf-d
 ist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-dist/fonts
 /type1/public/amsfonts/symbols/msbm7.pfb></usr/share/texmf-dist/fonts/type1/urw
 /zapfding/uzdr.pfb>
-Output written on main.pdf (31 pages, 333733 bytes).
+Output written on main.pdf (31 pages, 344596 bytes).
 PDF statistics:
- 494 PDF objects out of 1000 (max. 8388607)
- 435 compressed objects within 5 object streams
- 139 named destinations out of 1000 (max. 500000)
+ 530 PDF objects out of 1000 (max. 8388607)
+ 471 compressed objects within 5 object streams
+ 150 named destinations out of 1000 (max. 500000)
  173 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,9 +1,20 @@
 \documentclass[12pt, a4paper]{amsart}
 \usepackage{amsmath,amsfonts,amsthm,amssymb,color}
-\usepackage{dsfont,tikz-cd,minitoc,pifont,tabu,biblatex}
+\usepackage{dsfont,tikz-cd,minitoc,pifont,tabu}
+\usepackage[style=alphabetic]{biblatex}
+
 \addbibresource{references.bib}
 
 \usepackage{hyperref}
+
+\topmargin 0cm
+\headheight 0cm
+\oddsidemargin 0cm
+\evensidemargin 0cm
+\headsep 1.0cm
+\footskip 0.5cm
+\textwidth 16cm
+\textheight 24cm
 
 \begin{document}
 
@@ -801,7 +812,7 @@ We recall Tunnel's theorem leads us to consider the function given by the
 Fourier expansion given in \autoref{eq:mododd}:
 \[
   f(z) = \sum\limits_{m=-\infty}^\infty a_m q^m
-  = (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(2z).
+  = (\Theta(z) - \Theta(4z)) \left(\Theta(32z)-\frac{1}{2} \Theta(8z)\right) \Theta(2z).
 \]
 
 Here we will compute the coefficients $a_m$ and give a very simple expression for
@@ -824,13 +835,14 @@ To put it differently, set
 Then, the $n$-th coefficient of $f$ will be
 \[a_n = A_n - \frac{1}{2}B_n.\]
 Note that whenever we have a solution to either equation in $A_n$ or $B_n$,
-if $x, y, z \neq 0$, there are in fact 8 distinct solutions given by
+if none of the variables $x,y,z$ is 0, then there are in fact 8 distinct
+solutions given by
 $\pm x, \pm y, \pm z$, so they together make no contribution to $a_n$ modulo 4.
 Similarly, if only one of $x,y,z$ is 0, say $z$, then each combination from
 $\pm x, \pm y$ gives a distinct solution, and hence they make no contribution
 to $A_n$ modulo 4.
 \begin{lemma}
-  The sum $A_n$ is congruent to 0 modulo 4.
+  If $n$ is an odd integer, and $n > 1$, then $A_n$ is congruent to 0 modulo 4.
 \end{lemma}
 \begin{proof}
   As we saw above, solutions with 0 or only 1 of $x,y,z = 0$ make no
@@ -1086,13 +1098,123 @@ corresponding to the curves $E_p$ and $\Eb_p$.
   The equations \ref{eq:homcurve} have a nontrivial solution in $\QQ_p$. In fact,
   they have solutions in $\QQ$.
 \end{thm}
-Proof:
-\begin{itemize}
-\item If $d_1 = -1$, we have the rational solution $(p, 0, 1)$.
-\item If $d_1 = p$, we have the rational solution $(0, 1, 1)$.
-\item If $d_1 = -p$, we have the rational solution $(0, 1, 1)$.
-\end{itemize}
-\qedhere
+\begin{proof} This is easy since we can spot rational solutions in all cases.
+   
+  \begin{itemize}
+  \item If $d_1 = -1$, we have the rational solution $(p, 0, 1)$.
+  \item If $d_1 = p$, we have the rational solution $(0, 1, 1)$.
+  \item If $d_1 = -p$, we have the rational solution $(0, 1, 1)$.
+  \end{itemize}
+\end{proof}
+
+We need 3 technical lemmas that will help us streamline our computations.
+
+\begin{lemma} \label{vanilla}
+  Let $a, b \in \ZZ_p$. Then the equation 
+  \begin{equation}
+    \label{eq:multvanilla}
+    N^2 = aM^4 + be^4
+  \end{equation}
+  has a nontrivial solution in $\QQ_p$ if and only if it has a solution with
+  $N, M, e \in \ZZ_p$. Furthermore, we may assume one of the variables $N, M, e$
+  is a unit.
+\end{lemma}
+
+\begin{proof}
+  First suppose we have a solution and write
+  $$N = p^{-a}x, \,\, M = p^{-b}y, \,\, e = p^{-c}z$$ where $x,y,z \in \ZZ_p$ and
+  $a,b,c \in \NN.$ We have
+  \[p^{-2a}x^2 = ap^{-4b}y^4 + bp^{-4c}z^4.\]
+  Multiplying by $p^{4(a+b+c)}$ gives
+  \[p^{2a+4b+4c}x^2 = ap^{4a+4c}y^4 + bp^{4a+4b}z^4,\]
+  so we get a new solution $(p^{a+2b+2c}x, p^{a+c}y, p^{a+b}z)$ to
+  \autoref{eq:multvanilla} with all variables in $\ZZ_p$.
+
+  Now suppose $N, M, e \in \ZZ_p$. If all of them are divisible by $p$,
+  writing $N = pN', M = pM', e = pe'$ for $N', M', e'$ still in $\ZZ_p$ gives
+  \[p^2N'^2 = ap^4M'^4 + b p^4e'^4, \]
+  so $N \equiv 0 \, (p)$ and we in fact have $N' = pN'', N'' \in \ZZ_p.$ 
+  But then,
+  \[p^4N''^2 = ap^4M'^4 + bp^4e'^4.\]
+  Dividing through by $p^4$ we see that $(N'',M',e')$ is a new solution to
+  \autoref{eq:multvanilla} where each variable has
+  strictly smaller valuation. Thus, we may assume one of $N,M,e$ is a unit.
+\end{proof}
+
+\begin{lemma} \label{multp2}
+  Let $a, b \in \ZZ_p^\times$. Then the equation
+  \begin{equation}
+    \label{eq:multp2}
+    N^2 = aM^4 + bp^2e^4
+  \end{equation}
+  has a nontrivial solution in $\QQ_p$ if and only if either $\legendre{a}{p} = 1$
+  or $\legendre{b}{p} = 1.$
+\end{lemma}
+\begin{proof}
+  Suppose we have a solution.
+  From \autoref{vanilla}, we may assume $N, M, e \in \ZZ_p$, with one of the
+  variables a unit. There are 2 cases to consider.
+  \begin{itemize}
+  \item If neither $N$ or $M$ is 0 modulo $p$, we get
+    \[N^2 \equiv aM^4 \mod{p^2}\]
+    or
+    \[a \equiv \legendre{N}{M^2}^2 \mod{p},\]
+    and we must have $\legendre{a}{p} = 1$ as wanted.
+  \item If one of $N$ or $M$ is 0 modulo $p$, \autoref{eq:multp2} clearly shows
+    the other must also be, so we can write $N = pN'$, $M = pM'$. We get
+    \[p^2N^2 = ap^4M^4 + bp^2e^4\]
+    or
+    \[N'^2 = ap^2M'^4 + be^4.\]
+    This is just \autoref{eq:multp2} with the variables reversed. From step
+    1 we know that $e$ is a unit, so the previous case shows that we must have
+    $\legendre{b}{p}$.
+  \end{itemize}
+  This concludes the only if direction of our theorem.
+
+  Conversely, if $\legendre{a}{p} = 1$, by applying Hensel's
+  lemma to the polynomial $X^2 - a$ we see that $a$ has a square root in
+  $\QQ_p$. Thus, we have a solution
+  to \autoref{eq:multp2} given by
+  \[(\sqrt{a}, 1, 0)\]
+  If $\legendre{b}{1} = 1$ we similarly have the solution
+  \[(p\sqrt{b}, 0, 1).\]
+  
+\end{proof}
+
+\begin{lemma} \label{multpp}
+  Let $a, b \in \ZZ_p^\times$. Then the equation
+  \begin{equation}
+    \label{eq:multpp}
+    N^2 = apM^4 + bpe^4
+  \end{equation}
+  has a nontrivial solution in $\QQ_p$ if and only if
+  $\frac{-a}{b}$ is a 4th power in $\FF_p$.
+\end{lemma}
+
+\begin{proof}
+  This is similar to the previous lemma. If we have a solution,
+  \autoref{vanilla} shows that we may assume $N, M, e \in \ZZ_p$ with one
+  of them a unit. Clearly $p | N^2$ and hence $N$, so we may write $N = pN'$,
+  giving
+  \[p^2N'^2 = apM^4 + bpe^4\]
+  or
+  \[pN'^2 = aM^4 + be^4.\]
+  If $M$ is divisble by $p$, clearly $e$ must also be. But this violates
+  \autoref{vanilla}, so we may assume $M$ and $e$ are both units.
+  Thus, we must have
+  \[aM^4 + be^4 \equiv 0 \mod{p}\]
+  or
+  \[\frac{-a}{b} \equiv \legendre{e}{M}^4 \mod{p}\]
+  as wanted.
+
+  Conversely, if $\frac{-a}{b}$ is a 4th power in $\FF_p$, we may lift it to
+  $\QQ_p$ using
+  Hensel's lemma on $X^4 + \frac{a}{b}$, giving the solution
+  \[\left(0, 1, \legendre{-a}{b}^4\right)\]
+  to \autoref{eq:multpp}.
+\end{proof}
+
+We are now ready to work with the homogeneous spaces of $\bar{E}$ in $\QQ_p$.
 
 \begin{thm}
   The equations \ref{eq:isocurve} have a nontrivial solution in $\QQ_p$ subject
@@ -1102,7 +1224,7 @@ Proof:
     d_1 & \text{condition} \\
     \hline
     1 & \cmark \\
-    2 & p \equiv \pm 1 \, (8) \\
+    2 & p \equiv 1, 7 \, (8) \\
     p & p \equiv 1 \, (4) \\
     2p & p \equiv 1 \, (8) \\
     -1 & p \equiv 1 \, (4) \\
@@ -1110,93 +1232,157 @@ Proof:
     -p & p \equiv 1 \, (4) \\
     -2p & p \equiv 1 \, (8)
   \end{tabu}$
+
+  For instance, we will show that if $d_1 = 2p$, $\ref{eq:isocurve}$ has a
+  nontrivial solution in $\QQ_p$ if and only if $p \equiv 1 \, (8).$
 \end{thm}
 \begin{proof} Proceeding case by case:
   \begin{itemize}
+
+   
   \item If $d_1 = 2,$ we're trying to solve
     \[N^2 = 2M^4 + 2p^2.\]
+    We may apply lemma \autoref{multp2}, so we have a nontrivial solution
+    iff $\legendre{2}{p} = 1.$
+    
+    In other words, we must have
+    \[p \equiv 1 \text{ or } 7 \mod{8}.\]
       
-      In particular,
-      \[N^2 \equiv 2M^4 \mod{p^2},\]
-      or
-      \[2 \equiv \legendre{N}{M^2}^2 \mod{p^2}.\]
-
-      This has a nontrivial solution if and only if $\legendre{2}{p} = 1$ i.e.
-      if $p \equiv \pm 1 \, (8).$
-
-  \item If $d_1 = p,$ we're trying to solve
+  \item If $d_1 = p$, we're trying to solve
     \[N^2 = pM^4 + 4pe^4.\]
+    This is of the same form as \autoref{eq:multpp}, so we have a nontrivial
+    solution iff $-4$ is a 4th power in $\FF_p$.
 
-    We have $N^2 \equiv 0 \, (p)$, so we can write $N = pN'$ and
-    \[pN'^2 = M^4 + 4e^4.\]
+    First note that if
+    $p \equiv 3 \,(4),$ the values taken by $x^4$ are the same as those taken
+    by $x^2$, so the condition is equivalent to $-4$ being a square.
+    But $\legendre{-4}{p} = \legendre{-1}{p} = -1$ since $p \equiv 3 \, (4)$,
+    a contradiction.
 
-    Since $M, e$ cannot be divisible by $p$, we must have
-    $$-4 \equiv \left(\frac{M}{e}\right)^4 \mod{p}.$$
+    If $p \equiv 1 \,(4)$, we need to solve
+    \[x^4 = -4,\]
+    or equivalently,
+    \[x^2 = \pm 2\sqrt{-1}.\]
 
-    If $p \equiv 3 \, (4)$, the values taken by $x^4$ are the same as those
-    taken by $x^2$, so the equation is equivalent to  
-    $$-4 \equiv X^2 \, (p).$$
-    This is a contradiction, since $\legendre{-1}{p} = -1$.
+    There are 2 cases to consider:
 
-    If $p \equiv 1 \, (4)$ there are 2 cases to consider:
+    If $p \equiv 1 \, (8)$, $\legendre{2}{p} = 1.$ Furthermore,
+    \cite[page 4, Theorem 3.1]{Hensel} shows that
+    $\QQ_p$ contains a primitive 8th root of unit $\zeta_8$. But then, since
+    $(\zeta_8^4)^2 - 1 = 0$ in the field $\QQ_p$, by primitivity we must have
+    $\zeta_8^4 = -1$. Thus we may take
+    \[-4 = (\zeta_8\sqrt{2})^4.\]
 
-    If $p \equiv 1 \, (8),$ 1 is a 4th power and $ (\frac{2}{p}) = 1$,
-    so $$-4 = (\sqrt{2} \cdot \sqrt{-1})^4.$$
+    If $p \equiv 5 \, (8)$, $\legendre{2}{p} = -1$ and there are no primitive
+    8th roots of 1. In particular, there are no 4th roots of -1, and thus
+    \[\legendre{2\sqrt{-1}}{p} = \legendre{2}{p} \cdot \legendre{\sqrt{-1}}{p} =
+      (-1)\cdot(-1) = 1.\]
+    In this case we can take
+    \[-4 = \left(\sqrt{2\sqrt{-1}}\right)^4.\]
 
-    Hence, we have the solution $(0,(-4)^{1/4},1)$.
+    Thus, we have a nontrivial solution iff
+    \[p \equiv 1 \mod{4}.\]
 
-    If $p \equiv 5 \, (8)$, let $\chi$ be
-    a primitive quartic character.
-    Then $$\chi(-4) = \chi(-1)\chi(2)^2 = \chi(-1) \legendre{2}{p} = (-1) \cdot
-    (-1) = 1,$$ since -1 is not a fourth power.
-    Again we have the solution $(0,(4)^{1/4},1).$
-
-    Thus, we have a solution if and only if $p \equiv 1 \, (4)$.
 
   \item If $d_1 = 2p$, we're trying to solve
     \[N^2 = 2pM^4 + 2pe^4.\]
-    Again we may set $N = pN'$ so our equation reduces to
-    $$pN'^2 = 2M^4 + 2e^4.$$
-    By the same argument as the previous case, we must have
-    \[-1 \equiv \legendre{M}{e}^4 \mod{p},\]
-    and 1 is a $p$-adic 4th power if and only if $p \equiv 1 \, (8)$.
-    In this case a solution is given by $(0, (-1)^{1/4}, 0)$.
+    Again we can apply lemma \ref{multpp}, so we have a nontrivial solution iff
+    $\frac{-2}{2} = -1$ is a 4th power. By the reasoning in the previous case,
+    this is true iff
+    \[p \equiv 1 \mod{8}.\]
 
   \item If $d_1 = -1,$ we're trying to solve
-    \[N^2 = -M^4 + 4p^2e^4.\]
-    In particular,
-    $$N^2 \equiv -M^4 \mod{p^2},$$ so if $M \not\equiv 0 \, (p^2),
-    -1 \equiv (\frac{N}{M^2})^2 \, (p)$, which has a solution if and only if
-    $p \equiv 1 \, (4)$ given by $(\sqrt{-1},1,0)$.
+    \[N^2 = -M^4 - 4p^2e^4.\]
+    This is of the same form as \autoref{eq:multp2}, so we have a nontrivial
+    solution iff either $\legendre{-1}{p}$ or $\legendre{-4}{p}$ is
+    equal to 1.
 
-    If $M \equiv 0 \, (p^2)$, $N$ must also be
-    divisble by $p$, and we don't have a nontrivial solution in $\ZZ/p\ZZ$.
+    In other words, we must have
+    \[p \equiv 1 \mod{4}.\]
+
 
   \item If $d_1 = -2$, we're trying to solve
-    \[N^2 = -2M^4 + 2p^2e^4,\]
-    a similar argument shows we must have $\legendre{-2}{p}=1$,
-    so $p$ must be either 1 or 3 modulo 4. A solution is then given by
-    $(\sqrt{-2},1,0).$
+    \[N^2 = -2M^4 - 2p^2e^4,\]
+    Applying lemma \ref{multp2}, a similar argument shows
+    we must have $\legendre{-2}{p}=1$,
+    or equivalently,
+    \[p \equiv 1,3 \mod{8}.\]
 
   \item If $d_1 = -p$, we're trying to solve
     \[N^2 = -pM^4 + -4pe^4.\]
-    Again we may set $N = pN'$ so our equation reduces to
-    $$pN'^2 = -M^4 + -4e^4.$$
-    Imitating the proof for the case $d_1 = p$, we have a soltion if
-    and only if -4 is a 4th power, so we must have $p \equiv 1 \, (4)$.
-    It is given  by $(0,(-4)^{1/4},1).$
+    Applying lemma \ref{multpp}, we again have a nontrivial solution
+    iff -4 is a 4th power. We saw before that we must then have
+    \[p \equiv 1 \mod{4}.\]
 
   \item If $d_2 = -2p$, we're trying to solve
     \[N^2 = -2pM^4 + -2pe^4.\]
-    Again we may set $N = pN'$ so our equation reduces to
-    $$pN'^2 = -2M^4 + -2e^4.$$
-    Imitaing the proof for the case $d_1 = 2p$ we have a solution
-    if and only if $p \equiv 1 \, (8)$. It is given by $(0,(-1)^{1/4},1).$
+    Again applying lemma \ref{multpp}, we have a nontrivial solution
+    iff -1 is a 4th power. This is the case iff
+    \[p \equiv 1 \mod{8}.\]
+    
   \end{itemize} \qedhere
 \end{proof}
 
 \subsubsection{2-adic case}
-Finally, we consider the 2-adic solutions. Remembering \ref{eq:homcurve} has
+
+Finally, we consider the 2-adic solutions.
+
+Note that we didn't make use of $p$ being odd in the proofs of lemma
+\ref{vanilla}, so we in fact have:
+
+\begin{lemma}
+  Let $a, b \in \ZZ_2$. Then the equation
+  \[N^2 = aM^4 + be^4\]
+  has a nontrival solution in $\QQ_2$ if and only if it has a solution
+  with $N,M,e \in \ZZ_2$. Furthermore, we may assume one of the variables
+  $N,M,e$ is a 2-adic unit.
+\end{lemma}
+
+The following lemma makes our computations a simple matter of case checking.
+
+\begin{lemma} \label{2adic}
+  Let $a, b \in \ZZ_2$ with $\nu_2(a),\nu_2(b) \leq 2$. The equation
+  \[N^2 = aM^4 + be^4\]
+  has anontrivial solution in $\QQ_2$ if and only if one of the values
+  \[a, b, a+b\]
+  is congruent to one of the values
+  \[0,1,4,9\]
+  modulo 16.
+\end{lemma}
+
+\begin{proof}
+  First suppose we have a solution $(N, M, e)$. Checking all possible cases
+  we see that
+  \[x^4 \equiv
+    \begin{cases}
+      1 \mod{16} \text{ if } x \text{ is even} \\
+      0 \mod{16} \text{ if } x \text{ if odd}
+    \end{cases}.
+  \]
+  Thus, $N$ and $M$ may only take the values 0 or 1 modulo 16, and we have the
+  following possibilities for $N^2$.
+  \[N^2 \equiv
+    \begin{cases}
+      a \\
+      b \\
+      a+ b
+    \end{cases} \mod{16}.
+  \]
+  Also note that the values taken by $N^2$ modulo 16 are among 0, 1, 4 and 9,
+  which gives the stated condition.
+
+  Conversely, let $f(N,M,e) = N^2 - aM^4 - be^4$ and assume $f$ has a root
+  modulo 16. As we saw, we may assume without loss of generality that $a$ is
+  odd. We have
+  \[\parder{f}{M} = -4aM^3,\]
+  so from the hypothesis, $\nu_2\left(\parder{f}{M} \right) \leq 4$.
+
+  In order to apply Hensel's lemma we would need to work modulo 32. It turns out
+  this is not necessary 
+
+\end{proof}
+
+Remembering that \autoref{eq:homcurve} has
 rational solutions, we only need to consider the isogeneous curve.
 
 \begin{thm}
@@ -1221,28 +1407,128 @@ rational solutions, we only need to consider the isogeneous curve.
   note that the squares modulo 16 are 0, 1, 4 and 9. Since
   $M, e$ cannot both be even, we can check the following cases:
   \begin{itemize}
-    \item If $d_1 = 2$, $N^2 \equiv \begin{cases} 2 + 2p^2 \\ 2 \\
-        2p^2 \end{cases} \, (16)$. \newline In particular, since $p^2 = 1$ or 9,
-      we can take the option
-      $2 + 2p^2 \equiv 4 \equiv 2^2 \, (16)$.
-    \item If $d_1 = p$, $N^2 \equiv \begin{cases} p + 4p \\ p \\
-        4p \end{cases} \, (16)$. \newline If $p \equiv 1 \, (4), 4p \equiv 1 \, (16)$.
-      The first equation has no solution since $5^{-1} \equiv 13 \not\equiv N^2
-      \, (16)$.
-    \item If $d_1 = 2p$, $N^2 \equiv \begin{cases} 2p +2p \\ 2p \\
-        2p \end{cases} \, (16)$. \newline We have a solution if $p \equiv 1
-      \, (4)$.
-    \item If $d_1 = -1$, $N^2 \equiv \begin{cases} -1 -4 p^2 \\ -1 \\
-        -4p^2 \end{cases} \, (16)$. \newline There are no solutions, since $p^2 = 1, 9$.
-    \item If $d_1 = -2$, $N^2 \equiv \begin{cases} -2 - 2p^2 \\ -2\\
-        -2p^2 \end{cases} \, (16)$. \newline There are also no solutions.
-    \item If $d_1 = -p$, $N^2 \equiv \begin{cases} -p -4p \\ -p \\
-        -4p \end{cases} \, (16)$. \newline The first 2 equations have no solutions, 
-      since $-5^{-1} \equiv 3$ and $-1^{-1} \equiv -1$, and neither is a square.
-      If $N^2 = 4 \equiv -4p \, (16), p \equiv -1 \, (4)$.
-    \item If $d_1 = -2p$, $N^2 \equiv \begin{cases} -2p -2p \\ -2p \\
-        -2p \end{cases} \, (16)$. If $N^2 \equiv 0 \, (16)$, there are no
-      solutions since p is odd. If $N^2 \equiv 4 \, (16), p \equiv -1 \, (4)$.
+  \item If $d_1 = 2$, we're trying to solve
+    \[N^2 = 2M^4 + 2p^2e^4 \] in $\QQ_2$.
+    From lemma \autoref{2adic}, we must have one of
+    \[0, 1, 4, 9 \equiv
+      \begin{cases}
+        2 \\
+        2p^2 \\
+        2+2p^2
+      \end{cases} \mod{16}.
+    \]
+    In particular, since $p$ is odd, $p^2 \equiv 1$ or $9 \, (16)$, so we can
+    take the option $2+2p^2 \equiv 4 \, (16)$.
+
+    \item If $d_1 = p$, we're trying to solve
+    \[N^2 = pM^4 + 4pe^4 \] in $\QQ_2$. 
+    We must have one of
+    \[0, 1, 4, 9 \equiv
+      \begin{cases}
+        p \\
+        4p \\
+        5p
+      \end{cases} \mod{16}.
+    \]
+
+    The equation has a nontrivial solution iff either
+    \[p \equiv 1,9 \, (16)\]
+    or
+    \[4p \equiv 4 \, (16) \implies p \equiv 1 \, (4)\]
+    or
+    \[5p \equiv 1, 9 \, (16) \implies p \equiv 5, 13 \, (16). \] 
+    
+    Thus, we must have
+    \[p \equiv 1 \mod{4}.\]
+    
+    \item If $d_1 = 2p$, we're trying to solve
+      \[N^2 = 2pM^4 + 2pe^4 \] in $\QQ_2$.
+      
+    We must have one of
+    \[0, 1, 4, 9 \equiv
+      \begin{cases}
+        2p \\
+        4p
+      \end{cases} \mod{16}.
+    \]
+
+    Clearly only the second equation can have a solution, and only if
+    \[p \equiv 1 \mod{4}.\]
+
+    \item If $d_1 = -1$, we're trying to solve
+    \[N^2 = -M^4 - 4p^2e^4 \] in $\QQ_2$. 
+    We must have one of
+    \[0, 1, 4, 9 \equiv
+      \begin{cases}
+        -1 \\
+        -4p^2 \\
+        -1-4p^2
+      \end{cases} \mod{16}.
+    \]
+
+    The first equation never has a solution.
+
+    The second takes the values
+    \[-4p^2 \equiv -4\cdot 1, 4 \cdot 9 \equiv 12 \, (16),\]
+    so neither it nor the third equation have any solutions.
+
+
+    \item If $d_1 = -2$, we're trying to solve
+    \[N^2 = -2M^4 - 2p^2e^4 \] in $\QQ_2$. 
+    We must have one of
+    \[0, 1, 4, 9 \equiv
+      \begin{cases}
+        -2 \\
+        -2p^2 \\
+        -2-2p^2
+      \end{cases} \mod{16}.
+    \]
+
+    The first equation never has a solution
+
+    The second takes the values
+    \[-2p^2 \equiv -2\cdot 1, -2 \cdot 9 \equiv 14 \, (16), \]
+    so neither it nor the third equation have any solutions.
+
+    \item If $d_1 = -p$, we're trying to solve
+    \[N^2 = -pM^4 + -4pe^4 \] in $\QQ_2$. 
+    We must have one of
+    \[0, 1, 4, 9 \equiv
+      \begin{cases}
+        -p \\
+        -4p \\
+        -5p
+      \end{cases} \mod{16}.
+    \]
+
+    We have nontrivial solutions iff either
+    \[-p \equiv 1,9 \, (16) \implies p \equiv 7, 15 \, (16)\]
+    or
+    \[-4p \equiv 4 \, (16) \implies p \equiv -1 \, (4)\]
+    or
+    \[-5p \equiv 1,9 \, (16) \implies p \equiv 3, 11 \, (16).\]
+
+    Thus, we must have
+    \[p \equiv 3 \mod{4}.\]
+
+    \item If $d_1 = -2p$, we're trying to solve
+    \[N^2 = -2pM^4 + -2pe^4 \] in $\QQ_2$. 
+    We must have one of
+    \[0, 1, 4, 9 \equiv
+      \begin{cases}
+        -2p \\
+        -4p 
+      \end{cases} \mod{16}.
+    \]
+
+    The first equation never has a solution.
+
+    The second equation only has a solution if
+    \[-4p \equiv 4 \, (16) \implies p \equiv -1 \, (4).\]
+
+    Thus, we must have
+    \[p \equiv 3 \mod{4}.\]
+
   \end{itemize}
 \end{proof}
 We can now put everything together to work out the Selmer rank of $E_p$.
@@ -1261,17 +1547,25 @@ $$  \begin{tabu}{l*{5}{c}r}
   \end{tabu}$$
 
 \begin{cor}
-  The Selmer rank of $E$ is equal to 2 if $p \equiv 1 \, (8), 1$ if $p \equiv
-  3, 7 \, (8)$, and 0 if $p \equiv 5 \, (8)$.
+  The Selmer rank $r$ of $E$ satisfies
+  \[
+    r =
+    \begin{cases}
+      0 \text{ if } p \equiv 3 \mod{8} \\
+      1 \text{ if } p \equiv 5,7 \mod{8} \\
+      2 \text{ if } p \equiv 1 \mod{8}.
+    \end{cases}
+  \]
 \end{cor}
 \begin{proof}
   Let $r$ be the Selmer rank, then
   \[2^r = \frac{\#\Sel(E) \cdot \#\Sel(\Eb)}{4} = \#\Sel(\Eb) =
     \begin{cases}
-      4 & \text { if } p \equiv 1 \, (8) \\
-      2 & \text{ if } p \equiv 3, 7 \, (8) \\
-      1 & \text { otherwise}
+      1 & \text{ if } p \equiv 3 \mod{8} \\
+      2 & \text{ if } p \equiv 5,7 \mod{8} \\
+      4 & \text { if } p \equiv 1 \mod{8} 
     \end{cases}\]
+  Comparing exponets of 2 gives the result.
 \end{proof}
 
 \subsection{Tamagawa Numbers}
@@ -1628,25 +1922,84 @@ Recall Tunnell's theorem (\autoref{eq:tunnell}), which in our case states that
 \[L(E_p,1) = \frac{1}{2}\Omega_{E_p}a_p^2\]
 
 Summarizing the information we have,
-\[ \#\Tors(E) = 4 \\ \]
-\[ c_p = 4 \\ \]
-\[c_2 = 2 \\  \]
-\[c_l = 0, \text{ if } l  \neq p \]
-\[R_{E_p} = 1. \]
-
-Assuming the BSD conjecture (\autoref{eq:bsd}), we have
 \begin{equation*}
-  L(E_p,1) = \frac{\# \Sha(E) \cdot \Omega_E \cdot 8}{16} = \frac{\#\Sha(E)\cdot\Omega_E}{2}
+  \begin{split}
+    \#\Tors(E) &= 4 \\
+    c_p &= 4 \\
+    c_2 &= 2 \\
+    c_l &= 0 \text{ if } l \neq p \\
+    R_{E_p} &= 1.
+  \end{split}
+\end{equation*}
+
+Substituting the data into the BSD conjecture (\autoref{eq:bsd}), we get
+\[
+  L(E,s) = C(s-1)^r + O((s-1)^2)
+\]
+where
+\begin{equation*}
+  C = \frac{\# \Sha(E) \cdot \Omega_E \cdot 8}{16} = \frac{\#\Sha(E)\cdot\Omega_E}{2}
 \end{equation*}
 
 Putting both expressions together gives
-\[
-  a_p^2 = \Sha(E_p).
+\begin{equation}
+  a_p^2 = \#\Sha(E_p)\cdot 0^r
+\end{equation}
+
+We have previously computed the coefficients $a_p$ modulo 4, giving
+\[a_p \equiv \begin{cases}
+    0 \mod{4} \text{ if } p \equiv 1,5,7 \mod{8} \\
+    2 \mod{4} \text{ if } p \equiv 3 \mod{8}
+  \end{cases}
 \]
 
-We now use our knowledge of $\Sel(E)$ to predict when the value of
-\[0^r \cdot \Sha(E_p)\]
-is even or odd.
+On the other hand, we know from our calculations that the Selmer rank $s_r$ of
+$E_p$ satisfies
+  \begin{equation} \label{eq:selmer_rank_p}
+    s_r =
+    \begin{cases}
+      0 \text{ if } p \equiv 3 \mod{8} \\
+      1 \text{ if } p \equiv 5,7 \mod{8} \\
+      2 \text{ if } p \equiv 1 \mod{8}.
+    \end{cases}
+  \end{equation}
+  
+Right away we can see that indeed, if $p \equiv 3 \, (8)$, the coefficient
+$a_p$ will be nonzero, and hence the BSD conjecture predicts that
+$$\#\Sha(E_p)\cdot 0^r \neq 0,$$
+so $$r = 0.$$
+This agrees with the fact that the Selmer rank is 0, and $r \leq s_r$.
+
+If $p \not\equiv 3 \, (8)$, the coefficient $a_p$ is 0 modulo 4.
+This means that
+\[\#\Sha(E_p) \cdot 0^r \equiv 0 \mod{16},\]
+so one of 2 things must happen. Either the rank is nonzero, in which case
+$\#\Sha(E_p) \cdot 0^r = 0$, or the rank is 0. But
+\[\#\Sha(E_p) \equiv 0 \mod{16}.\]
+But \autoref{eq:selmer_rank_p} says that in this case $s_r > 0$. Since we are
+assuming that the rank is 0, it must be that $\#\Sha(E)$ is not 0, as is in fact
+a multiple of 16. In particular, since it is an abelian group, $\Sha(E)$ must
+have an element of order 2.
+
+Thus, some of the equations for the homogeneous spaces have no real solutions
+even though they have solutions for modulo all primes. Specifically
+
+\begin{itemize}
+\item If $p \equiv 1 \, (8)$ and the rank is 0, then the equations
+  \[N^2 = 2M^4 + 2p^2e^4,\]
+  \[N^2 = pM^4 + 4pe^4\]
+  and
+  \[N^2 = 2pM^4 + 2pe^4\]
+  should have no integer solutions even though they have solutions at all primes.
+
+\item If $p \equiv 5 \, (8)$ and the rank is 0, the equation
+  \[N^2 = pM^4 + 4pe^4\]
+  won't have any solutions.
+
+\item If $p \equiv 7 \, (8)$ and the rank is 0, the equation
+  \[N^2 = 2M^4 + 2p^2e^4\]
+  won't have any solutions.
+\end{itemize}
 
 \printbibliography
 

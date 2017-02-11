@@ -12,6 +12,7 @@
     "cohomology"
     "Serre"
     "Granville"
-    "Tunnell"))
+    "Tunnell"
+    "Hensel"))
  :bibtex)
 
