@@ -85,8 +85,10 @@
     "sec:applications"
     "lemma:rankformula"
     "defn:sha"
+    "coeff_formula"
     "eq:hom"
     "prop:countsols"
+    "local_ladic"
     "eq:homcurve"
     "eq:isocurve"
     "vanilla"
@@ -95,10 +97,10 @@
     "eq:multp2"
     "multpp"
     "eq:multpp"
-    "2adic"
     "singularity_condition"
     "eq:p-param"
-    "eq:selmer_rank_p")
+    "mainpred"
+    "mainthm")
    (LaTeX-add-bibliographies
     "references")
    (LaTeX-add-amsthm-newtheorems
