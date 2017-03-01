@@ -392,6 +392,8 @@ INPUT /usr/share/texmf-dist/tex/latex/tools/array.sty
 INPUT /usr/share/texmf-dist/tex/latex/tools/array.sty
 INPUT /usr/share/texmf-dist/tex/latex/varwidth/varwidth.sty
 INPUT /usr/share/texmf-dist/tex/latex/varwidth/varwidth.sty
+INPUT /usr/share/texmf-dist/tex/latex/tools/enumerate.sty
+INPUT /usr/share/texmf-dist/tex/latex/tools/enumerate.sty
 INPUT /usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
 INPUT /usr/share/texmf-dist/tex/latex/biblatex/biblatex.sty
 INPUT /usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
@@ -523,6 +525,7 @@ INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmti8.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmti7.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
+INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmbxti10.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/adobe/zapfding/pzdr.tfm
 INPUT /usr/share/texmf-dist/fonts/tfm/public/cm/cmtt12.tfm
@@ -535,6 +538,7 @@ INPUT ./main.out
 INPUT main.run.xml
 OUTPUT main.run.xml
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 INPUT /usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb

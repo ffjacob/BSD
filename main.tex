@@ -1,6 +1,6 @@
 \documentclass[12pt, a4paper]{amsart}
 \usepackage{amsmath,amsfonts,amsthm,amssymb,color}
-\usepackage{dsfont,tikz-cd,minitoc,pifont,tabu}
+\usepackage{dsfont,tikz-cd,minitoc,pifont,tabu,enumerate}
 \usepackage[style=alphabetic]{biblatex}
 
 \addbibresource{references.bib}
@@ -82,6 +82,9 @@
 \newcommand{\legendre}[2]{\left(\frac{#1}{#2}\right)}
 \newcommand{\quadring}[1]{\ZZ[\sqrt{#1}]}
 \newcommand{\Ip}{\mathfrak{p}}
+\newcommand{\Aa}{\mathbb{A}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\Shim}{\textnormal{Shim}}
 
 % colours
 \definecolor{red}{rgb}{1,0,0}
@@ -97,6 +100,42 @@
 \pagebreak
 
 \maketitle
+
+\section{Abstract}
+
+In this project we intend to investigate some of the deep techniques employed in
+working out the rank of an elliptic curve. To do this we pursue two different
+chains of ideas
+\begin{enumerate}
+\item The Birch Swinnerton Dyer conjecture relates many invariants of an
+  elliptic curve to a complex analytic object called the Hasse-Weil L-function.
+  We intend to provide a self-contained explanation of all quantities that occur
+  in the BSD conjecture, and how they relate to the arithmetic properties of the
+  curve.
+\item The theory of modular forms provides material to deal with L-functions at
+  a Fourier analytic level. In particular, for the family of curves we will be
+  investigating, Tunnell's theorem gives a very concise way of describing the
+  critical values of the L-functions for the quadratic twists of $y^2 = x^3-x$.
+  We intend to give an overview of the chain of reasoning that implies Tunnell's theorem.
+\end{enumerate}
+
+Once the theoretical ground is laid, we will carry calculations that will allow
+us to formulate and prove, certain consequences of the BSD
+conjecture. This will be done both by considering the Theta-series coming from
+Tunnell's theorem and by calculating all the required invariants for a certain
+family of curves. Let
+\[E_p : y^2 = x^3 - p^2 x.\]
+
+We now state our main predictions, noting that all relevant concepts
+will be defined later. 
+
+\textbf{Prediction 1:} If $p \equiv 3 \, (8)$, the BSD conjecture together with
+Tunnell's theorem predicts that the rank of $E_p$ is 0.
+
+\textbf{Prediction 2:} If $p \not\equiv 3 \, (8)$ and the rank of $E_p$ is 0,
+then the Tate-Shafarevich group $\# \Sha(E_p)$ has an element of 2-torsion.
+
+Both predictions are justified and proved in the conclusion. 
 
 \section{Elliptic Curve Invariants and the BSD Conjecture}
 
@@ -244,20 +283,160 @@ Finding the number $r$, called the \defin{rank of $E$}, is in some sense the
 main problem of the theory of elliptic curves. In the next section we will
 develop a different set of tools that will enable us to tackle this problem.
 
-\subsection{The Hasse-Weil L-function}
+\subsection{Local Zeta Functions}
 
-As with other projective varieties, we can define certain generating functions
-that capture the behaviour of $E$ locally, i.e. when $K = \FF_p$.
+One of the most powerful tools in all of discrete mathematics is the passing
+from sequences of combinatorial magnitudes $\{a_n\}$ to a formal power series
+\[f(z) = \sum\limits_{n=0}^\infty a_nz^n\]
+called the \defin{generating function} of $\{a_n\}.$ This formal power series
+encapsulates the whole sequence into a single object. By letting $z \in \CC$,
+we can hope the
+resulting analytic properties of $f$ as a holomorphic function can be translated
+back to information about the coefficients $a_n$.
+
+One of the main advantages to
+this approach is that multiplication of different generating functions acts in
+a combinatorially meaningful way on the coefficients of their product via a
+convolution
+\[\sum\limits_{n=0}^\infty a_n z^n \cdot \sum_{n=0}^\infty b_n z^n =
+\sum\limits_{n=0}^\infty \left( \sum\limits_{s+t = n} a_sb_t \right)z^n.\]
+We can use this fact to construct more complicated series from
+simpler ones, and use this construction to simplify our analysis.
+
+In number theory, the generating function of choice usually takes a different
+form called the \defin{Dirichlet series of $\{a_n\}$}
+\[f(s) = \sum\limits_{n=1}^\infty\frac{a_n}{n^s}, \,\, s \in \CC. \]
+This is useful to us since the convolution now takes a multiplicative form
+\[\sum\limits_{n=1}^\infty\frac{a_n}{n^s} \cdot
+  \sum\limits_{n=1}^\infty\frac{b_n}{n^s} =
+  \sum\limits_{n=1}^\infty \left( \sum\limits_{s \cdot t = n} a_sb_t \right) n^{-s}\]
+which translates better the combination of sequences that appear in number
+theory. What we have is a situation in which all
+objects of size $n$ are obtained by stitching together $s$ objects of size $t$,
+where $s$ and $t$ are some divisors of $n$.
+For a few neat elementary applications of this principle, see \cite[Section 2.6, pages 59-68]{wilf}.
+
+\begin{example}
+  The \defin{Riemann Zeta Function} is the Dirichlet series of
+  $\{1\}_{n=1}^\infty$ given by
+  \[\zeta(s) = \sum\limits_{n=1} \frac{1}{n^s},\]
+  and takes a prominent role in analytic number theory.
+  As a consequence of uniqueness of factorization in $\ZZ$, we can also write
+  \[\zeta(s) = \prod\limits_{p \text{ prime}}\left( 1-p^{-s} \right)^{-1}.\]
+  This is called the \defin{Euler product} of $\zeta.$
+\end{example}
+
+\begin{example}
+  Let $d_k(n)$ be the number of ordered ways of writing $n$ as a product of $k$
+  factors. Then we can write
+  \[d_k(n) = \sum\limits_{a_1 a_2 \cdots a_k = n} 1.\]
+  Using the convolution formula, we get that
+  \[\sum\limits_{n=1}^\infty \frac{d_k(n)}{n^s} = \zeta^k(s),\]
+  so analytic information about $\zeta$ can be used to study the growth of
+  $d_k(n).$
+\end{example}
+
+We can generalise generating functions further by changing the denominator of
+the Dirichlet series. 
+
+\begin{example}
+  Let $K : \QQ$ be a number field and let $\OO_K$ be the ring of algebraic
+  integers of $K$.
+  The \defin{Dedekind-Zeta function of $K$} is
+  a series given by 
+  \[\zeta(K,s) = \sum\limits_{I \triangleleft \, \OO_K} \frac{1}{||I||^s} \]
+  where the sum ranges over all nonzero ideals of $\OO_K$.
+  Since $\OO_K$ is a Dedekind domain, it has the property of unique
+  factorization of ideals, so we can also write the Euler product
+  \[\prod\limits_P \left( 1-||P||^{-s} \right)^{-1}.\]
+  Here $P$ ranges over the maximal ideals of $\OO_K$. 
+\end{example}
+
+The importance of this example is that now the convolution is no longer
+multiplicative in $\ZZ$, but in the ideals $I$ of $\OO_K$. This allows us to
+consider arithmetic sequences that combine multiplicatively on larger
+number fields.
+
+\begin{example} \label{dedekind_example}
+  Let $K = \QQ(\sqrt{-2})$, so that $\OO_K = \quadring{-2}$. 
+  Later we will find a simple formula for the coefficient of $n^{-s}$ of
+  $\zeta(K,s)$ when $n$ is odd and squarefree.
+
+  We can also
+  define a function $d_k(K,n)$ which counts the number of ways of writing an
+  ideal of norm $n$ as a product of $k$ ideals in $\OO_k$, i.e. the number of
+  $k$-tuples $P_1, \dots, P_k$ such that $||P_1 \cdots P_k||_{\OO_K} = n.$
+  From the convolution rule for number fields, we get
+  \[\sum\limits_{I \triangleleft \OO_K} = \frac{d_k(K,||I||)}{||I||^s} =
+  \zeta^k(K,s).\]
+Thus, we can try to understand factorization of ideals in $\OO_K$ from
+the analytic properties of $\zeta^k(\quadring{-2}, s).$
+\end{example}
+
+The zeta functions we are going to be most interested in will help us capture
+the behaviour of an elliptic curve $E(K)$ locally, i.e. when $K = \FF_p$.
+
+Let $p$ be an odd prime and $\FF_p$ be the unique field of $p$ elements. We say
+that a polynomial $f \in \FF_p[x,y]$ is \defin{absolutely irreducible} if it is
+irredubicle in the algebraic closure $\overline{\FF}_p[x,y].$
+
+\begin{prop}
+  Let $f \in \FF_p[x,y]$ be absolutely irreducible, and assume the variety
+  $V_f(\overline{\FF}_p)$ is nonsingular. Then the coordinate ring
+  \[C_f = \frac{\FF_q[x,y]}{(f)}\]
+  is a Dedekind domain with finite quotients. In particular, it has the property
+  of unique factorization of ideals.
+\end{prop}
+\begin{proof}
+  \cite[See][Corollary 2.7, page 229]{lorenzini}.
+\end{proof}
+
+Inspired by our previous examples, we can define a zeta function for $V_f$. Let
+\[\zeta(V_f, \FF_p, s) = \sum\limits_{I \triangleleft \, C_f} \frac{1}{||I||^s}
+\]
+where the sum is over all ideals of $C_f$. Here the norm $||I||$ is defined to
+be the number of elements in $C_f / I$. Since $C_f$ has unique factorization
+of ideals, we also get a Euler product 
+\[\zeta(V_f, \FF_p, s) = \prod\limits_{M \in \text{Max}(C_f)} \left( 1 - ||M||^{-s} \right)^{-1}\]
+where $\text{Max}(C_f)$ is the set of maximal ideals of $C_f$.
+If we let
+\[b_k = \# \{M \in \text{Max}(C_f) \, ; \, |C_f/M : \FF_p| = k\},\]
+then by definition $||M|| = |C_f/M| = p^k$, so we get
+\[\zeta(V_f, \FF_p, s) = \prod\limits_{n=1}^\infty (1 - q^{-sn})^{-b_n}.\]
+
+Now let $z = p^{-s}$ and let $Z(z) = \zeta(V_f, \FF_p, s)$. Taking logarithms
+we ge
+\begin{equation*}
+  \begin{split}
+    \log (Z(z)) &= - \sum\limits_{n=1}^\infty b_n \log(1-z^d) \\
+    &= \sum\limits_{n=1}^\infty \left( \sum\limits_{k=1}^\infty \frac{z^{nk}}{k} \right) \\
+    &= \sum\limits_{n=1}^\infty \big( \sum\limits_{k \mid n} kb_k \big) \frac{z^n}{n} .
+  \end{split}
+\end{equation*}
+
+\begin{prop}
+  We have
+  \[\sum\limits_{k \mid n} kb_k = \# V_f(\FF_{p^r})\]
+  where $\# V_f(\FF_{p^n})$ is the number of roots of $f$ in the unique field of
+  $p^n$ elements.
+\end{prop}
+\begin{proof}
+  \cite[See][Proposition VII-3.5, page 232]{lorenzini}.
+\end{proof}
+
+The above remarks motivate the following definition:
 
 \begin{defn}
-  Let $V$ be a projective variety over $\FF_p$.
+  Let $V$ be a variety over $\FF_p$.
   The \defin{local zeta function of $V$ at $p$} is the formal power series
-  \[Z(V, p, z) = \exp \left( \sum\limits_{r=1}^{\infty} \# V(\FF_{p^r}) \frac{z^r}{r} \right)\]
+  \begin{equation} \label{zeta_defn}
+    Z(V, p, z) = \exp \left( \sum\limits_{r=1}^{\infty} \# V(\FF_{p^r}) \frac{z^r}{r} \right)
+  \end{equation}
   where $\# V(\FF_{p^r})$ is the number of points of $V$ in the (unique) field
   of $p^r$ elements.
 \end{defn}
 
-\begin{example}
+\begin{example}[Point]
   If $V = (x_0:y_0:z_0)$ is a point, then $\#V(\FF_{p^r}) = 1$, so
   \begin{equation*}
     \begin{split}
@@ -269,38 +448,106 @@ that capture the behaviour of $E$ locally, i.e. when $K = \FF_p$.
              
 \end{example}
 
-\begin{example}
-  If $V = \mathbb{A}^n \subset \mathbb{P}^n$ is the affine
-  k$n$-space $, \#(\FF_{p^r})\AA^n = p^r$, so
+\begin{example}[Affine Space]
+  If $V = \mathbb{A}^n$ is the affine
+  $n$-space $, \#\Aa^n(\FF_{p^r}) = p^{rn}$, so
   \begin{equation*}
     \begin{split}
       Z(\mathbb{A}^n) &= \exp \left(  \sum\limits_{r=1}^\infty \frac{(pz)^r}{r} \right) \\
-      &= \exp ( - \log (1-pz) ) \\
-      &= \frac{1}{1-pz}
+      &= \exp ( - \log (1-p^nz) ) \\
+      &= \frac{1}{1-p^nz}
     \end{split}
   \end{equation*}
 \end{example}
 
-\begin{example}
-  If $V = \mathbb{H}^n \subset \mathbb{P}^n$ is the hyperplane at infinity
-  $(x:y:0)$, then $\# \FF_{p^r} (\mathbb{H}^n) = \# \FF_{p^r} (\mathbb{P}^{n-1})
-  = 1 + p^r + \cdots + p^{r(n-1)}$. So
+\begin{example}[Projective Space]
+  If $V = \mathbb{P}^n$ is the projective $n$-space,
+  then $\# \PP^n(\FF_{p^r})  
+  = 1 + p^r + \cdots + p^{nr}$. So
 
   \begin{equation*}
     \begin{split}
-      Z(\mathbb{A}^n) &= \exp \left(  \sum\limits_{r=1}^\infty
-        \sum\limits_{s=0}^{n-1} \left(  \frac{z^r}{r}  \right) \right) \\
-      &= - \sum\limits_{s=0}^{n-1} \log (1 - p^n z) \\
-      &= \frac{1}{(1-z) (1-pz) \cdots (1-p^{n-1} z)}
+      Z(\mathbb{\PP}^n) &= \exp \left(  \sum\limits_{r=1}^\infty
+        \sum\limits_{s=0}^{n} \left(  \frac{z^r}{r}  \right) \right) \\
+      &= - \sum\limits_{s=0}^{n} \log (1 - p^n z) \\
+      &= \frac{1}{(1-z) (1-pz) \cdots (1-p^{n} z)}
     \end{split}
   \end{equation*}
 \end{example}
-  
-For our family $E_n$ the local zeta function is explicitly given by the
-following proposition
+
+We note, in tandem with our philosophy of generating functions and convolutions,
+the expression
+\[Z(\PP^n) = Z(\Aa^0) \times Z(\Aa^1) \times \cdots \times Z(\Aa^n)\]
+beautifully mimics the geometric construction of $\PP^n$ from a point, attaching
+one cell of each dimension. 
+
+Turning to the curves in our family $E_n$, we will later show
+(see \autoref{singularity_condition})
+that $E_n$ is nonsingular at $p$ if and only if $p \nmid 2n$. This will affect
+the form of its local zeta function.
+
+At the primes where it has bad reduction, $Z(E_n,p,z)$ has the same equation as
+a projective line:
 
 \begin{prop}
-  If $p \not| \,\, 2n$, then
+  If $p \mid 2n$, then
+  \[Z(E_n, p, z) = \frac{1}{(1-z)(1-pz)}.\]
+\end{prop}
+
+\begin{proof}
+  There are two cases to consider.
+  \begin{itemize}
+  \item If $p = 2$, the affine equation takes the form
+    \[E_2: y^2 = x^3 + x,\] with the single point at infinity $(0:1:0).$
+
+    But in $\FF_{2^r}$, the map $x \mapsto x^2$ is injective since
+    \[x^2 = y^2 \implies x^2-y^2 = (x-y)^2 = 0 \implies x = y,\] where the
+    middle equality follows from characteristic 2. Since
+    $\FF_{2^r}$ is finite, the squaring map must also be surjective, so all
+    elements have unique square roots. Thus,
+    \[\# E_n(\FF_{2^k}) = 1 + \# \FF_{2^k} = 1 + 2^{k},\] and
+    \begin{equation*}
+      \begin{align}
+        Z(E_n,2,z) &= \exp \left( \sum\limits_{r=1}^\infty (1 + 2^r)\frac{z^r}{r}
+                     \right) \\
+                   &= \exp \left( \sum\limits_{r=1}^\infty \frac{z^r}{r} \right) 
+                     \exp \left( \sum\limits_{r=1}^\infty \frac{(2z)^r}{r} \right) \\
+                   &= \frac{1}{(1-z)(1-2z)}.
+      \end{align}
+    \end{equation*}
+  \item If $p \mid n$, the equation of the curve becomes
+    \[E_p: y^2 = x^3,\]
+    again with a single point at infinity $(0:1:0)$.
+
+    Since $p$ is odd, each element in $\FF_{p^r}$ has either 0 or 2 square
+    roots. Let $\chi$ be the quadratic character in $\FF_{p^r}$. Then
+    \begin{equation*}
+      \begin{align}
+        \# E_n(\FF_{p^r}) &= 1 + \sum\limits_{x \in \FF_{p^r}}
+        \left( 1 + \chi(x^3) \right) = 1 + p^r + \sum\limits_{x \in \FF_{p^r}}
+                            \chi(x)  \\
+                          &= 1 + p^r.
+      \end{align}
+    \end{equation*}
+    The last sum is 0 since there are as many residues as non-residues in $\FF_{p^r}.$ 
+    Thus, again we get
+    \begin{equation*}
+      \begin{align}
+        Z(E_n, p, z) &= \exp \left(\sum\limits_{r=1}^\infty (1+p^r) \frac{z^r}{r}\right) \\
+                     &= \frac{1}{(1-z)(1-pz)}.
+      \end{align}
+    \end{equation*}
+    
+  \end{itemize}
+  
+  
+\end{proof}
+
+For the primes where $E_n$ has good reduction, \autoref{zeta_defn} takes
+the form of a quadratic rational function in $z$:
+
+\begin{prop} \label{zeta_elliptic}
+  If $p \nmid 2n$, then
   \[Z(E_n, p, z) = \frac{1 - 2az + pz^2}{(1-z)(1-pz)} \]
   where $a = \Re(\alpha)$, and $\alpha$ is the complex number
   $i\sqrt{p}$ if $p \equiv 3 \, (4)$ and an element of $\ZZ[i]$ of
@@ -311,18 +558,57 @@ following proposition
   \cite[See][Chater II-2, pages 59-61]{modular}.
 \end{proof}
 
-Encouraged by the local-global principles that work on quadratic curves, we
-amalgamate local zeta functions into a single object, hoping it will give us
-information about $E(\QQ)$.
+
+
+\subsection{The Hasse-Weil L-function}
+
+The last step in this chain of generalisations is to let the prime $p$ vary.
+Following the
+philosophy of convolutions, it is natural to consider the product
+\[\prod\limits_{p} Z(E_n, p, z_p),\]
+over all primes numbers,
+which incorporates information about $E_n$ in all possible finite fields.
+ Making
+the change of variables $z_p = p^{-s}$ we get
+\[
+  \begin{split}
+    \prod\limits_{p} Z(E_n, p, p^{-s}) &= \prod\limits_{p \nmid 2n}
+    \frac{1-2a_pp^{-s} + p^{2-s}}{(1-p^{-s})(1-p^{1-s})} \cdot \prod\limits_{p \mid
+      2n} \frac{1}{(1-p^{-s})(1-p^{1-s})} \\  &=\zeta(s) \zeta(s-1) \prod\limits_{p
+      \nmid 2n} (1 - 2a_pp^{-s} + p^{2-s})
+  \end{split}
+\]
+where we spotted the Euler product of the Riemann-Zeta function in the
+denominators. The $a_p$ are the real numbers obtained on
+Proposition \autoref{zeta_elliptic}.
+
+Taking the reciprocal and clearing off the Riemann-Zeta factors, we arrive at
+the next definition.
 
 \begin{defn}
-  The \defin{Hasse-Weil L-function} of $E$ is written
+  The \defin{Hasse-Weil L-function} of $E_n$ is written
   \begin{equation} \label{eq:lfunction}
-    L(E, s) = \frac{\zeta(s) \zeta(s-1)}{\prod_p Z(E, p, p^{-s})}
+    L(E_n, s) = \frac{\zeta(s) \zeta(s-1)}{\prod_{p \nmid 2n} Z(E, p, p^{-s})}
+    = \prod\limits_{p \nmid 2n} \frac{1}{1-a_pp^{-s} + p^{1-2s}}.
   \end{equation}
-  where $\zeta(s)$ is the Riemann-zeta function. The numerator is introduced
-  to clear the denominator of the local zeta functions.
 \end{defn}
+
+It is this function that will play the main role in the statement of the Birch
+Swinnerton-Dyer conjecture. The usefulness of considering L-functions comes not
+so much in analyzing a single curve, but in understanding the behaviour of
+certain families of curves which have similar L-functions.
+
+In the case of our family $E_n$, let
+\[L(E_1,s) = \sum\limits_{m=1}^\infty \frac{a_m}{m^s}\]
+be the Dirichlet series corresponding to $L(E_1,s)$. Then, it turns out that
+$L(E_n,s)$ has the related Dirichlet series
+\[L(E_n,s) = \sum_{m=1}^\infty \chi_n(m) \frac{a_m}{m^s}. \]
+where $\chi_n(m)$ is the Jacobi symbol
+$\legendre{n}{m}$ with the exception that we let $\chi_n(2) = 0.$
+
+Thus, the series for $L(E_n,s)$ is what is called a \defin{twist of $L(E_1,s)$
+by the character $\chi_n$}. This justifies we calling
+the curves $E_n$ the family of quadratic twists of $E_1$.
 
 \subsection{The Regulator}
 
@@ -398,9 +684,11 @@ other invariants of $E$.
 \begin{defn}[Real Period] 
   The \defin{real period $\Omega_{E_n}$ of $E_n$} is the real number
   \[ \Omega_{E_n} = \frac{1}{\sqrt{n}} \int_{E(\RR)} \frac{dx}{2y} =
-    \frac{1}{2 \sqrt{n}} \int_1^\infty \frac{dx}{\sqrt{x^3-x}}.\]
+    \frac{2}{ \sqrt{n}} \int_1^\infty \frac{dx}{\sqrt{x^3-x}}.\]
+  The factor of 2 appears in the last term because $E_n$ has 2 connected
+  components over $\RR.$
   The last integral can't be evaluated in terms of elementary functions,
-  but its value is a real number $p \approx 2.622 \dots$.
+  but its value is a real number $\beta \approx 2.62206 \dots$.
 \end{defn}
 \begin{remark}
   This is not the complete definition, but it suffices for our family $E_n$.
@@ -477,8 +765,8 @@ $L(E_n,s)$ takes a particularly simple form.
 \begin{thm}[Tunnell's Theorem]
   \begin{equation} \label{eq:tunnell}
     L(E_n,1) = \begin{cases}
-      \frac{1}{2}\Omega_{E_n}a^2_n & \text{ if $n$ is odd} \\
-      \Omega_{E_n}a'^2_{n/2} & \text{ if $n$ is even}
+      \frac{\beta}{4\sqrt{n}}a_n^2 & \text{ if $n$ is odd} \\
+      \frac{\beta}{2\sqrt{n}}a_{n/2}'^2 & \text{ if $n$ is even}
     \end{cases}
   \end{equation}
 
@@ -486,23 +774,24 @@ $L(E_n,s)$ takes a particularly simple form.
   functions $f, f'$ given by
   \begin{equation} \label{eq:mododd}
     f(z) = \sum\limits_{m=-\infty}^\infty a_m q^m
-    = (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(2z)
+    = (\Theta(z) - \Theta(4z)) \left(\Theta(32z)-\frac{1}{2} \Theta(8z)\right) \Theta(2z)
   \end{equation}
   and
   \begin{equation} \label{eq:modeven}
     f'(z) = \sum\limits_{m=-\infty}^\infty a'_m q^m =
-    (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(4z)
+    (\Theta(z) - \Theta(4z)) \left(\Theta(32z)-\frac{1}{2} \Theta(8z)\right) \Theta(4z)
   \end{equation}
   with $q = e^{2\pi i z}$.
   
   Here $\Theta(z)$ is the theta-function given by
   \[ \Theta(z) = \sum\limits_{n = -\infty}^{\infty} q^{n^2} \text{ where } q =
-    e^{2\pi iz}.\]
+    e^{2\pi iz}\]
+  and
+  \[\beta = \int_1^\infty \frac{dx}{\sqrt{x^3-x}}.\]
 \end{thm}
 
 \begin{proof}
-  \cite[See][pages 325-328]{Tunnell}. Also \cite[pages 212-222]{modular}
-  discusses the proof extensively.
+  \cite[See][pages 325-328]{Tunnell}. 
 \end{proof}
   
 In this project we will take advantage of the fact that the coefficients of
@@ -513,6 +802,723 @@ To do this we will first compute all the invariants of $E_n$ as well as
 possible, and then find a simple form for the coefficients of $f$ and $f'$ modulo
 a high enough power of 2. This will enable us to predict the rank of $E_n$ as
 $n$ ranges over the prime numbers.
+
+\section{Modular Forms}
+
+Our goal in this section is to sketch the chain of results from the theory of
+modular forms that will allow us to find a relatively simple expression for the
+critical values $L(E_n,1)$ of the Hasse-Weil L-function. 
+
+\subsection{Lattices and Modular points}
+
+\begin{defn}
+  A \defin{lattice} $L$ in the complex plane is an additive subgroup of the form
+  \[L = \ZZ\omega_1 \oplus \ZZ\omega_2, \,\,\, \omega_1, \omega_2 \in \CC \]
+  where $\omega_1$ and $\omega_2$ are not in the same line through the origin.
+  A base $\langle \omega_1, \omega_2 \rangle$ is said to be oriented if
+  $\omega_1/\omega_2$ is in the upper half plane $\HH$.
+\end{defn}
+
+From now on, we will write $\Gamma := SL(2,\ZZ)$.
+A lattice $L$ will also be called a \defin{modular point for $\Gamma$}.
+Lattices have the following basic properties:
+\begin{prop}[Properties of Lattices] \label{lattice}
+  Let $L = \langle \omega_1, \omega_2 \rangle, L' = \langle \omega_1', \omega_2'
+  \rangle$ be lattices. We have:
+  \begin{enumerate}[(i)]
+  \item $L = L'$ as a subgroup of $\CC$ if and only if there exists a matrix $M
+    \in \Gamma$ such that $(\omega_1', \omega_2') = M (\omega_1, \omega_2)$
+    as vectors in $\CC^2.$
+  \item $\CC / L$ and $\CC / L'$ are analytically isomorphic as additive groups
+    if and only if $L$ and $L'$ are homothetic, i.e.
+    $L' = \alpha L$ for some $\alpha \in \CC.$
+  \item $\CC / L$ is analytically isomorphic to $\CC /\langle \tau, 1
+    \rangle$ where $\tau = \omega_1/\omega_2$.
+  \item Let $\tau, \tau' \in \HH = \{z \in \CC \, | \, \Im(z) > 0 \}$.
+    Then $\CC / \langle \tau, 1 \rangle \simeq \CC / \langle \tau', 1 \rangle$
+  if and only if there exists is a matrix $M = \left(
+    \begin{smallmatrix}
+      a & b \\ c & d
+    \end{smallmatrix} \right) \in \Gamma$
+    such that
+    \[\tau' = \frac{a\tau+b}{c\tau +d}. \]
+    When this is true we will write $\tau' = M\tau$.
+  \end{enumerate}
+\end{prop}
+\begin{proof}
+  The algebraic bits are standard calculations. For the results on analytic
+  isomorphisms, see \cite[Appendix B.6, pages 168-169]{simple}.
+\end{proof}
+
+Our motivation for introducing lattices comes from the following facts:
+
+\begin{prop}[Uniformization Theorem]
+  Let $L = \langle \omega_1, \omega_2 \rangle$ be a lattice. Then
+  \begin{enumerate}[(i)]
+  \item $\CC/L$ is analytically isomorphic as an additive group
+    to an elliptic curve in $\PP^2(\CC)$.
+  \item Every elliptic curve over $\CC$ is obtained in this way.
+  \end{enumerate}
+\end{prop}
+\begin{proof}
+  \cite[See][Pages 131-134 and 136-137]{Granville}.
+\end{proof}
+
+\begin{cor}
+  The isomorphism classes of elliptic curves over $\CC$ are in one-to-one
+  correspondence to $\HH/\Gamma$ under the action of Proposition
+  \autoref{lattice} (iv).
+\end{cor}
+
+Thus, the set $\HH/\Gamma$ can be considered as a moduli space for elliptic
+curve over $\CC$. 
+
+\begin{defn}
+  It turns out to be useful to consider moduli spaces for elliptic curves with
+  some extra structure. We define: 
+  \begin{enumerate}[(i)]
+  \item A ``\defin{modular point for $\Gamma$}'' s a lattice $L$.
+  \item A ``\defin{modular point for $\Gamma_1(N)$}'' s a pair $(L,t)$ where $L$ is a
+    lattice and $t \in \CC/L$ is a point of exact order $N$.
+  \item A ``\defin{modular point for $\Gamma_0(N)$}'' s a pair $(L,S)$ where $L$ is a
+    lattice and $S < \CC/L$ is a subgroup of order $N$.
+  \item A ``\defin{modular point for $\Gamma(N)$}'' s a pair $(L, \{t_1,t_2\})$ where
+    $t_1,t_2 \in \CC/L$ are a basis for the points of order $N$.
+  \end{enumerate}
+\end{defn}
+
+From the Uniformization Theorem, we know these correspond to elliptic curves
+over $\CC$ with some extra $N$-torsion data.
+As it turns out, on each case we can find moduli spaces for equivalence classes of modular
+points as a quotients $\HH / \Gamma'$, where $\Gamma'$ are certain subgroups of
+$\Gamma$. This will justify the choice of notation for each $\Gamma'.$
+
+\begin{defn}
+  We define the following subgroups of $\Gamma$.
+  \[\Gamma_1(N) = \left\{ 
+    M \in \Gamma ; M \equiv
+    \left(  
+    \begin{array}{ccc}
+      1 & * \\ 0 & 1
+    \end{array} \right) \mod{N} \right\} 
+\]
+  \[\Gamma_0(N) = \left\{ 
+    M \in \Gamma ; M \equiv
+    \left(  
+    \begin{array}{ccc}
+      * & * \\ 0 & *
+    \end{array} \right) \mod{N} \right\} 
+\]
+  \[\Gamma(N) = \left\{ 
+    M \in \Gamma ; M \equiv
+    \left(  
+    \begin{array}{ccc}
+      1 & 0 \\ 0 & 1
+    \end{array} \right) \mod{N} \right\} 
+\]
+where $*$ denotes that there are no congruence conditions on that slot.
+\end{defn}
+
+It turns out that these groups are the right candidates to form moduli spaces of
+more general modular points.
+
+\begin{prop}
+  For each $\Gamma' = \Gamma_1(N), \Gamma_0(N), \Gamma(N)$, the equivalence
+  classes of isomorphic modular points for $\Gamma'$ are precisely given by
+  $\HH/\Gamma'$ under the action of Proposition \autoref{lattice} (iv).
+\end{prop}
+If $\Gamma' < \Gamma$ contains $\Gamma(N)$ for some $N$, it is called a
+\defin{congruence subgroup of level $N$}.
+
+We also define a family of operators that act on modular points from
+$\Gamma_1(N)$. Let $\mathcal{L} = \oplus \, \QQ (L,t)$ be the $\QQ$-vector space
+of linear combinations of modular points $(L,t)$ for $\Gamma_1(N).$ Here the sum is over
+all lattices $L$ with a tagged point $t$ of order $N$.
+
+\begin{defn}[Hecke Operators] \label{hecke}
+  The \defin{Hecke operator $T_n$} is the linear map $T_n : \LL \ra \LL$ acting
+  on each basis vector $e_{L,t}$ by
+  \[T_n((L,t)) = \frac{1}{n} \sum\limits_{L'} (L',t).\]
+  The summation is over all lattices $L'$ containing $L$ such that
+  \begin{enumerate}[(i)]
+  \item $L'/L$ is a subgroup of $\CC/L$ of order $n$
+  \item $t$ also has order $N$ in $L'$.
+  \end{enumerate}
+  We note that the sum is finite. This is because by condition (i), any lattice $L'$
+  corresponds corresponds to a subgroup
+  of order $n$ in $\frac{1}{n} L/L' \simeq (\ZZ/n\ZZ)^2.$
+\end{defn}
+
+\subsection{Modular Functions}
+
+In this section we will define certain spaces of functions, called modular forms,
+which transform
+nicely with respect to the groups in the previous section. These functions will
+turn out to be highly symmetrical. This symmetry, in turn, conveniently forces
+them to live
+in certain finite dimensional vector spaces. Thus, whenever we encounter a
+function which transforms similarly to a known modular form, we can hope to find
+it in the corresponding vector space as a linear combination of previously known
+modular forms.
+
+Our ultimate goal, and the main result of Tunnell's Theorem, is to
+find a modular form which transforms similarly to the L-functions $L(E_n,s)$.
+This will enable us to write the critical values $L(E_n,1)$ in terms of a
+explicitly describable function.  
+
+In order for this program to work, we will need to define increasingly more
+complicated transformation rules. It will turn out that the odd coefficients of
+$L(E_n,s)$ will be
+related to a special function living in the space
+$S_{3/2}(\tilde{\Gamma}_0(128)).$ In the next sections we build up the
+vocabulary required to state the main results that make this possible.
+
+\begin{defn}
+  A holomorphic function $f : \HH \ra \CC$ is called \defin{weakily modular of
+    weight $k$} if for all $\left(
+    \begin{smallmatrix}
+      a & b \\ c & d
+    \end{smallmatrix}
+  \right) \in \Gamma$ and $z \in \HH$,
+  \[f \left( \frac{az+b}{cz+d} \right) = (cz+d)^k f(z). \]
+  Furthermore,
+  \begin{enumerate}[(i)]
+  \item If $f$ has a Fourier series $$f(z) = \sum\limits_{n \in \ZZ} a_n q^n,$$
+    where $q = e^{2\pi i z}$, with at most finitely many nonzero $a_n$ for $n <
+    0$, then $f$ is called a \defin{modular function of weight $k$}. 
+  \item If $a_n = 0$ for all $n < 0$, $f$ is called a \defin{modular form of
+      weight $k$}. The space of such functions is written $M_k(\Gamma).$
+  \item If we further have $a_0 = 0$, $f$ is called a \defin{cusp form of weight
+    $k$}. The space of such functions is written $S_k(\Gamma).$
+  \end{enumerate}
+\end{defn}
+
+\begin{remark}
+  If $f \in S_k(\Gamma)$ and we further have $a_1 = 1$, we say $f$ is
+  \defin{normalized}. It is clear that for any cusp form $f = \sum a_n q^n$,
+  $a_1^{-1}f$ is a normalized cusp form.
+\end{remark}
+
+Substituting
+$M = \left(
+  \begin{smallmatrix}
+    -1 & 0 \\ 0 & -1
+  \end{smallmatrix}
+\right)
+$ we see that there are no
+nonzero modular functions of weight $k$ if $k$ is odd.
+As we mentioned in the introduction to this section, the spaces of modular /
+cusp forms are particularly useful because they are also finite dimensional
+vector spaces over $\CC.$
+
+\begin{prop}
+  Let $k$ be an even positive integer. Then
+  \[\textnormal{dim}M_k(\Gamma) =
+    \begin{cases}
+      \lfloor \frac{k}{12}  \rfloor + 1, & \text{if } k \not\equiv 2 \mod{12} \\
+      \lfloor \frac{k}{12}  \rfloor, & \text{if } k \equiv 2 \mod{12} \\
+    \end{cases}
+\]
+  \[\textnormal{dim}S_k(\Gamma) =
+    \begin{cases}
+      \lfloor \frac{k}{12}  \rfloor, & \text{if } k \not\equiv 2 \mod{12} \\
+      \lfloor \frac{k}{12}  \rfloor - 1, & \text{if } k \not\equiv 2 \mod{12} \\
+    \end{cases}
+\]
+\end{prop}
+\begin{proof}
+  The proof comes by looking at the possible residues of $f$ using a contour
+  integral along a fundamental domain of $\HH / \Gamma$.
+  \cite[See][Propositions 8-9, Pages 115-118]{koblitz}. 
+\end{proof}
+
+\begin{example}[Eisenstein Series]
+  Let $k$ be an even integer greater than 2 and set
+  \[E_k(z) = \frac{1}{2} \sum_{\substack{m,n \in \ZZ \\ (m,n) =1}} \frac{1}{(mz+n)^k}.\]
+  Then $E_k \in M_k(\Gamma).$ It is easy to see that $E_k$ transforms correctly
+  under $\Gamma$, and computing its Fourier expansion one can see that it is
+  indeed a modular form.
+\end{example}
+
+\begin{example}[Discriminant Form]
+  Let $\Delta : \HH \ra \CC $ be the \defin{discriminant form} is defined by
+  \[\Delta(z) = \frac{(2\pi)^{12}}{1728} \left( E_4(z)^3 - E_6(z)^2 \right).\]
+  One can show that $\Delta(z) \in S_{12}(\Gamma)$, so it is a nonzero
+  cusp form of the lowest
+  possible weight. Under our interpretation of $\HH/\Gamma$ as a moduli space,
+  $\Delta(z)$ turns out to be the familiar discriminant for
+  the elliptic curves associated to the modular point given by $z$.
+  If the curve $y^2 = x^3 + ax + b$ comes from the equivalence class of a lattice
+  $\langle z,1 \rangle$, we have
+  \[\Delta(z) = -16(4a^3 + 27b^2).\]
+  This provides a very indirect proof that isomorphic elliptic curves have
+  the same discriminant.
+\end{example}
+
+We now generalize our definitions to congruence subgroups. To do this, we
+introduce the following notation: for $M = \left(
+  \begin{smallmatrix}
+    a & b \\ c & d
+  \end{smallmatrix}
+\right)$ and $f : \HH \ra \CC$, write
+\[f (z) | [M]_k = (cz+d)^{-k} f\left( \frac{az+b}{cz+d} \right)\]
+
+\begin{defn}
+  Let $\Gamma'$ be one of the congruence subgroups of $\Gamma$. A holomorphic
+  function $f: \HH \ra \CC$ is called \defin{weakily modular of weight $k$ for
+    $\Gamma'$} if for all 
+  $\left( 
+    \begin{smallmatrix}
+      a & b \\ c & d
+    \end{smallmatrix}
+  \right) \in \Gamma'$ and $z \in \HH$,
+  \[f \left( \frac{az+b}{cz+d} \right) = (cz+d)^k f(z). \]
+  Since $\Gamma'$ is a congruence subgroup, it contains $\Gamma(N)$ for some $N
+  \geq 1$. In particular,  $$f \left( \left( 
+    \begin{smallmatrix}
+      1 & N \\ 0 & 1
+    \end{smallmatrix}
+  \right) z \right) = f(z+N) = f(z),  $$
+  so $f$ is $N$ periodic. Let 
+  \[f(z) = \sum\limits_{n \in \ZZ} a_n(q_N)^n \]
+  where $q_N = e^{2\pi i z/N}$ be a Fourier expansion for $f$. 
+
+  \begin{enumerate}[(i)]
+  \item If for each $M \in \Gamma'$, the function $f(z) | [M]_k$ has a
+  fourier expansion with finitely many nonzero negative terms, then $f$ is
+  called a \defin{modular function of weight $k$ for $\Gamma'$}.
+\item If furthermore all negative terms in the Fourier expansions of each
+  $f(z) | [M]_k$
+  are 0, then $f$ is called a \defin{modular form of weight
+    $k$ for $\Gamma'$}. We also say \defin{$f$ is holomorphic at the cusps}.
+  The space of such functions is written $M_k(\Gamma').$
+  \item If the coefficient $a_0$ in all Fourier expansions from the previous
+    items are also 0, then $f$ is called a \defin{cusp form of weight $k$ for
+      $\Gamma'$}. The space of such functions is written $S_k(\Gamma').$
+  \end{enumerate}
+\end{defn}
+
+If $f$ is a form for a congruence subgroup $\Gamma(N)$, we can choose $N$ to be
+the least possible. In other words, we can choose the least $N$ such that $f$ is
+$N$-periodic along the real axis. We then say is $f$ a \defin{form of level $N$}.
+
+\begin{defn}
+  If $f \in M_k(\Gamma(N))$ but $f$ is also in $M_k(\Gamma(M))$ for some
+  positive divisor $M$ of $N$, we say $f$ is a \defin{old form of
+    $M_k(\Gamma(N))$}. The space of old forms is written
+  $M_k^{\text{old}}(\Gamma(N)).$ We can define the space
+  $S_k^{\text{old}}(\Gamma(N))$ of old cusp forms in the same way.  
+\end{defn}
+
+In order to get more interesting modular forms, it will be necessary to consider
+one further generalisation. Let $f \in M_k(\Gamma_1(N))$ and let $\chi$ be a
+Dirichlet character modulo $N$. we define
+\[M_k(N, \chi) = \left\{ f \in M_k(\Gamma_1(N)) \, | \,
+    f(z) | [\gamma]_k = \chi(d)f(z), \text{ for all } \gamma =
+  \left(
+    \begin{smallmatrix}
+      a & b \\ c & d
+    \end{smallmatrix}
+\right) \in \Gamma_0(N) \right\}\]
+
+\begin{example} \label{ex:theta}
+  Let
+  \[\Theta^2(z) = \left( \sum\limits_{n \in \ZZ} q^{n^2} \right)^2.\]
+  Then $\Theta^2 \in M_1(4,\chi)$ where $\chi(d) = (-1)^{(d-1)/2}$.
+  This is obtained in \cite[Proposition
+  30]{koblitz} by carefully consdering how $\Theta^2$ transforms under a set of
+  generators for $\Gamma_1(4, \chi)$. \cite[Proposition 28]{koblitz} further
+  shows that $M_1(4, \chi) = M_1(\Gamma_1(4))$, so in this case we recover a
+  familiar congruence subgroup.
+\end{example}
+
+As we noted before, there is a one-to-one correspondence
+between the points $z\in \HH$ and lattices homothetic to $\langle z, 1
+\rangle$.
+Extending this
+analogy to functions, let $f \in M_k(\Gamma_1(N))$. We can define a complex
+valued function
+$F$ on the set of all modular points $(L,t)$ for $\Gamma_1(N)$ by
+\[F(L,t) = f(z),\]
+where $z$ is a point in $\HH$ such that $(\langle z,1 \rangle, \frac{1}{N})$
+is a modular point homothetic to $(L,t).$ This pairing turns out to be
+one-to-one between function $f \in M_k(\Gamma_1(N))$ and complex-valued
+functions on modular points for $\Gamma_1(N)$ such that
+\[F(\lambda L, \lambda t) = \lambda^{-k} F(L, t).\]
+This extends the other types modular points in the obvious manner, and
+provides further motivation for the defintion of modular forms of weight
+$k$ and level $N$. The details are covered in
+\cite[Section III-5, Pages 153-155]{koblitz}.
+
+We now use the reverse correspondence to define Hecke operators $T_n$ on
+congruence subgroups.
+
+\begin{defn}
+  The \defin{Hecke operator $T_n : M_k(\Gamma_1(N)) \ra M_k(\Gamma_1(N))$} by
+  \[T_nf(z) = F(T_n(L,t)) := \frac{1}{n} \sum\limits_{L'} F((L',t))\]
+  where $F, L$ and $t$ are defined in the remarks above, and the $T_n$ acts on
+  modular points as defined on Definition \ref{hecke}.
+\end{defn}
+
+The next proposition gives an effectively computable well to work out the $T_n$. 
+
+\begin{prop} \label{properties_hecke}
+The operator $T_n$ satisfies the following additional properties:
+  \begin{enumerate}[(i)]
+  \item $T_n$ preserves cusp forms, so we can consider the linear map $T_n :
+    S_k(\Gamma_1) \ra S_k(\Gamma_1).$ 
+  \item $T_n$ also preserves the spaces $M_k(N, \chi)$ and $S_k(N, \chi).$
+  \item We have
+    \[T_n(f)(z) = n^{k-1} \sum\limits_\gamma f(z) | [\gamma]_k \]
+    where the sum is over all elments in the left quotient $\frac{M}{\Gamma}$,
+    where $M$ is the set of all 2x2 matrices with determinant $n$.
+  \item Let $m, n$ be positive integers, then
+    \[T_n \cdot T_m = \sum\limits_{d \mid (m,n)} d^{k-1} \cdot T_{nm/d^2}.\]
+  \end{enumerate}
+\end{prop}
+\begin{proof}
+  \cite[Section 4.1.2, Pages 61-64]{modular}.
+\end{proof}
+Proposition \autoref{properties_hecke}(iv) gives us a way to recursively work out
+$T_n$ from knowing $T_p$ for all primes $p$ diving $n$.
+
+The linear operators $T_n$ turn out to have eigenvectors when we restrict them
+to the cusp forms $S_k(N, \chi).$
+
+\begin{defn}
+  Let $f \in S_k(N, \chi).$ We say \defin{$f$ is an eigenform} if for each $n
+  \geq 1$ there exists some $\lambda_n \in \CC$ such that
+  \[T_n f = \lambda_n f.\]
+  This means that $f$ is an eigenvector with eigenvalue $\lambda_n$ for all the
+  operators $T_n.$
+\end{defn}
+
+Most important examples of modular forms turn out to be eigenforms. When this is
+true a lot can be concluded about its Fourier coefficients. 
+
+Keeping with the theme of doing simple linear algebra in the spaces of modular
+forms, last tool from of this section gives us an inner product for spaces
+of cusp forms.
+
+\begin{defn}
+  Let $\Gamma'', \Gamma'$ be congruence subgroups with $\Gamma'' \subset
+  \Gamma'$.
+  Let $f, g$ be modular forms for $\Gamma''$ with at least one of them a cusp
+  form. Then the \defin{Peterson inner product of $f$ and $g$} is define by
+  \[\langle f,g \rangle = \frac{1}{[\overline{\Gamma'} : \overline{\Gamma''}]}
+  \int f(x+iy) \overline{g(x+iy)} y^k \frac{dx dy}{y^2}\]
+  where $\overline{\Gamma'} = \Gamma' / \{ \pm\text{Id}\}$ and the integral is over
+  a fundamental domain for $\overline{\Gamma''}$.
+
+  The proof that the integral converges for all $f, g$ can be found in
+  \cite[Chapter III-5, page 170]{koblitz}. Once we know that, it is clear from
+  the definition that $\langle \cdot \rangle$ defines a Hermitian inner product.
+\end{defn}
+
+The Peterson inner product interacts well with the previous definitions. For
+instance, we have
+\[\langle f | [\alpha]_k, g | [\alpha]_k \rangle = \langle f,g \rangle\]
+for all $\alpha \in GL_2^+(\QQ)$. Furthermore, if $\chi$ is a Dirichlet
+character on modulo $N$, for $f,g \in S_k(N, \chi)$ we have
+\[\left\langle \sqrt{\bar{\chi}(n)} \,T_n f, g \right\rangle = 
+\left\langle f, \sqrt{\bar{\chi}(n)}\, T_n g \right\rangle.\]
+
+\begin{defn}
+  The orthogonal complement of $S_k^{\text{old}}(\Gamma(N))$ under the Peterson
+  inner product is called the space of \defin{new forms of level $N$}, and
+  written
+  \[S_k^{\text{new}}(\Gamma(N)) = S_k^{\text{old}}(\Gamma(N))^\perp.\]
+  Since everything is finite dimensional, we have
+  \[S_k(\Gamma(N)) = S_k^{\text{new}}(\Gamma(N)) \oplus S_k^{\text{old}}(\Gamma(N)).\]
+  We can also define new forms for other congruence subgroups, for instance by
+  letting
+  \[S_k^{\text{new}}(\Gamma_1(N)) = S_k(\Gamma_1(N)) \cap
+  S_k^{\text{new}}(\Gamma(N)).\]
+\end{defn}
+
+The next definition will take a prominent role later in the description of the
+Shimura correspondence.
+
+\begin{defn}
+  A normalized form $f \in S_k^{\text{new}}(\Gamma_1)$ that is also an eigenform for all
+  Hecke operators $T_n$ is called a \defin{newform}. 
+\end{defn}
+
+\begin{prop}
+  There exists an orthonormal basis of newforms for $S_k^{\textnormal{new}}(\Gamma_1(N))$.
+\end{prop}
+
+For a Dirichlet series $L(E, s) = \sum \frac{a_n}{n^s}$, we let $f_{E(z)}$ be a
+function on $\HH$ with Fourier expansion $f_{E(z)} = \sum a_n q^n.$ Conversely,
+if $f$ is a modular form $f(z) = \sum b_n q^n$ we form its associated L-series
+by $L_f(s) = \sum \frac{b_n}{n^s}.$
+
+The motivation for all definitions so far comes from the following result:
+
+\begin{prop}
+  Let $L(E_n,s)$ be the Hasse-Weil L-function for the curve $y^2 = x^3-n^2x$.
+  Then we have
+  \begin{enumerate}[(i)]
+  \item $f_{E_1} \in M_2(\Gamma_0(32))$
+  \item $f_{E_n} \in M_2(\Gamma_0(32n^2))$.
+  \end{enumerate}
+\end{prop}
+\begin{proof}
+  See \cite[Pages 140-143]{koblitz} for a sketch. This is derived from a theorem
+  of Weil, which says that something similar holds for all functions which satisfy
+  a certain functional equation and a certain decay condition on its
+  coefficients.
+\end{proof}
+
+Having found functions intimately related to $L(E_n,s)$ sitting into some
+congruence subgroups, Tunnell took advantage of some deep properties of the
+spaces $M_k(\Gamma_0(N))$ to find a way to paremetrise all of the critical
+values $L(E_n,1)$ by the coefficients of a single form.
+
+This is done using a theorem of Waldspurger, which in our case states the
+following:
+
+Let $g := f_{E_1} \in M_2(\Gamma_0(32))$, and let $L_g(\chi_n, s) = L(E_n,s)$
+be the analytic continuation of the twist by $\chi_n$ of the L-series
+corresponding to $g$. 
+Then there exists a form $f(z) = \sum\limits_{n \in \ZZ} a_nq^n$ 
+such that the critical values of
+$L_g(\chi_n,1) = L(E_n,1)$ satisfy
+\[L_g(\chi_n,1) = \lambda(n) a_n^2,\]
+where $\lambda(n)$ can be effectively described.
+
+It turns out that $f$ lives in the space $S_{3/2}(\tilde{\Gamma}_0(128))$ of
+half-integral weight modular forms. We describe the construction of this space
+in the next section. After that, we will describe the main tool used in
+Waldspurger's theorem to find the form $f$, called the Shimura Correspondence.
+
+\subsection{Forms of Half-integral Weight}
+
+The desire of inventing a theory for forms of half-integral weight comes from
+considering objects which transform in a way that is reminscent but more general
+than classical forms.
+
+\begin{example}
+  Let $\Theta(z) = \sum q^{n^2}$, with $q = e^{2 \pi i z}$ as usual, be the
+  Theta function.
+  As we noted in
+  \ref{ex:theta}, we have $\Theta^2 \in M_1(4,\chi)$. A classical calculation,
+  carried out in \cite[Chapter III-4, Pages 148-149]{koblitz}, shows that
+  \[\Theta(\gamma z) = \legendre{c}{d} \varepsilon_d \sqrt{cz+d} \,  \Theta(z),\]
+  where $\legendre{c}{d}$ is the Jacobi symbol and
+  \[\varepsilon_d =
+    \begin{cases}
+      1 & \text{if } d \equiv 1 \mod{4} \\ 
+      -i & \text{if } d \equiv 3 \mod{4}.
+    \end{cases}
+  \]
+  and the square root branch is taken so that the argument lies in $(-\pi/2,
+  \pi/2 ]$
+  This is, up to multiplication by a complex unit, very similar to what the
+  transformation rule for a form of weight $1/2$ should look like.
+  In general, one can write similar
+  transformation rules for $\Theta^k$ with $k$ odd. 
+\end{example}
+
+The main obstruction to a theory of forms of half-integral weight is dealing
+with the choice of branch for the square root. In order to explain Tunnell's
+result, we will only need to work in the congruence subgroups $\Gamma_0(4N)$.
+Recall that they consist of integer matrices of the form $
+\left( \begin{smallmatrix}
+  a & b \\ c & d
+\end{smallmatrix} \right)
+$ where $c \equiv 0 \, (4N)$ and $ad - bc = 1.$
+
+In order to get the right definition we will need to generalize classical forms
+in 2 directions
+\begin{enumerate}
+\item We will need to consider more general transformation rules, which not only
+  scale correctly but also make the signs work out.
+\item We will need to consider matrices living in a larger group, where the
+  square root function doesn't have branches.
+\item Once the first 2 steps are carried out, we will need to be careful in
+  defining the appropriate holomorphicity conditions to get forms and cusp forms.
+\end{enumerate}
+
+To carry out the first generalization, we take the transformation rule for the
+Theta function as a model and define the \defin{automorphy factor}
+\[j(\gamma, z) = \frac{\Theta(\gamma z)}{\Theta(z)} =
+  \legendre{c}{d} \varepsilon_d \sqrt{cz + d}.\]
+
+Similar to the case for classical forms, we would want weight $k/2$ forms to
+satisfy
+\[f(z)|[\gamma]_{k/2} := j(\gamma,z)^{-k}f(\gamma z) = f(z).\]
+On the other hand, working with square roots branches in $\Gamma_0(4)$ forces us to
+define an operator $[\gamma]_{k/2}$ at a 4-sheeted cover of $GL_2^+(\QQ).$
+
+\begin{defn}
+  We define the \defin{metaplectic cover of $GL_2^+(\QQ)$} by
+  \[G = \{(\alpha, \phi )\}\]
+  where $\alpha = \left(
+    \begin{smallmatrix}
+      a & b \\ c & d
+    \end{smallmatrix}
+\right) \in GL_2^+(\QQ)$ and $\phi : \HH \ra \CC$ is a holomorphic function such
+that
+\[\phi(z)^4 = \frac{cz+d}{\sqrt{\det \alpha}}\]
+The product in $G$ is defined to be
+\[(\alpha, \phi(z))(\beta, \psi(z)) = (\alpha \beta, \phi(\beta z) \psi(z)).\]
+\end{defn}
+\cite[Pages 179-180]{koblitz} shows that $G$ is indeed a group and a quadruple cover of 
+$GL_2^+(\QQ).$
+For $\xi = (\alpha, \phi) \in G$, we define the operator $[\xi]_{k/2}$ by
+\[f(z) | [\xi]_{k/2} = f(\alpha z)\phi(z)^{-k}.\]
+
+Finally, to get the right transformation rules, note that we can lift subgroups
+of $\Gamma_0(4)$ to
+subgroups of $G$:
+
+Let $\Gamma'$ be a subgroup of $\Gamma_0(4)$ of finite index. We define
+\[\tilde{\Gamma} = \{(\gamma, j(\gamma,z)) \, | \, \gamma \in \Gamma'\}\]
+and call $\tilde{\Gamma}'$ the lift of $\Gamma'$. For some $\gamma \in
+\Gamma_0(4)$, we write lift $\gamma$ to $G$ by writing
+\[\tilde{\gamma} = (\gamma, j(\gamma,z)) \in G.\]
+
+\begin{defn}
+  Let $k$ be an odd integer, and let $\Gamma' \leq \Gamma_0(4)$ have finite index.
+  Let $f : \HH \ra \CC$ be a holomorphic function. We say \defin{$f$ is weakily
+    modular of weight $k/2$ for $\Gamma'$} if
+  \[f | [\tilde{\gamma}]_{k/2} (z) = f(z), \forall \tilde{\gamma} \in
+    \tilde{\Gamma}'.\]
+\end{defn}
+
+In the classical case, we defined holomorphicity at the cusps by considering
+the Fourier expansions of every $f | [\gamma]$ for $\gamma$ ranging over the
+congruence subgroup under consideration. There is an analogous but more
+complicated way to ``move'' a modular form of half-integral weight by elements
+of $G$ and get equivalent holomorphicity conditions.
+
+For each weakily modular $f$ of weight $k/2$, and $\tilde{\gamma} \in \tilde{\Gamma}',$
+\cite[page 180-182]{koblitz} shows that there exists a least integer $h$ and 
+$t \in \{\pm 1, \pm i\}$ such that 
+\[g = f | [\gamma]_{k/2} \]
+and 
+\[g(z) = g(z) | \left[ \left( \left(
+        \begin{smallmatrix}
+          1 & h \\ 0 & 1
+        \end{smallmatrix}
+\right), t \right) \right]_{k/2} = t^{-k}g(z+h) \]
+If we write $t^k = e^{2\pi i r}, $ for $r \in \{0, \frac{1}{4}, \frac{1}{2},
+\frac{3}{4}\}, $ then $e^{-2 \pi i r z / h}$ is $h$ periodic. Thus we can write
+a Fourier expansion
+\[g(z) = \sum\limits_{n \in \ZZ} a_n e^{2 \pi i z(n+r)/h}.\]
+
+If for all $\tilde{\gamma} \in \tilde{\Gamma}'$, the corresponding $g$ has
+$a_n = 0$ for all $n < 0$, we say $f$ is \defin{holomorphic at the cusps of
+  $\Gamma'$}. 
+If we further have $a_0 = 0$, we say $f$ \defin{vanishes at the cusps of $\Gamma'$}.
+
+\begin{defn}
+  Let $k \in \ZZ$, $\Gamma' < \Gamma_0(4)$ have finite index and let $f$ be a
+  weakily modular form of weight $k/2$.
+  \begin{enumerate}
+  \item If $f$ is meromorphic at every cusp of $\Gamma'$, we say $f$ is a
+    \defin{modular form of weight $k/2$}. The space of such functions is written 
+    $M_{k/2}(\tilde{\Gamma})$.
+  \item If $f$ also vanishes at every cusp, we say $f$ is a \defin{cusp form of
+      weight $k/2$}. The space of such functions is written $S_{k/2}(\tilde{\Gamma}').$
+  \end{enumerate}
+\end{defn}
+
+\begin{example}[Eisenstein Series of Half-Integer Weight]
+  Let $k \geq 5$ be an odd integer, and set
+   \[E_{k/2}(z) = \sum_{\substack{4 \mid m,n > 0 \\ (m,n) = 1}} \legendre{m}{n} 
+    \varepsilon_n^k \frac{1}{(mz + n)^{k/2}}.\]
+  Then \cite[Page 186]{koblitz} shows that $E_{k/2} \in M_{k/2}(\tilde{\Gamma}_0(4)).$
+\end{example}
+
+As with integral weight forms, there is a theory showing finitely dimensionality
+and computing the dimensions of spaces for each weight. Half-integral weight
+forms also admit Hecke operators. It turns out that for the analogues of the
+$T_n$, the best we can do is find an eigenform for every $T_{p^2}$. This makes
+the theory coarser, and the corresponding identities more complicated. We will
+restrict our definitions to the case where $n = p^2$ is the square of a prime. 
+Since we lose the analogies from modular points in the $k/2$ case, it becomes
+much harder to define $T_n$ geometrically, and in fact we could only find
+sources which do it through the double coset approach. For the sake of brevity,
+we will thus ommit the full defintion, and only state that one ends up having
+\[T_{p^2}f(z) = p^{(k/2)-2} \sum_\gamma f(z) | [\xi_{p^2} \tilde{\gamma}]_{k/2}\]
+where the sum is over certain coset representatives in $\Gamma_1(N).$
+
+\subsection{The Shimura Correspondence and Tunnell's Theorem}
+
+\begin{thm}[Shimura Correspondence]
+  Let $k \geq 3$ be an odd integer, $\lambda = \frac{k-1}{2}$, $N$ a multiple of
+  4 and $\chi$ a Dirichlet character modulo $N$. Let $f(z) = \sum a_n q^n \in
+  S_{k/2}(\tilde{\Gamma_0(N)})$ be an eigenform for $T_{p^2}$ with eigenvalue
+  $\lambda_p$ for all primes $p$. Define a function $g$ with Dirichlet
+  L-function and Euler product
+  \[g_L(s) = \sum\limits_{n=1}^\infty \frac{b_n}{n^s} = \prod\limits_p
+    \frac{1}{1 - \lambda_p p^{-s} + \chi(p)^2 p^{k-2-2s}}.\]
+  Then $g \in M_{k-1}(N/2, \chi^2)$.
+  If $k \geq 5$, then $g$ is a cusp form. We call $g$ the
+  \defin{Shumura lift} of $f$, and write
+  \[g = \Shim(f).\]
+\end{thm}
+
+Kohnen improved on this result for a specific case where $N = 4$, which is
+precisely the one useful for Tunnell's theorem. Let
+\[S_{k/2}^+ = \{f = \sum a_n q^n \in S_{k/2}(\tilde{\Gamma}_0(4)) \, | \,
+  a_n = 0 \text{ if } (-1)^\lambda \equiv 2 \text{ or } 3 \mod{4}\}.\]
+
+\begin{thm}
+  The Shimura map actually gives an isomorphism
+  \[S_{k/2}^+(\tilde{\Gamma}_0(4)) \ra S_{k-1}(\Gamma).\]
+\end{thm}
+
+Based on these ideas, Waldspurger proved a result which uses the Shimura
+correspondence to parametrise the critical values of $L$ functions coming from
+modular forms. The general result is very complicated. The following
+specialization is given in Tunnell's paper \cite[Page 328]{Tunnell}.
+
+\begin{thm}[Waldspurger's Theorem]
+  Let $g \in M_{k-1}(N, \chi^2)$ be a newform such that $g = \Shim(f)$, for
+  $f \in M_{k/2}(\tilde{\Gamma}_0(M))$. Assume $16 \mid N$. Then there exists a
+  function $A(t)$ from squarefree integers to $\CC$ such that
+  $$A(t)^2 \varepsilon(\chi^{-1} \chi_{-1}^{(k-1)/2} \chi_t, 1/2)
+  =2(2\pi)^{(1-k)/2} \Gamma\left(\frac{k-1}{2}\right)
+  L\left(g \, \chi^{-1} \chi_{-1}^{(k-1)/2}
+      \chi_t, \frac{k-1}{2}\right).$$
+  \item For each positive integer $N$, there exists a finite set of explicitly
+    described functions $c(n)$, specified by 11 equations, such that the sums
+    \[\sum\limits_{n \textnormal{ squarefree}} A(n)c(n)q^n,\]
+    span the preimages of $\phi$ of level $N$ and character $\chi$ under the
+    Shimura map.
+  \end{enumerate}
+\end{thm}
+
+In order to carry his programme, Tunnell considers the form $f_{L(E_1)}$ coming
+from the Hasse-Weil L-function of $E_1$.  First, he computes all preimages of
+$f_{L(E_1)}$
+under the Shimura map.
+It turns out to be necessary to work at level 128, but by finding a basis
+for $S_{3/2}(\tilde{\Gamma}_0(N), \chi)$ he manages to write the preimages in
+terms of theta functions.
+
+By observing carefully what Waldspurger's theorem
+says for the form $f_L$, Tunnell noted that
+there are only 4 options for the $c(n)$, and by carefully comparing coefficients
+he was able to arrive at his result:
+
+\begin{thm}[Tunnell's Theorem]
+  Let $f = \sum a_k q^k$ and $g = \sum b_k q^k \in
+  M_{3/2}(\tilde{\Gamma}_0(128))$ be forms corresponding to the unique
+  normalized newform
+  in $M_2(\Gamma_0(32))$. Let $n$ be a squarefree odd positve integer. Then,
+  \[L(E_n,1) = \frac{\beta}{4\sqrt{n}} a_n^2 \]
+  and
+  \[L(E_{2n},1) = \frac{\beta}{2 \sqrt{2n}} b_n^2 \]
+  where $\beta = \int_1^\infty \frac{dx}{\sqrt{x^3-x}}.$
+\end{thm}
+\begin{proof}
+  \cite[See][Theorem 3, Page 328-329]{Tunnell}.
+\end{proof}
+
 
 \section{Galois Cohomology}
 
@@ -961,8 +1967,8 @@ We're now ready to find an expression for $a_n$ modulo 4.
   If $n = p$ is prime, the coefficient $a_p$ of $f(z)$ in \autoref{eq:mododd}
   satisfies
   \[a_p \equiv \begin{cases}
-      0 \text{ if } p \equiv 1,5,7 \mod{8} \\
-      2 \text{ if } p \equiv 3 \mod{8}.
+      0 \mod{4} \text{ if } p \equiv 1,5,7 \mod{8} \\
+      2 \mod{4} \text{ if } p \equiv 3 \mod{8}.
     \end{cases}\]
   If $n$ has at least 2 prime factors, we have
   \[a_n \equiv 0 \mod{4}.\]
@@ -1208,7 +2214,7 @@ that will help us streamline our computations.
   From \autoref{vanilla}, we may assume $N, M, e \in \ZZ_p$, with one of the
   variables a unit. There are 2 cases to consider.
   \begin{itemize}
-  \item If neither $N$ or $M$ is 0 modulo $p$, we get
+  \item If neither $N$ nor $M$ is 0 modulo $p$, we get
     \[N^2 \equiv aM^4 \mod{p^2}\]
     or
     \[a \equiv \legendre{N}{M^2}^2 \mod{p},\]
@@ -1218,9 +2224,10 @@ that will help us streamline our computations.
     \[p^2N^2 = ap^4M^4 + bp^2e^4\]
     or
     \[N'^2 = ap^2M'^4 + be^4.\]
-    This is just \autoref{eq:multp2} with the variables reversed. From step
-    1 we know that $e$ is a unit, so the previous case shows that we must have
-    $\legendre{b}{p}$.
+    This is just \autoref{eq:multp2} with the variables reversed. From the
+    previous lemma we know that $e$ is a unit, 
+    so the previous case shows that we must have
+    $\legendre{b}{p}=1$.
   \end{itemize}
   This concludes the only if direction of our theorem.
 
@@ -1263,7 +2270,7 @@ that will help us streamline our computations.
   Conversely, if $\frac{-a}{b}$ is a 4th power in $\FF_p$, we may lift it to
   $\QQ_p$ using
   Hensel's lemma on $X^4 + \frac{a}{b}$, giving the solution
-  \[\left(0, 1, \legendre{-a}{b}^4\right)\]
+  \[\left(0, 1, \legendre{-a}{b}^{1/4}\right)\]
   to \autoref{eq:multpp}.
 \end{proof}
 
@@ -1618,7 +2625,7 @@ $$  \begin{tabu}{l*{5}{c}r}
 The final step of our calculations is to work out the Tamagawa numbers of the
 curves $E_n$. Recall that
 \[ c_p = \left| \frac{E(\QQ_p)}{E(\QQ_p)_0} \right|\]
-where $\EQp_0$ is the preimage of the nonsigular points of the reduced curve
+where $\EQp_0$ is the preimage of the nonsingular points of the reduced curve
 modulo $p$ of the homomorphism
 \[ \EQp \ra \EFp.\]
 
@@ -1627,7 +2634,7 @@ We begin with a straightforward lemma.
 \begin{lemma} \label{singularity_condition}
   The curve
   \[ \EFp : y^2 \equiv x^3 - n^2x \mod{p}\]
-  is nonsigular unless $p \, | \, 2n$.
+  is nonsingular unless $p \, | \, 2n$.
 
   If $p = 2$ the singular point if $(1,0)$.
 
@@ -1690,7 +2697,7 @@ As an easy application, we have
 \end{cor}
 
 \begin{proof}
-  In this case, all points are nonsigular, so $\EQp_0 = \EQp$, and
+  In this case, all points are nonsingular, so $\EQp_0 = \EQp$, and
   \[c_p = \left| \{1\} \right| = 1\]
   as wanted.
 \end{proof}
@@ -1812,7 +2819,7 @@ We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
   \textbf{Step 2:} We now show that indeed those are all the possibilities for $x$ modulo $p^2$.
 
   Note that if $x \not\equiv 0 \, (p)$, then also $y \not\equiv 0 \, (p)$, so
-  $(x,y) \neq (0,0)$ in $\EFp$ and thus $(x,y)$ is the preimage of a nonsigular
+  $(x,y) \neq (0,0)$ in $\EFp$ and thus $(x,y)$ is the preimage of a nonsingular
   point, and belongs to the trivial coset $\EQp_0$.
 
   Otherwise, if $x \equiv 0 \, (p)$,
@@ -1905,8 +2912,8 @@ Checking manually, we get that
 where we remember that $(1,0)$ is the singular point
 (see \autoref{singularity_condition}).
 
-We will consider the homomorphism
-\[\pi: E(\QQ_2) \ra \tilde{E}(\FF_2)_{ns}.\]
+We will consider the reduction modulo 2 map
+\[\pi: E(\QQ_2) \ra \tilde{E}(\FF_2).\]
 
 Recall that
 \[c_2 = \left| \frac{E(\QQ_2)}{E(\QQ_2)_0} \right|, \]
@@ -1934,10 +2941,17 @@ where
   It turns out that choosing $Q = (n,0)$ does the job. Note that $Q = -Q$, so me
   may show that $P+Q \in E(\QQ_2)_0$.
 
-  Let $(u,v) = P + (n,0)$. In order to get a contradiction, assume
-  $(u,v) \not\in E(\QQ_2)_0$ so $\pi(u,v) = (1,0)$.
-  Then $u$ must be a unit. Let $\lambda$ be the gradient of the
-  line between $(x,y), (n,0)$ and $(u,v)$.
+  Let $P = (x,y)$ and $(u,v) = P + (n,0)$. In order to get a contradiction, assume
+  $(u,v) \not\in E(\QQ_2)_0$ so $\pi(u,v) = (1,0)$. Writing $(u,v) = (u:v:1)$ in
+  projective coordinates for a moment, we have
+  \[\pi(u:v:1) = (1:0:1)\]
+  so there exists some $a \in \ZZ$ so that
+  \[2^a u \in \ZZ_2^\times, \,\,\, 2^av \in 2\ZZ_2, \,\,\, 2^a1 \in \ZZ_2^\times.\]
+  The last condition forces $a = 0$, so $2^au = u$ is a unit. The same argument
+  also shows that $x$ must be a unit.
+  
+  Back to affine coordinates, let $\lambda$ be the gradient of the
+  line through $(x,y), (n,0)$ and $(u,v)$.
 
   From the addition formulas, we have
   \[u = \lambda^2 - x - n,\]
@@ -1951,20 +2965,21 @@ where
   Simpliflying, we get
   \[\lambda^2 = \frac{x(x+n)}{x-n}.\]
   Here $x$ and $\lambda$ are units, so $\frac{x+n}{x-n}$ must also belong to $\ZZ_2^\times$.
+  To get a contradiction, we will show $x+n$ and $x-n$ have different valuations.
 
-  But this is a contradiction since if
-  $$x+n = 2^n\alpha, \text{ for } n \in \NN, \alpha \in \ZZ_2^{\times}$$ then
-  $$x-n = 2^n\alpha - 2n
-  = 2^{n-1}(2\alpha-n).$$
-  We have $2\alpha-n \not\equiv 0 \, (2)$, so $x+n$ and $x-n$ must have different 2-adic
-  valuations, and hence their quotient can't be a unit.
+  If $\nu_2(x+n) = a$, writing $x+n = 2^ak, k
+  \in \ZZ_2^\times$, we get
+  \[x-n = 2^ak -2n = 2(2^{a-1}k - n).\]
+  But $\nu_2(2^{a-1}k-n) \neq a-1$ since $n$ is odd, so
+  \[\nu_2(x+n) \neq \nu_2(x-n),\]
+  as wanted.
 
   Thus, $u$ is not a unit, and $\pi(P+(n,0)) \neq (1,0)$, which concludes our proof.
 \end{proof}
 
 \begin{cor}
   Let $n$ be odd and square free. Then
-  \[\prod\limits_p c_p = 2 \cdot 4^{\omega(n)}, \]
+  \[\prod\limits_p c_p(E_n) = 2 \cdot 4^{\omega(n)}, \]
   where $\omega(n)$ is the number of distinct prime factors of $n$.
 \end{cor}
 
@@ -1975,15 +2990,16 @@ by the BSD conjecture.
 
 Recall Tunnell's theorem (\autoref{eq:tunnell}), which in our case states that
 if $n$ is odd and square free then
-\[L(E_n,1) = \frac{1}{2}\Omega_{E_n}a_n^2\]
+\[L(E_n,1) = \frac{\beta}{4\sqrt{n}}a_n^2\]
 
 From our calculations, we found out that 
 \begin{equation*}
   \begin{split}
     \#\Tors(E_n) &= 4 \\
-    c_2 &= 2 \\
-    c_p &= 4 \text{ if } p \mid n \\
-    c_l &= 1 \text{ if } l \neq p \\
+    \Omega_{E_n} &= \frac{2\beta}{\sqrt{n}} \\
+    c_2(E_n) &= 2 \\
+    c_p(E_n) &= 4 \text{ if } p \mid n \\
+    c_l(E_n) &= 1 \text{ if } l \neq p \\
   \end{split}
 \end{equation*}
 
@@ -1997,78 +3013,120 @@ where
     C &=
     \frac{\# \Sha(E_n) R_{E_n} \Omega_{E_n}}{\# \Tors(E_n)^2}
     \prod\limits_p c_p \\
-    &= \frac{\# \Sha(E_n) R_{E_n} \Omega_{E_n}}{8}\cdot 4^{\omega(n)}.
+    &= \frac{\# \Sha(E_n) R_{E_n} \beta}{4} \cdot 4^{\omega(a)}.
   \end{split}
 \end{equation*}
 
-Putting both expressions for $L(E_n, 1)$ together, the BSD conjecture predicts that 
+Putting both expressions for $L(E_n, 1)$, the Birch Swinnerton-Dyer conjecture
+predicts that 
 \begin{equation} \label{mainpred} 
-  a_n^2 = \#\Sha(E_p) \cdot R_{E_n}\cdot 4^{\omega(n)-1 } \cdot 0^r.
+  a_n^2 = \#\Sha(E_p) \cdot R_{E_n}\cdot 4^{\omega(n)} \cdot 0^r.
 \end{equation}
 
-The calculations in this project have allowed us to prove this holds modulo 2.
+If $\omega(n) \geq 2,$ so that $n$ has at least 2 prime factors, we computed
+\[a_n \equiv 0 \mod{4},\]
+so \autoref{mainpred} predicts that
+\[0 \equiv 0 \mod{16},\]
+which is true, but a bit uninsteresting.
 
-\begin{thm} We have
-  \begin{equation} \label{mainthm}
-    a_n^2 \equiv \#\Sha(E_n) \cdot R_{E_n} \cdot 4^{\omega(n)-1} \cdot 0^r \mod{2}.
-  \end{equation}
+If $n = p$ is an odd prime, we have found
+\[a_p \equiv \begin{cases}
+    0 \mod{4} \text{ if } p \equiv 1,5,7 \mod{8} \\
+    2 \mod{4} \text{ if } p \equiv 3 \mod{8}
+  \end{cases}
+\]
+so that
+\[a_p^2 \equiv
+  \begin{cases}
+    0 \mod{16} \text{ if } p \equiv 1,5,7 \mod{8} \\
+    4 \mod {16} \text{ if } p \equiv 3 \mod{8}.
+  \end{cases}
+\]
+
+We also found that the Selmer rank $s_r$ of
+$E_p$ satisfies
+\begin{equation*}
+  s_r =
+  \begin{cases}
+    0 \text{ if } p \equiv 3 \mod{8} \\
+    1 \text{ if } p \equiv 5,7 \mod{8} \\
+    2 \text{ if } p \equiv 1 \mod{8}.
+  \end{cases}
+\end{equation*}
+
+The calculations in this project have allowed us to formulate and prove the
+following two predictions.
+
+
+\begin{thm} \label{mainthm2}
+  If $p \not\equiv 3 \, (8)$, \autoref{mainpred} is valid modulo 2. In
+  this case either the rank is nonzero or $\Sha(E_p)$ has an element of 2-torsion.
+\end{thm}
+\begin{proof}
+  If $p \not\equiv 3 \, (8),$ the coefficient $a_p$ is 0 modulo 4.
+  Thus,
+  the BSD conjecture predicts that
+  \[4 \cdot \#\Sha(E_p) \cdot R_{E_p} \cdot 0^r \equiv 0 \mod{16}\]
+  so
+  \[\# \Sha(E_p) \cdot R_{E_p} \cdot 0^r \equiv 0 \mod{4}.\]
+  If the rank is nonzero, this is trivially satisfied, since the left hand side
+  is then precisely 0. If $r = 0$, $R_{E_p} = 1$, so we expect
+  \[\# \Sha(E_p) \equiv 0 \mod{4}.\]
+  Since the Tate-Shafarevich group is abelian, this would be true 
+  if and only if $\Sha(E_p)$ has 4-torsion. 
+
+  We can actually prove the weaker statement
+  \[\# \Sha(E_p) \equiv 0 \mod{2},\]
+  i.e. that $\Sha(E_p)$ has 2-torsion.
+  
+  If $p \not\equiv 3 \, (8)$ and the rank is 0, no equations from
+  \ref{eq:isocurve} besides the trivial one (with $d_1 = 1$) have rational
+  solutions. Thus, we have
+  \[\# \Sha(\bar{E}_p)[\psi] = \# \Sel(\bar{E}_p)[\psi] =
+    \begin{cases}
+      2 &\text{if } p \equiv 5,7 \mod{8} \\
+      4 &\text{if } p \equiv 1 \mod{8}.
+    \end{cases}
+  \]
+  and
+  \[\# \Sha(E_p)[\phi] = \# \Sha(E_p)[\phi] = 1\]
+  Recall that the construction of the $\phi$ and $\psi$ isogenies gives us a
+  sequence of homomorphisms
+  \[\Sha(E_p) \xrightarrow{\phi} \Sha(\bar{E}_p) \xrightarrow{\psi} \Sha(E)\]
+  with $\psi \circ \phi (P) = 2P.$
+
+  Since $\Sha(E_p)[\phi] = 0$, we must have $\Sha(E_p)[2] = \Sha(\bar{E}_p)
+  \equiv 0 \, (2)$, so if $\# \Sha(E_p)$ is finite, we must have
+  \[\# \Sha(E_p) \equiv 0 \mod{2}\]
+  as wanted.
+
+\end{proof}
+\begin{remark}
+  If $p \equiv 1 \, (8)$ and $E_p$ has rank 0,
+  the argument in Theorem \autoref{mainthm2} actually shows that $\Sha(E_p)$ has
+  4-torsion, so \autoref{mainpred} holds modulo 4.
+\end{remark}
+
+\begin{thm} \label{mainthm1}
+  If $p \equiv 3 \, (8)$, the BSD conjecture predicts
+  that the rank of $E_p$ is 0, and this is indeed true.
 \end{thm}
 
 \begin{proof}
-  There are three possibilities to consider, depending on the value of $\omega(n)$.
+  If $p \equiv 3 \, (8)$, we see that $a_p^2 \equiv 4 \,
+  (16).$ In particular,
+  it is not 0, so we can't have $r \neq 0$ in \autoref{mainpred}. 
+  But that is precisely what the Selmer rank calculation tells us, since in this
+  case $s_r =
+  0$ and $0 \leq r \leq s_r.$
+  \autoref{mainpred} also implies that
+  \[4 \equiv 4 \cdot \# \Sha(E_p) \mod{16},\]
+  so the BSD conjecture predicts that
+  \[\# \Sha(E_p) \equiv 1 \mod{4}.\]
+  In particular, it predicts that $\#\Sha(E_p)$ is odd.
+  But in this case, $\Sha(E_p)[\phi] = \Sha(\bar{E}_p)[\psi] = 0$, so
+  $\Sha(E_p)[2] = 0$. Thus, if $\Sha(E_p)$ is finite, it must have odd order, as predicted.
 
-  \textbf{Case 1:} If $\omega(n) > 2$, where $n$ has more than 2 prime 
-  factors, both sides
-    of \autoref{mainpred} are 0 mod 16, so the theorem is trivially satisfied.
-
-  \textbf{Case 2:} If $\omega(n) = 1$, $n=p$ is an odd prime. We want
-    to show
-    \[a_p^2 \equiv \# \Sha(E_n) \cdot R_{E_n} \cdot 0^r \mod {2}.\]
-  We have previously computed the coefficients $a_p$ modulo 4, giving
-  \[a_p \equiv \begin{cases}
-      0 \mod{4} \text{ if } p \equiv 1,5,7 \mod{8} \\
-      2 \mod{4} \text{ if } p \equiv 3 \mod{8}.
-    \end{cases}
-  \]
-  In particular,
-  \[a_p^2 \equiv
-    \begin{cases}
-      0 \mod{16} \text{ if } p \equiv 1,5,7 \mod{8} \\
-      4 \mod {16} \text{ if } p \equiv 3 \mod{8}.
-    \end{cases}
-  \]
-  
-  On the other hand, we know from our calculations that the Selmer rank $s_r$ of
-  $E_p$ satisfies
-  \begin{equation*}
-    s_r =
-    \begin{cases}
-      0 \text{ if } p \equiv 3 \mod{8} \\
-      1 \text{ if } p \equiv 5,7 \mod{8} \\
-      2 \text{ if } p \equiv 1 \mod{8}.
-    \end{cases}
-  \end{equation*}
-  \begin{itemize}
-  \item If $p \equiv 3 \, (8)$, we see that $a_p^2 \equiv 4 \,
-    (16).$ In particular,
-    it is not 0, so \autoref{mainpred} predicts we should have $r = 0$. 
-    But that is precisely what the Selmer rank calculation tells us, since $s_r =
-    0$ and $0 \leq r \leq s_r.$
-
-  \item If $p \not\equiv 3 \, (8),$ the coefficient $a_p$ is 0 modulo 4. Thus,
-    the BSD conjecture predicts that
-    \[\# \Sha(E_p) \cdot R_{E_n} \cdot 0^r \equiv 0 \mod{2}.\]
-
-    If the rank is nonzero, this is trivially satisfied, since the left hand
-    side is then precisely 0.
-    If $r = 0$, $R_{E_p} = 1$, so we expect 
-    \[\# \Sha(E_p) \equiv 0 \mod{2}.\]
-    In this case, $s_r > 0$, so if $r=0$, at least one of the equations 
-    \ref{eq:isocurve} have no rational solutions even though it has real
-    nontrivial solutions and solutions in 
-    $\QQ_l$ for all primes $l$. Thus in all cases 
-    our predictions are verified.
-  \end{itemize}
 \end{proof}
 
 \printbibliography

@@ -11,6 +11,8 @@
     "classical"
     "cohomology"
     "Serre"
+    "wilf"
+    "lorenzini"
     "Granville"
     "Tunnell"
     "Hensel"))

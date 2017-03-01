@@ -26,6 +26,7 @@
     "minitoc"
     "pifont"
     "tabu"
+    "enumerate"
     "biblatex"
     "hyperref")
    (TeX-add-symbols
@@ -70,18 +71,28 @@
     "HH"
     "Tors"
     "Zpx"
-    "Ip")
+    "Ip"
+    "Aa"
+    "LL"
+    "Shim")
    (LaTeX-add-labels
     "eq:weier2"
     "eq:weier"
     "eq:twist"
     "eq:adddiff"
     "thm:nagelllutz"
+    "dedekind_example"
+    "zeta_defn"
+    "zeta_elliptic"
     "eq:lfunction"
     "eq:bsd"
     "eq:tunnell"
     "eq:mododd"
     "eq:modeven"
+    "lattice"
+    "hecke"
+    "ex:theta"
+    "properties_hecke"
     "sec:applications"
     "lemma:rankformula"
     "defn:sha"
@@ -100,7 +111,8 @@
     "singularity_condition"
     "eq:p-param"
     "mainpred"
-    "mainthm")
+    "mainthm2"
+    "mainthm1")
    (LaTeX-add-bibliographies
     "references")
    (LaTeX-add-amsthm-newtheorems
