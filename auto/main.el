@@ -2,20 +2,20 @@
  "main"
  (lambda ()
    (TeX-add-to-alist 'LaTeX-provided-class-options
-                     '(("amsart" "12pt" "a4paper")))
+                     '(("report" "12pt" "a4paper")))
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("biblatex" "style=alphabetic")))
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+                     '(("biblatex" "style=alphabetic") ("tocbibind" "nottoc")))
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperref")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
-    "amsart"
-    "amsart12"
+    "report"
+    "rep12"
     "amsmath"
     "amsfonts"
     "amsthm"
@@ -28,6 +28,7 @@
     "tabu"
     "enumerate"
     "biblatex"
+    "tocbibind"
     "hyperref")
    (TeX-add-symbols
     '("red" 1)
@@ -76,10 +77,12 @@
     "LL"
     "Shim")
    (LaTeX-add-labels
+    "eq:prediction"
     "eq:weier2"
     "eq:weier"
     "eq:twist"
     "eq:adddiff"
+    "rankdefn"
     "thm:nagelllutz"
     "dedekind_example"
     "zeta_defn"
@@ -108,6 +111,7 @@
     "eq:multp2"
     "multpp"
     "eq:multpp"
+    "tamagawa"
     "singularity_condition"
     "eq:p-param"
     "mainpred"

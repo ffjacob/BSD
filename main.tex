@@ -1,9 +1,10 @@
-\documentclass[12pt, a4paper]{amsart}
+\documentclass[12pt, a4paper]{report}
 \usepackage{amsmath,amsfonts,amsthm,amssymb,color}
 \usepackage{dsfont,tikz-cd,minitoc,pifont,tabu,enumerate}
 \usepackage[style=alphabetic]{biblatex}
 
 \addbibresource{references.bib}
+\usepackage[nottoc]{tocbibind}
 
 \usepackage{hyperref}
 
@@ -90,24 +91,38 @@
 \definecolor{red}{rgb}{1,0,0}
 \newcommand{\red}[1]{{\color{red}#1}}
 
-\title{
-  {The Birch Swinnerton-Dyer Conjecture}\\
-}
-\author{Felipe Jacob}
-\date{5 December 2016}
+
+\begin{titlepage}
+	\centering
+	{\scshape\LARGE University College London \par}
+	\vspace{1cm}
+	{\scshape\Large Master's Project \par}
+	\vspace{1.5cm}
+	{\huge\bfseries Verifying some consequences of the Birch Swinnerton-Dyer
+    Conjecture \par}
+	\vspace{2cm}
+	{\Large\itshape Felipe Jacob\par}
+	\vfill
+	supervised by\par
+	Dr Richard Hill \textsc{UCL}
+
+	\vfill
+
+% Bottom of the page
+	{\large \today\par}
+\end{titlepage}
 
 \tableofcontents
 \pagebreak
 
-\maketitle
 
-\section{Abstract}
+\chapter{Introduction}
 
 In this project we intend to investigate some of the deep techniques employed in
-working out the rank of an elliptic curve. To do this we pursue two different
-chains of ideas
+working out the rank of an elliptic curve. To do this we will pursue two different
+chains of ideas:
 \begin{enumerate}
-\item The Birch Swinnerton Dyer conjecture relates many invariants of an
+\item The famous Birch Swinnerton Dyer conjecture relates many invariants of an
   elliptic curve to a complex analytic object called the Hasse-Weil L-function.
   We intend to provide a self-contained explanation of all quantities that occur
   in the BSD conjecture, and how they relate to the arithmetic properties of the
@@ -124,20 +139,23 @@ us to formulate and prove, certain consequences of the BSD
 conjecture. This will be done both by considering the Theta-series coming from
 Tunnell's theorem and by calculating all the required invariants for a certain
 family of curves. Let
-\[E_p : y^2 = x^3 - p^2 x.\]
+\[E_n : y^2 = x^3 - n^2 x.\]
+We will see that Tunnell's theorem, together with the Birch Swinnerton-Dyer
+conjecture, predicts that
 
-We now state our main predictions, noting that all relevant concepts
-will be defined later. 
+\begin{equation} \label{eq:prediction}
+  a_n^2 = \# \Sha(E_n) \cdot R_{E_n} \cdot 4^{\omega(n)} \cdot 0^r
+\end{equation}
+where the $a_n$ are certain integers associated to the Hasse-Weil L-function
+$L(E_n,s)$, $\Sha(E_n)$ is the Tate-Shafarevich group,
+$R_{E_n}$ is the Regulator and $\omega(n)$ is the number of prime factors of
+$n$. All these quantities will be defined in due time. 
 
-\textbf{Prediction 1:} If $p \equiv 3 \, (8)$, the BSD conjecture together with
-Tunnell's theorem predicts that the rank of $E_p$ is 0.
+The calculations in this project will allow us to show that
+\autoref{eq:prediction} holds modulo 16 for all $n$, and modulo 32 when $n
+\equiv 3 \, (8).$
 
-\textbf{Prediction 2:} If $p \not\equiv 3 \, (8)$ and the rank of $E_p$ is 0,
-then the Tate-Shafarevich group $\# \Sha(E_p)$ has an element of 2-torsion.
-
-Both predictions are justified and proved in the conclusion. 
-
-\section{Elliptic Curve Invariants and the BSD Conjecture}
+\chapter{Elliptic Curve Invariants and the BSD Conjecture}
 
 One of the major topics in modern number theory is the study of rational
 solutions to cubic equations in two variables, called elliptic curves.
@@ -148,7 +166,7 @@ many conjectures with powerful implications, a few of which we will discuss.
 We will first define the objects of interest and their invariants, and then
 continue with the main calculations.
 
-\subsection{Basic definitions and the group law}
+\section{Basic definitions and the group law}
 
 \begin{defn}
   If $K$ is a perfect field,
@@ -182,8 +200,11 @@ into particularly simple forms.
   \cite[See][Chapter III, pages 42-43]{arithmetic}.
 \end{proof}
 
-From now on, unless said otherwise, we will take $K = \QQ$ and $E$ given
-by \autoref{eq:weier}.
+Henceforth we will only consider elliptic curves $E(K)$
+given by the affine model in \autoref{eq:weier}. The
+point $\OO$ will always correspond to the point $(0:1:0)$ in the projective
+completion of $\Aa^2(K).$
+We will always take $K = \QQ$ unless otherwise specified.
 
 In this project we will be particularly interested in the following family
 of elliptic curves
@@ -197,22 +218,28 @@ of elliptic curves
 \end{defn}
 
 Elliptic curves are of particular interest primarily because, besides being
-a variety, they also form an abelian group. To do this, taking the model of
-\autoref{eq:weier}, we define a geometric way to combine two points of $E$.
+a variety, they also form an abelian group. To build the group, we take the
+affine model in 
+\autoref{eq:weier} and define a geometric way to combine two points of $E$. This
+will turn out to behave like a group law.
 
-If $P_1 \neq P_2, P_3$ is the third point in the projective line between $P_1$
-and $P_2$. If $P_1 = P_2, P_3$ is the other point in the tangent line of $E$
-through $P_1$.
-Such points are well defined since finding the third point amounts to solving
+Given two distinct points $P_1, P_2 \in E(K)$, let $P_1 * P_2$ be the third point
+which intersects both $E$ and the projective line between $P_1$ and $P_2$. 
+If $P_1 = P_2 \in E(K)$, let $P_1 * P_2$ be the other point of $E(K)$ which
+meets the line tangent to $E(K)$ at $P_1.$
+
+In both cases the operation $*$ is well defined,
+since finding the coordinates of $P_1 * P_2$ amounts to solving
 a cubic equation with coefficients in $K$ and 2 known roots.
 Finally, we set
 \[P_1 + P_2 = (x_3, -y_3) \text{ where } (x_3,y_3) = P_1 * P_2.\]
-The verification that this is indeed a  group law involves either
+The verification that the operation $+$ is indeed a group law involves either
 extensive case checking or
 some complex analysis, which we will not be going into, but see
 \cite[129-137]{Granville} for a sketch.
 
-A few explicit formulas that we will use are given in the next proposition. 
+A few explicit formulas that we will use throughout the project
+are given in the next proposition. 
 
 \begin{prop}
   If $P_1 = (x_1,y_1), P_2 = (x_2,y_2) \in E, P_1, P_2 \neq \OO$, let
@@ -247,43 +274,51 @@ A few explicit formulas that we will use are given in the next proposition.
 
 The following results about $\EQ$ were discussed in the course MATH3705,
 and their proofs can be found in \cite{rational}, chapters II and III for the
-case where \autoref{weier} has at least 1 rational root.
+case where \autoref{eq:weier} has at least 1 rational root.
 
 \begin{thm}[Mordell-Weil Theorem]
   The group $\EQ$ is a finitely generated abelian group.
 \end{thm}  
 \begin{proof}
-  \cite[See][Chapter III, pages 63-88]{rational}. Also see the discussion on
+  \cite[See][Chapter III, pages 63-88]{rational}. Also see the discussion in
   \autoref{sec:applications}.
 \end{proof}
+
+By the classification theorem of finitely generated abelian groups, covered in
+MATH3201, we can write
+\begin{equation} \label{rankdefn}
+\EQ = \Tors(\EQ) \times \ZZ^r
+\end{equation}
+for some natural number $r$. The subgroup $\Tors(\EQ)$ is the (finite) set of
+points of finite order in $\EQ$, called the \defin{torsion points of $\EQ$}.
+
+\begin{defn}
+  The number $r$ occuring in \autoref{rankdefn} is called the
+  \defin{rank of $E(\QQ)$}. Finding $r$ for an arbitrary $E$ is one of the main
+  problems in the theory of Elliptic Curves.
+\end{defn}
 
 \begin{thm}[Nagell-Lutz Theorem] \label{thm:nagelllutz}
   Let
   \[E: y^2 = f(x) = x^3 + ax + b\]
   be an elliptic curve over $\QQ$, and let $\Delta = -4a^3 -27b^2$ be the
   polynomial discriminant of $f(x)$. If $P = (x,y)$ is a point of finite order,
-  then either $y = 0$, in which case $P$ has order 2, or we must have $y^2 | \Delta$.
+  then either $y = 0$, in which case $P$ has order 2, or we must have $y^2 \mid \Delta$.
 \end{thm}
 \begin{proof}
   \cite[See][Chapter II, pages 49-56]{rational}.
 \end{proof}
 
-By the classification theorem of finitely generated abelian groups, covered in
-MATH3201, we can write
-\[\EQ = \Tors(E) \times \ZZ^r\]
-for some natural number $r$, where $\Tors(E)$ is the set of points of finite
-order in $\EQ$.
+\begin{prop}
+  The curve $E_n(\QQ)$ has 4 torsion points, and
+  \[E_n(\QQ)_{\textnormal{tors}} = \{\OO, (0,0), (n,0), (-n,0)\}.\]
+\end{prop}
 
 \begin{proof}
-  \cite[See][Chapter III, pages 63-88]{rational}. See also the discussion on
-  \autoref{sec:applications}.
+  \cite[See][Chapter I-9, pages 44-45]{koblitz}.
 \end{proof}
 
-Finding the number $r$, called the \defin{rank of $E$}, is in some sense the
-main problem of the theory of elliptic curves. In the next section we will
-develop a different set of tools that will enable us to tackle this problem.
-
-\subsection{Local Zeta Functions}
+\section{Local Zeta Functions}
 
 One of the most powerful tools in all of discrete mathematics is the passing
 from sequences of combinatorial magnitudes $\{a_n\}$ to a formal power series
@@ -507,13 +542,13 @@ a projective line:
     elements have unique square roots. Thus,
     \[\# E_n(\FF_{2^k}) = 1 + \# \FF_{2^k} = 1 + 2^{k},\] and
     \begin{equation*}
-      \begin{align}
+      \begin{split}
         Z(E_n,2,z) &= \exp \left( \sum\limits_{r=1}^\infty (1 + 2^r)\frac{z^r}{r}
                      \right) \\
                    &= \exp \left( \sum\limits_{r=1}^\infty \frac{z^r}{r} \right) 
                      \exp \left( \sum\limits_{r=1}^\infty \frac{(2z)^r}{r} \right) \\
                    &= \frac{1}{(1-z)(1-2z)}.
-      \end{align}
+      \end{split}
     \end{equation*}
   \item If $p \mid n$, the equation of the curve becomes
     \[E_p: y^2 = x^3,\]
@@ -522,20 +557,20 @@ a projective line:
     Since $p$ is odd, each element in $\FF_{p^r}$ has either 0 or 2 square
     roots. Let $\chi$ be the quadratic character in $\FF_{p^r}$. Then
     \begin{equation*}
-      \begin{align}
+      \begin{split}
         \# E_n(\FF_{p^r}) &= 1 + \sum\limits_{x \in \FF_{p^r}}
         \left( 1 + \chi(x^3) \right) = 1 + p^r + \sum\limits_{x \in \FF_{p^r}}
                             \chi(x)  \\
                           &= 1 + p^r.
-      \end{align}
+      \end{split}
     \end{equation*}
     The last sum is 0 since there are as many residues as non-residues in $\FF_{p^r}.$ 
     Thus, again we get
     \begin{equation*}
-      \begin{align}
+      \begin{split}
         Z(E_n, p, z) &= \exp \left(\sum\limits_{r=1}^\infty (1+p^r) \frac{z^r}{r}\right) \\
                      &= \frac{1}{(1-z)(1-pz)}.
-      \end{align}
+      \end{split}
     \end{equation*}
     
   \end{itemize}
@@ -560,7 +595,7 @@ the form of a quadratic rational function in $z$:
 
 
 
-\subsection{The Hasse-Weil L-function}
+\section{The Hasse-Weil L-function}
 
 The last step in this chain of generalisations is to let the prime $p$ vary.
 Following the
@@ -610,14 +645,14 @@ Thus, the series for $L(E_n,s)$ is what is called a \defin{twist of $L(E_1,s)$
 by the character $\chi_n$}. This justifies we calling
 the curves $E_n$ the family of quadratic twists of $E_1$.
 
-\subsection{The Regulator}
+\section{The Regulator}
 
 Going back to considering elliptic curves, the next invariant measures the
 rate of growth of the complexity of points as we take higher and higher
 multiples of a fixed point. We first need a few definitions.
 
 \begin{defn}
-  Let $P = (\frac{a}{b},y) \in E, (a,b) = 1$. The \defin{height of $P$} is
+  Let $P = (\frac{a}{b},y) \in E(\QQ), (a,b) = 1$. The \defin{height of $P$} is
   defined to be the number
   \[ H(P) = \max \{|a|, |b| \}.\]
 \end{defn}
@@ -628,7 +663,7 @@ height $h(P) = \log (H(P))$. To better yet capture the now almost linear
 behaviour of $h(P)$, we define
 
 \begin{defn}[Neron-Tate height]
-  Let $P \in E$. Then the \defin{Neron-Tate height of $P$} is defined to be
+  Let $P \in E(\QQ)$. Then the \defin{Neron-Tate height of $P$} is defined to be
   \[ \hat{h}(P) = \lim\limits_{n \rightarrow \infty} \frac{\log H(2^n P)}{4^n}. \]
 \end{defn}
 
@@ -676,68 +711,76 @@ The importance of the regulator is justified by the following proposition
 \end{remark}
   
 
-\subsection{The Period and Sha}
+\section{The Real Period and Sha}
 
 Before we are ready to state the main conjecture, we need to define a few
 other invariants of $E$. 
 
 \begin{defn}[Real Period] 
-  The \defin{real period $\Omega_{E_n}$ of $E_n$} is the real number
-  \[ \Omega_{E_n} = \frac{1}{\sqrt{n}} \int_{E(\RR)} \frac{dx}{2y} =
-    \frac{2}{ \sqrt{n}} \int_1^\infty \frac{dx}{\sqrt{x^3-x}}.\]
-  The factor of 2 appears in the last term because $E_n$ has 2 connected
-  components over $\RR.$
-  The last integral can't be evaluated in terms of elementary functions,
-  but its value is a real number $\beta \approx 2.62206 \dots$.
-\end{defn}
-\begin{remark}
-  This is not the complete definition, but it suffices for our family $E_n$.
-\end{remark}
+  The \defin{real period of $E$} is defined to be the real number
+  \[\Omega_E = \int_{E(\RR)} \frac{dx}{2y}.\]
 
-The next invariant is the \defin{Tate Shafarevich group $\Sha(E)$}, which will
+  For the family $E_n$ of quadratic twists of $E_1$, it turns out that
+  \[\Omega_{E_n} = \frac{1}{\sqrt{n}} \, \Omega_{E_1} = \frac{2}{\sqrt{n}}
+    \int_1^\infty \frac{dx}{\sqrt{x^3-x}}.\]
+  The last integral cannot be evaluated in terms of elementary functions, but
+  its value is a real number $\beta \approx 2.622$.
+\end{defn}
+
+The next invariant that will appear in the BSD conjecture is the
+\defin{Tate Shafarevich group $\Sha(E)$}, which will
 be defined in \autoref{defn:sha}. It is an abelian group which intuitively measures
-the hardness of working out the rank of $E$ by local methods, and is conjectured
+the hardness of working out the rank of $E(\QQ)$ by local methods, and is conjectured
 to be finite.
 
-\subsection{Tamagawa Numbers}
+\section{Tamagawa Numbers}
 
-Finally, the product in \autoref{eq:lfunction} doesn't really capture any information
-about the primes where the curve is singular. The arithmetic data at those
-primes enters the Birch Swinnerton-Dyer conjecture by means of the Tamagawa
+Finally, note that the local zeta function of $E$ gives essentially no
+information to \autoref{eq:lfunction} at the primes where the curve is singular.
+The arithmetic data at those
+primes enters the BSD conjecture by means of the Tamagawa
 Numbers.
-Again let
-$$ E_n : y^2 = x^3 - n^2 x. $$
-If $p \not| \,\, \Delta E = 4n^2$ then the reduction $\tilde{E} : y^2 \equiv x^3 - n^2 x \,
-(p)$ is
-also an elliptic curve. We have
+Let
+$$ E : y^2 = f(x) = x^3 + ax^2 + bx + c $$
+be an elliptic curve $\QQ$ with coefficients $a,b,c \in \ZZ.$
+
+If $p$ is not a factor of $\Delta(E)$, the discriminant of the cubic polynomial
+$f(x)$,
+then the reduction
+$\tilde{E} : y^2 \equiv x^3 +ax^2 + b x + c \, (p)$ is
+also an elliptic curve over $\FF_p$. The group $E(\FF_p)$ turns out to be
+closely related to $E(\QQ).$
 
 \begin{prop}[Reduction Modulo p]
-  If $p \not| \,\, \Delta(E)$, the reduction map
+  If $p $ is not a factor of $ \Delta(E)$, the reduction map
   $$E(\QQ) \rightarrow \tilde{E}(\FF_p)$$ is a group homomorphism.
 \end{prop}
 \begin{proof}
   \cite[See][Chapter IV, pages 121-123]{rational}.
 \end{proof}
 
-If $p | \Delta E$ then $\tilde{E}(\FF_p)$ is not a group, but
+If $p $ is a factor of $\Delta E$ then $\tilde{E}(\FF_p)$ has no natural group law, but
 \[
   \tilde{E}(\FF_p)_{ns} := \{P \in \tilde{E}(\FF_p) \,|\, P \text{ is nonsingular}\}
   \]
-is still a group.
+is still a group with addition of points defined in the same way as for $E(\FF_p)$.
 
-Looking at $E$ in the completion $\QQ_p$ we still have a map
+Looking at $E$ in the completion $\QQ_p$, we still have a map
 \[\EQp \rightarrow \EFp\].
 If we let $\EQp_0$ be the preimage of $\EFp_{ns}$ we get a group homomorphism
-\[ \EQp_0 \rightarrow \EFp_{ns} \].
+\[ \EQp_0 \rightarrow \EFp_{ns}. \]
 
 \begin{defn}
-  The Tamagawa Number of $E$ at $p$ is the number
+  The \defin{Tamagawa Number of $E$ at $p$} is the number of cosets 
   $$c_p = \left| \frac{\EQp}{\EQp_0}
   \right|.$$
-  If $p \not| \,\, \Delta$ then $c_p = 1$.
+  If $p \nmid \Delta(E)$ then $c_p = 1$.
 \end{defn}  
+
+In \autoref{tamagawa}, we will compute the Tamagawa numbers at all
+primes for the family of quadratic twists $E_n$. 
   
-\subsection{The BSD Conjecture and Tunnell's Theorem}
+\section{The BSD Conjecture and Tunnell's Theorem}
 
 During the 1960s, Bryan Birch and Peter Swinnerton-Dyer formulated, based
 on numerical evidence, an influential conjecture relating the Hasse-Weil
@@ -747,20 +790,23 @@ L-function to the arithmetic invariants of $E$.
   \textit{The Hasse-Weil L-function $L(E,s)$ can be written as
   \[L(E,s) = C (s-1)^r + O((s-1)^2)\] where}
 \begin{equation} \label{eq:bsd}
-  C = \frac{|\text{Sha}(E)| \, \Omega_E R_E}{|E(\QQ)_{\text{tors}}|^2} \prod_p c_p
+  C = \frac{\#\text{Sha}(E) \, \Omega_E R_E}{(\#Tors(\EQ))^2} \prod_p c_p
 \end{equation}
 \end{conj}
 
-In particular, near 1, it predicts the value of the integer
-\[0^r \cdot | \Sha(E)| \prod_p c_p .\]
+In particular, setting $s = 0$, it predicts the value of
+\[0^r \cdot \frac{\# \Sha(E) \, \Omega_E R_E}{(\# \Tors(\EQ))^2} \prod_p c_p .\]
+
+In this project we will show that the predicted value for $L(E_n,1)$
+is correct modulo 16.
 
 The BSD conjecture is particularly powerful to gather information about
 parametrised families of elliptic curves, since we can then form a parametric
 family of L-functions and hope that by analysing those we can recover useful
 arithmetic information.
 In the case of our family $E_n$, the following remarkable result, proven using
-the machinery of modular forms, shows that
-$L(E_n,s)$ takes a particularly simple form.
+the machinery of modular forms, shows that the critical value
+$L(E_n,1)$ takes a particularly simple form.
 
 \begin{thm}[Tunnell's Theorem]
   \begin{equation} \label{eq:tunnell}
@@ -803,13 +849,15 @@ possible, and then find a simple form for the coefficients of $f$ and $f'$ modul
 a high enough power of 2. This will enable us to predict the rank of $E_n$ as
 $n$ ranges over the prime numbers.
 
-\section{Modular Forms}
+\newpage
+
+\chapter{Modular Forms}
 
 Our goal in this section is to sketch the chain of results from the theory of
 modular forms that will allow us to find a relatively simple expression for the
 critical values $L(E_n,1)$ of the Hasse-Weil L-function. 
 
-\subsection{Lattices and Modular points}
+\section{Lattices and Modular points}
 
 \begin{defn}
   A \defin{lattice} $L$ in the complex plane is an additive subgroup of the form
@@ -949,7 +997,7 @@ all lattices $L$ with a tagged point $t$ of order $N$.
   of order $n$ in $\frac{1}{n} L/L' \simeq (\ZZ/n\ZZ)^2.$
 \end{defn}
 
-\subsection{Modular Functions}
+\section{Modular Functions}
 
 In this section we will define certain spaces of functions, called modular forms,
 which transform
@@ -1292,7 +1340,7 @@ half-integral weight modular forms. We describe the construction of this space
 in the next section. After that, we will describe the main tool used in
 Waldspurger's theorem to find the form $f$, called the Shimura Correspondence.
 
-\subsection{Forms of Half-integral Weight}
+\section{Forms of Half-integral Weight}
 
 The desire of inventing a theory for forms of half-integral weight comes from
 considering objects which transform in a way that is reminscent but more general
@@ -1445,7 +1493,7 @@ we will thus ommit the full defintion, and only state that one ends up having
 \[T_{p^2}f(z) = p^{(k/2)-2} \sum_\gamma f(z) | [\xi_{p^2} \tilde{\gamma}]_{k/2}\]
 where the sum is over certain coset representatives in $\Gamma_1(N).$
 
-\subsection{The Shimura Correspondence and Tunnell's Theorem}
+\section{The Shimura Correspondence and Tunnell's Theorem}
 
 \begin{thm}[Shimura Correspondence]
   Let $k \geq 3$ be an odd integer, $\lambda = \frac{k-1}{2}$, $N$ a multiple of
@@ -1484,12 +1532,12 @@ specialization is given in Tunnell's paper \cite[Page 328]{Tunnell}.
   =2(2\pi)^{(1-k)/2} \Gamma\left(\frac{k-1}{2}\right)
   L\left(g \, \chi^{-1} \chi_{-1}^{(k-1)/2}
       \chi_t, \frac{k-1}{2}\right).$$
-  \item For each positive integer $N$, there exists a finite set of explicitly
-    described functions $c(n)$, specified by 11 equations, such that the sums
-    \[\sum\limits_{n \textnormal{ squarefree}} A(n)c(n)q^n,\]
-    span the preimages of $\phi$ of level $N$ and character $\chi$ under the
-    Shimura map.
-  \end{enumerate}
+
+  Futhermore, for each positive integer $N$, there exists a finite set of explicitly
+  described functions $c(n)$, specified by 11 equations, such that the sums
+  \[\sum\limits_{n \textnormal{ squarefree}} A(n)c(n)q^n,\]
+  span the preimages of $\phi$ of level $N$ and character $\chi$ under the
+  Shimura map.
 \end{thm}
 
 In order to carry his programme, Tunnell considers the form $f_{L(E_1)}$ coming
@@ -1519,63 +1567,123 @@ he was able to arrive at his result:
   \cite[See][Theorem 3, Page 328-329]{Tunnell}.
 \end{proof}
 
+\newpage
 
-\section{Galois Cohomology}
+\chapter{Galois Cohomology}
 
-\subsection{Group Cohmology}
+\section{Group Cohmology}
 
+We begin by recalling some concepts from Commutative Algebra.
 Let $G$ be a finite group. We define the \defin{group ring $\ZZ[G]$} to
 be the ring of formal sums
-\[ \ZZ[G] = \big\{ \sum\limits_{i=1}^{|G|} x_i \, | \, x_i \in \ZZ, g_i \in G \big\}\]
+\[ \ZZ[G] = \left\{ \sum\limits_{g \in G} x_i g \, | \, x_i \in \ZZ  \right\} \]
 with identity $1 \cdot e_G$ and addition and multiplication defined by
-\[\sum\limits_{i=1}^{|G|} x_ig_i + \sum\limits_{i=1}^{|G|} y_ig_i =
-\sum\limits_{i=1}^{|G|} (x_i+y_i)g_i\]
-and \[(\sum\limits_{i=1}^{|G|} x_ig_i) \cdot (\sum\limits_{i=1}^{|G|} y_ig_i) =
-\sum\limits_{t=1}^{|G|} \sum\limits_{i+j = t} x_iy_jg_ig_j \].
-We say an abelian group $A$ is a \defin{$G$-module} if it is a module
-for the ring $\ZZ[G]$. This is a commutative module if $G$ is also abelian.
+\[\left( \sum\limits_{g \in G} x_g g \right) + \left( \sum\limits_{g \in G} y_g
+    g \right)
+= \sum\limits_{g \in G} (x_g+y_g)g\]
+and
 
-We define the
-first and second cohomology groups of $A$ by
-\[H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A)\] and
-\[H^1 (G, A) = \text{Ext}^1_{\ZZ[G]} (\ZZ, A)\]
-where $\ZZ$ is considered the trivial $G$-module where $g x = x$ for every
-$x \in \ZZ, g \in G$.
+\[\left( \sum\limits_{g \in G} x_g g \right) \cdot \left( \sum\limits_{h \in G} y_h
+    h \right)
+= \sum\limits_{g, h \in G} (x_gy_h)gh\]
+
+We say an abelian group $A$ is a \defin{$G$-module} if it is a module
+for the ring $\ZZ[G]$. 
+
+If $A$ and $B$ are $R$-modules for a commutative ring $R$, recall that
+$Hom_R(A,B)$ is the group of module homomorphisms from $A$ to $B$.
+Recall that an exact sequence
+\[E: 0 \ra B \ra E \ra A \ra 0\]
+of module homomorphism is called an \defin{extension of $A$ by $B$}. If we have
+two extensions
+\[E_1: 0 \ra B \xrightarrow[]{f} E \xrightarrow[]{g} A \ra 0\]
+\[E_2: 0 \ra B \xrightarrow[]{f'} E' \xrightarrow[]{g'} A \ra 0\]
+we can form the \defin{Baer sum of $E_1$ and $E_2$} by
+\[E_1 + E_2 : 0 \ra B \ra Y \ra A \ra 0\]
+where
+\[Y = \frac{\{(e,e') \in E \oplus E' \, | \, g(e) = g'(e')\}}{\{
+    (f(b),0) - (0, f'(b)) \, | \, b \in B\}}\]
+
+The set of extensions of $A$ by $B$ is called $Ext^1_{\ZZ[G]} (\ZZ,A).$ For
+finitely presented modules, we saw in MATH3201 that it is an abelian group.
+
+\begin{defn}
+  The \defin{zeroth and first cohomology groups of $A$} are defined by
+  \[H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A)\] and
+  \[H^1 (G, A) = \text{Ext}^1_{\ZZ[G]} (\ZZ, A)\] where $\ZZ$ is considered the
+  trivial $G$-module where $g x = x$ for every $x \in \ZZ, g \in G$. 
+\end{defn}
+
+We can also give alternative definitions for the cohomology groups in terms of
+cycles and boundaries.
 Let $\phi : \ZZ \rightarrow A$ be a module homomorphism. Then
 \[\begin{split} \phi(1) &= \phi(g \cdot 1) \,\,\,\, \forall g \in G \\
     &= g \cdot \phi(1) , \end{split}\]
 so $\phi(1) \in A^G = \{x \in A \, | \, gx = x, \forall g \in G\}$, the set
-of elements at which $G$ acts trivially. Since a $\ZZ$ homomorphism is
+of elements of $A$ at which $G$ acts trivially. Since a $\ZZ$ homomorphism is
 completely determined by the image of 1, we can set
 \[ H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A) = A^G .\] 
 
-We can also define the first cohomology group as
+In order to recover $H^1$, note that
+we have a surjective homomorphism $\phi: \ZZ[G] \ra \ZZ$ given by
+\[\sum\limits_{g \in G} x_gg \mapsto \sum\limits_{g \in G} x_g,\]
+which gives a presentation
+\[0 \ra \text{ker}(\phi) \ra \ZZ[G] \ra \ZZ \ra 0\]
+of the $G$-module $\ZZ$. 
+
+Using this presentation we may write $H^1(G,A)$ as 
 \[H^1(G, A) = \frac{Z^1(G,A)}{B^1(G,A)}\]
 where
 \[Z^1(G,A) = \{ \phi : G \rightarrow A \, | \phi(gh) = \phi(g) + g \phi(h)\}\]
 \[B^1(G,A) = \{ \delta \in Z^1 \, | \, \exists a \in A \,\,\text{such that}\,\, \delta(g)
   = ga - a , \forall g \in G\}\]
 
+The following proposition shows that $H^1$ measures, is some sense, the lack of
+exactness of the functor of $G$-modules given by $A \mapsto A^G.$
+
 \begin{prop}
-  With this setup, we can take a short exact sequence of $G$-modules
+  For any short exact sequence of $G$-modules
   \[ 0 \rightarrow A \rightarrow B \rightarrow C \rightarrow 0\]
-  and form the long exact sequence
+  we can form the long exact sequence
   \[ 0 \rightarrow H^0(G, A) \rightarrow H^0(G,B) \rightarrow H^0(G,C)
     \rightarrow H^1(G, A) \rightarrow H^1(G,B) \rightarrow H^1(G,C) \]
 \end{prop}
 
-\subsection{Galois Cohomology}
+\section{Galois Cohomology}
 
-We can now use the machinery of group cohomology to study number fields.
+We will now transport the machinery of group cohomology to the setting of
+number fields.
 Let $L, K$ be number fields and $L : K$ a finite degree Galois
 extension with Galois group $G_{L:K}$.
-A Galois module $A$ is a module over $G_{L:K}$.
+A \defin{Galois module $A$} is a module over $G_{L:K}$.
 
 \begin{example}
   We can consider the Galois modules $A = L \simeq K[G], $ or $A =
   L^{\times}$ where $L^{\times}$ is the multiplicative group of $L$.
 \end{example}
 
+\begin{example}
+  If $E$ is an elliptic curve over $K$ then $A = E(L)$ is a Galois module.
+  Recall the addition formulas (\autoref{eq:adddiff}) for an elliptic curve given by 
+  \[E: y^2 = x^3 + ax^2 + bx + c, \text{ with } a, b \in K.\]
+  
+  Let $P_1, P_2 \in E(L)$. 
+  If $P_1 = (x_1, y_1)$ and $P_2 = (x_2,y_2)$, we have $P_1+P_2 = (x_3,y_3)$,
+  where
+  \[x_3 = \lambda^2 - a - x_1 - x_2\]
+  and $\lambda = \frac{y_2-y_1}{x_2-x_1}.$ The $y$ coordinate is then given by
+  \[y_3^2 = x_3^3 + ax_3 + b.\]
+  
+  Thus, both coordinates of $P_1+P_2$ are given by polynomials with coefficients
+  in $K$. 
+  For any $\sigma \in G_{L:K}$, we then have
+  \[x(\sigma(P_1+P_2)) = \sigma(x_3) = x(\sigma(P_1) + \sigma(P_2)),\]
+  and an identical expression holds for the $y$-coordinate.
+  
+  Thus, $\sigma(P_1+P_2) = \sigma(P_1) + \sigma(P_2), \forall \sigma \in
+  G_{L:K}$, so $E(L)$ is indeed a Galois module. 
+
+\end{example}
 
 \begin{defn}
   The \defin{zeroth and first Galois cohomology groups} are written
@@ -1587,14 +1695,6 @@ A Galois module $A$ is a module over $G_{L:K}$.
    \end{equation*}
 \end{defn}
 
-\begin{example}
-  If $E$ is an elliptic curve over $K$ then $A = E(L)$ is a Galois module,
-  since the addition formulas are rational over $K$.
-
-  If $K = \QQ$, we have $H^0(\QQ,E(L)) = E(L)^{G_{L:\QQ}} = E(\QQ)$.
-  From now on we will write $H^1(\QQ, E)$ for the group $H^1(\QQ, E(\bar{\QQ}))$.
-\end{example}
-
 The following result gives an important terminating condition for the
 long exact sequences:
 
@@ -1605,53 +1705,84 @@ long exact sequences:
   \cite[See][Chapter X, page 150]{cohomology}
 \end{proof}
 
-In what follows we will take $L = \bar{K}$, the algebraic closure of $K$ and
-$G_K = G_{\bar{K}:K}$ its Galois group. This extension is usually infinite, so
-it will be necessary to make amendmends to the previous defintions.
+In what follows we will let $L = \bar{K}$, the algebraic closure of $K$ and let
+$G_K = G_{\bar{K}:K}$ be the absolute Galois group of $K$.
+This extension is usually infinite, so
+it will be necessary to make amendmends to the previous defintions. 
 
 \begin{defn}
-  A $G_K$-module $A$ is called a continuous $G_K$-module if for all $g \in G_K, a \in A$,
+  A $G_K$-module $A$ is called a \defin{continuous $G_K$-module}
+  if for all $g \in G_K$ and $ a \in A$,
   there exists a finite Galois extension $L:K$ such that $g(a)$
   depends only on the image of $g$ in $G_{L:K}$.
 \end{defn}
 
+The definition of continious Galois module guarantees that, at least locally, we
+can still work with finite extensions.
+
 \begin{example}
   $\bar{K}$ and $ \bar{K}^{\times}$ are continuous $G_K$-modules.
+
+  To see this in the first case,
+  note that for $\alpha \in \bar{K}$, by definition $\alpha$ is algebraic over
+  $K$, so $K(\alpha) : K$ is finite, with degree equal to the degree of the
+  minimal polynomial of $\alpha$ over $K$.
+  But then, for any $\alpha \in K$ and $g \in G_K$, the number $g(\alpha)$ is a conjugate
+  of $\alpha$, and hence also lies in $K(\alpha).$ Thus, the value of
+  $g(\alpha)$ depends only on $g$ modulo $G_{L:K}$, as wanted.
 \end{example}
+
+To form cohomology groups for continuous Galois modules, set
+\[H^1(K,A) = \frac{Z^1_{\text{cts}}(K,A)}{B^1(K,A)}\]
+where
+\[Z^1_{\text{cts}} = \{\phi : G_K \rightarrow A \, | \, \exists \text{ a finite
+    extension } L : K
+  \text{ such that } \phi(g) \text{ depends only on } g \text{ modulo } G_{L:K}\}.\]
+
+\begin{remark}
+  Because $A$ is continuous, it follows that $B^1 \subset Z^1_{\text{cts}}$, so
+  the quotient is well defined.
+\end{remark}
 
 \begin{lemma}
   $E(\bar{K})$ is a continuous $G_K$-module.
+  If $K = \QQ$, we have $H^0(\QQ,E(L)) = E(L)^{G_{L:\QQ}} = E(\QQ)$.
 \end{lemma}
 \begin{proof}
-  Note that if $P = (x,y) \in E(\bar{K})$ and $L$ the field generated
-  by the coordinates of $P$, then $P \in E(L)$ and $L$ is finite. This is
-  because $x, y$ satisfy an algebraic equation over $K$. But then
-  $g P = P, \forall g \in G_{\bar{K} : L}$, as wanted.
+  For $P = (x,y) \in E(\bar{K})$, let $L$ be the field generated
+  by the coordinates of $P$. Then $P \in E(L)$ and $L$ is finite. This is
+  because $x, y$ satisfy an algebraic equation over $K$ (the equation of the curve).
+
+  But then $g (P) = P, \forall g \in G_{\bar{K} : L}$, so the value of $g(P)$
+  for some $g \in G_K$ is entirely determined by $g$ modulo $G_{L:K},$ as wanted.
 \end{proof}
   
-To form cohomology groups, set
-\[H^1(K,A) = \frac{Z^1_{\text{cts}}(K,A)}{B^1(K,A)}\]
-where
-\[Z^1_{\text{cts}} = \{\phi : G_K \rightarrow A \, | \, \exists L : K
-  \text{ such that } \phi(g) \text{ depends only on } g \text{ modulo } L\}.\]
 \begin{remark}
-  Because $A$ is continuous, it follows that $B^1 \subset Z^1_{\text{cts}}$.
+  From now on we will write $H^1(\QQ, E)$ for the group $H^1(\QQ, E(\bar{\QQ}))$.
 \end{remark}
 
-If we have a short exact sequence of continuous $G_K$-modules
+Similarly to the group case, if we have a short exact sequence of continuous $G_K$-modules
 \[ 0 \ra A \ra B \ra C \ra 0\]
-this gives a long exact sequence of Galois cohomology groups
+we can form a long exact sequence of Galois cohomology groups
 \[0 \ra A^{G_K} \ra B^{G_K} \ra C^{G_K} \ra H^1(K,A) \ra H^1(K,B) \ra H^1(K,C).\]
+It will be this sequence that will allow us to tackle the calculation of the
+rank of the elliptic curves $E_n$ explicitly.
 
-
-\subsection{Applications to Elliptic Curves} \label{sec:applications}
-A crucial step in the proof of the Mordell-Weil theorem, enough to show that
-the rank of an elliptic curve over $\QQ$ is finite, is the study of the size
+\section{Applications to Elliptic Curves} \label{sec:applications}
+A crucial step in the proof of the Mordell-Weil theorem is the study of the size
 of the quotient $E(\QQ) / 2 E(\QQ)$. In curves with at least one 2-torsion
 point, this can be done with the help of an isogeny.
 
+\begin{remark}
+  From now on, for any morphism $\phi : A \ra B$, we
+  will write $$\text{ker}(\phi) = A[\phi].$$
+\end{remark}
+
 Let $$E : y^2 = x^3 + ax^2 + bx$$ be an elliptic curve over $\QQ$. We know $E$
-has the rational points $\OO, T = (0,0)$.
+has the rational points $\OO$ and $ T = (0,0)$. By the Nagell-Lutz theorem, we
+know that $T$ has order 2 in $E(\QQ).$ This is the most general case we have to
+consider, since if $E$ has a 2-torsion point, we can translate it to the origin
+to get a birationally equivalent curve which contains the point $(0,0).$
 
 We also consider the curve
 \[ \bar{E} : y^2 = x^3 + \bar{a}x^2 + \bar{b}x \]
@@ -1684,7 +1815,7 @@ x \mapsto 4x$.
 \end{proof}
 
 \begin{lemma} \label{lemma:rankformula}
-  If $E / \psi(\bar{E}))$ and $\bar{E} / \phi(E)$ are finite, then so is $E/2E$.
+  If $E / \psi(\bar{E})$ and $\bar{E} / \phi(E)$ are finite, then so is $E/2E$.
   In fact, the rank $r$ of $E$ satisfies
   \[2^r = \frac{\#E/\psi(\Eb) \cdot \#\Eb/\phi(E)}{4}\]
 \end{lemma}
@@ -1692,18 +1823,13 @@ x \mapsto 4x$.
   \cite[See][Chapter 4, page 83]{rational}.
 \end{proof}
 
-\begin{defn}
-  From now on, for any morphism $\phi : A \ra B$, we
-  will write $\text{Ker}(\phi) = A[\phi]$.
-\end{defn}
-
 We are thus led to consider the quotient $E(\QQ) / \psi(\bar{E}(\QQ))$ (the
 other one can be treated identically).
 
 By the proposition, we have a short exact sequence of $G_{\QQ}$-modules
 \[ 0 \rightarrow \{\OO, T\} \rightarrow \bar{E}(\bar{\QQ}) \xrightarrow[]{\psi}
   E(\bar{\QQ})
-  \rightarrow 0\]
+  \rightarrow 0,\]
 and $\{\OO, T\} \simeq \ZZ/2\ZZ$.
 
 Taking Galois cohomology we get the long exact sequence
@@ -1723,7 +1849,7 @@ $H^1(\QQ, \ZZ/2\ZZ)$.
 \end{prop}
 \begin{proof}
 Consider the exact sequence of Galois modules
-\[0 \rightarrow \mu_2 \rightarrow \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra
+\[0 \rightarrow \mu_2 \rightarrow \QQ^{\times} \xrightarrow[]{2} \QQ^{\times} \ra
   \, 0 \]
 where $\mu_2$ is the multiplicative group $\{1, -1\}.$
  
@@ -1734,88 +1860,114 @@ and $H^1(\QQ, \bar{\QQ}^{\times}) \simeq 0$ by Hilbert's Theorem 90. Thus,
 \[H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times}/(\QQ^{\times})^2. \]
 \end{proof}
 
-\subsection{The Selmer and Tate-Shafarevich Groups}
+\section{The Selmer and Tate-Shafarevich Groups}
 
 In the effort to understand $E(\QQ)/2E(\QQ)$, we were led to consider the quotient
-$E(\QQ) / \psi(E(\QQ))$. Our application of Galois cohomology showed that this
-group is a subsgroup of the multiplicative group of rationals modulo squares
+$E(\QQ) / \psi(\bar{E}(\QQ))$. Our application of Galois cohomology showed that this
+group is a subgroup of the multiplicative group of rationals modulo squares
 $\QQ^{\times} / (\QQ^{\times})^2$. This group, in turn, can be studied by means
-of local method.
+of local methods.
 
 \begin{defn}
   A \defin{place} $\nu$ is either a prime number $p$ or $\infty$. $\QQ_\nu$ then is
   either the field of $p$-adic numbers if $\nu = p$ or $\RR$ if $\nu = \infty$.
 \end{defn}
 
-\begin{defn}
-  If $\phi: A \rightarrow B$ is a homomorphism, then write $A[\phi]$ for the
-  kernel of $\phi$.
-\end{defn}
-
 There is then a natural inclusion $\QQ \ra \prod\limits_\nu \QQ_\nu,
-x \mapsto (x, x, \dots)$ since $\QQ \subset \QQ_{\nu}$ canonically for each $\nu$.
+x \mapsto (x, x, \dots)$ since $\QQ \subset \QQ_{\nu}$ canonically for each
+$\nu$. This gives rise to the following commutative diagram with exact rows:
 
 \begin{tikzcd}
   0 \arrow[r] &
-  E(\QQ)/\psi(E(\QQ)) \arrow[r] \arrow[d]&
+  E(\QQ)/\psi(\bar{E}(\QQ)) \arrow[r] \arrow[d]&
   \QQ^{\times}/(\QQ^{\times})^2 \arrow[r] \arrow[d] &
   H^1(\QQ, \bar{E})[\psi] \arrow[r] \arrow[d] &
   0 \\
   0 \arrow[r] &
-  \prod\limits_{\nu} E(\QQ_\nu) / \psi(E(\QQ_\nu)) \arrow[r] &
+  \prod\limits_{\nu} E(\QQ_\nu) / \psi(\bar{E}(\QQ_\nu)) \arrow[r] &
   \prod\limits_\nu(\QQ_\nu^{\times}/(\QQ_\nu)^{\times})^2 \arrow[r] &
   \prod\limits_\nu H^1(\QQ_\nu, \bar{E})[\psi] \arrow[r] &
   0
 \end{tikzcd}
 
-We are now ready to make the following definition
+This diagram gives an interface for studying $E(\QQ)/\psi(\bar{E}(\QQ))$ via
+local methods. It turns out that we can split the information required to work
+out the size of $E(\QQ)/\psi(\bar{E}(\QQ))$ in two parts, given by the following
+important definitions.
 
 \begin{defn}[Selmer Group]
-  The Selmer group of the elliptic curve $E$ is defined
-  $$\Sel_\psi = \text{Ker}\big((\QQ^{\times}/(\QQ^{\times})^2 \ra
-  \prod\limits_\nu H^1(\QQ_\nu, \bar{E})[\psi]\big)$$
+  The \defin{Selmer group} of the elliptic curve $E$ is defined
+  $$\Sel_\psi(E) = \text{Ker}\left((\QQ^{\times}/(\QQ^{\times})^2 \ra
+  \prod\limits_\nu H^1(\QQ_\nu, \bar{E})[\psi]\right)$$
 \end{defn}
 
-This group is important in rank computations primarily because it is effectively
+We can also make an analogous construction for $\Sel_\phi(E)$ by
+considering the $\phi$ isogeny. 
+This group is important in rank calculations primarily because it is effectively
 computable. To understand $\EQ/\psi(\Eb(\QQ))$ fully, we also need
 
 \begin{defn}[Tate-Shafarevich Group] \label{defn:sha}
-  The Tate-Shafarevich group of the elliptic curve $E$ is defined
-  $$ \Sha(\bar{E} / \QQ) = \text{Ker} \big((H^1(\QQ, \bar{E}) \ra \prod\limits_\nu H^1 (\QQ_\nu,
-  \bar{E})[\psi]\big) $$
+  The \defin{Tate-Shafarevich group} of the elliptic curve $E$ is defined
+  $$ \Sha(E) = \text{Ker} 
+  \left(H^1(\QQ, \bar{E}) \ra \prod\limits_\nu H^1 (\QQ_\nu,
+  \bar{E})\right) $$
 \end{defn}
+Note that the isogeny $\psi: \bar{E} \ra E$ gives rise to maps $H^1(\QQ,
+\bar{E}) \ra H^1(\QQ,E)$ and $H^1(\QQ_\nu, \bar{E}) \ra H^1(\QQ, \nu)$. It
+therefore restricts to a map $\Sha(\bar{E}) \ra \Sha(E)$. We will write
+$\Sha(E)[\psi]$ for the kernel of this map, and call it the
+\defin{subgroup of $\psi$-torsion of $\Sha(E)$}.
 
-Finally, we have the important short exact sequence
+Putting both groups together, we get the short exact sequence
 
-\[ 0 \ra \frac{E(\QQ)}{\psi(\bar{E}(\QQ))} \ra \Sel \ra \Sha(\bar{E}/\QQ)[\psi] \ra 0\]
+\[ 0 \ra \frac{E(\QQ)}{\psi(\bar{E}(\QQ))} \ra \Sel_\psi(E) \ra \Sha(E)[\psi]
+  \ra 0\]
 
-If $\Sha(\Eb/\QQ)[\psi] \simeq 0$, $Sel \simeq \EQ/\psi(\Eb(\QQ))$. By playing
+If $\Sha(E)[\psi] \simeq 0$, we get
+$\Sel_\psi(E) \simeq \EQ/\psi(\Eb(\QQ))$. By playing
 the same game with the isogeneous curve $\Eb$, if $\Sha(E/\QQ)[\phi] \simeq 0$,
 we also know $\Eb(\QQ)/\phi(\EQ)$ and can use \ref{lemma:rankformula} to compute
 the rank of $E$. 
 
-\begin{remark}
-  The map $\alpha \EQ / \psi(\bar{E}(\QQ)) \ra \QQ^\times / (\QQ^\times)^2$ has been
-  explicitly computed in \cite{rational} for curves with a 2-torsion point, and
-  has been shown to be the map $(x,y) \mapsto x \mod (\QQ^\times)^2$.
-  Furthermore, \cite{rational} also shows that the image of $\alpha$ is
-  contained in the subgroup
-  \[\{\pm 1, \pm p_1^{e_1}, \dots, \pm p_t^{e_t} \}\]
-  where the $p_i$ are the prime factors of $\Delta(E)$ and $e_i =$ 0 or 1.
-\end{remark}
+For curves with a 2-torsion point, the map 
+$$\alpha : \EQ / \psi(\bar{E}(\QQ)) \ra \QQ^\times / (\QQ^\times)^2$$ has been
+explicitly computed in \cite[Page 91]{rational} and
+is given by
+$$(x,y) \mapsto x \mod (\QQ^\times)^2.$$
+Furthermore, \cite[Pages 85-87]{rational} also shows that the image of $\alpha$ is
+contained in the subgroup $G$ of $\QQ^\times / (\QQ^\times)^2$ given by 
+\[G = \langle -1, p_1, \dots, p_k  \rangle,\]
+where $p_1, \dots, p_n$ are the distinct prime factors of $\Delta(E).$
+
+In fact, $\Sel_\psi$ is also contained in $G$, and contains the image of $\alpha$. Thus,
+we know that $\Sel_\psi$ is finite, and as a consequence, we see that
+$E(\QQ)/\psi(\bar{E}(\QQ))$ is also finite. If we let $$\bar{\alpha} :
+\bar{E}(\QQ) / \phi (E(\QQ)) \ra \QQ^\times / (\QQ^\times)^2$$ be the map
+obtained by working with $\phi$ instead of $\psi$, we get an alternative
+formula for the rank $r$ of $E$ given by
+\[2^r = \frac{\# \text{Im}(\alpha) \cdot \# \text{Im}(\bar{\alpha})}{4}\]
+
+Considering the Selmer groups, we can give a computable upper bound for the rank
+of $E$ from the following equation:
+\[2^{s_r} = \frac{\# \Sel_\phi(E) \cdot \# \Sel_\psi(E)}{4}.\]
+The positive integer $s_r$ is called the \defin{Selmer rank of $E$}, and we have
+$s_r \geq r.$
 
 
-\section{Calculations}
+\newpage
 
-\subsection{Introduction}
+\chapter{Calculations}
 
-From Tunnell's theorem we know that $L(E_n,s)$ has a particularly simple
-form in terms of Theta functions. In this section we will show that they
-can be used to predict the parity of $0^r \#\text{Sha}(E)$, and that
-this agrees with the BSD conjecture.
+\section{Introduction}
+
+From Tunnell's theorem we know that $L(E_n,1)$ has a particularly simple
+form in terms of Theta functions. In this section we will show that they can be
+used to predict the existence of 2-torsion in $\Sha(E_n)$. We will also compute
+the arithmetic invariants of $E$ described in Chapter 2 and show that our
+predictions can be verified at least modulo 16.
 
 
-\subsection{Coefficients of Theta Series}
+\section{Coefficients of Theta Series}
 We recall Tunnel's theorem leads us to consider the function given by the
 Fourier expansion given in \autoref{eq:mododd}:
 \[
@@ -1823,16 +1975,20 @@ Fourier expansion given in \autoref{eq:mododd}:
   = (\Theta(z) - \Theta(4z)) \left(\Theta(32z)-\frac{1}{2} \Theta(8z)\right) \Theta(2z).
 \]
 
+
+We are only interested in the coefficients for $n$ odd. In this case we can
+ignore terms in the product of \autoref{eq:mododd} where all arguments of
+$\Theta$ are even. Thus, it is enough to
+consider the $n$-th coefficient of
+\[
+  \Theta(z) \left( \Theta(32z) - \frac{1}{2} \Theta(8z) \right)\Theta(2z) =
+  \sum\limits_{x, y, z \in \ZZ} q^{2x^2+y^2+32z^2} - \frac{1}{2}
+  \sum\limits_{x,y,z \in \ZZ} q^{2x^2+y^2+8z^2}.
+\]
+
 Here we will compute the coefficients $a_m$ and give a very simple expression for
 their residues modulo 4. This will enable us to match our previous calculations
 to what the BSD conjecture predicts.
-
-Expanding out the theta-series, we get
-\[
-    (\Theta(z) - \Theta(4z)) (\Theta(32z)-\frac{1}{2} \Theta(8z)) \Theta(2z)
-    = \sum\limits_{x, y, z \in \ZZ} q^{2x^2+y^2+32z^2} - \frac{1}{2}
-    \sum\limits_{x,y,z \in \ZZ} q^{2x^2+y^2+8z^2}.
-\]
 To put it differently, set
 \begin{equation*}
   \begin{split}
@@ -1890,19 +2046,22 @@ to compute $P_n$ and $Q_n$.
 
 \begin{thm} \label{coeff_formula}
   Let $n = p_1 \cdots p_k$ where the $p_i$ are the distinct prime factors of
-  $n$. We have
-  \[P_n = 2 \times \prod\limits_{p_i \mid n} \left( 1+ \legendre{-2}{p_i} \right)\]
-  and
-  \[ Q_n =
-    \begin{cases}
-      P_n &\text{ if } n \equiv 1 \mod{8} \\
-      0 &\textnormal{ otherwise.}
-    \end{cases}
-  \]
+  $n$. We have the formulae
+  \begin{enumerate}[(i)]
+  \item \(P_n = 2 \times \prod\limits_{p_i \mid n} \left( 1+ \legendre{-2}{p_i}
+      \right)\)
+
+  \item \( Q_n =
+      \begin{cases}
+        P_n &\text{ if } n \equiv 1 \mod{8} \\
+        0 &\textnormal{ otherwise.}
+      \end{cases}
+    \)
+  \end{enumerate}
 \end{thm}
 
 \begin{proof}
-  In algebraic number theory parlance, working out $P_n$ is equivalent to
+  (i) In algebraic number theory parlance, working out $P_n$ is equivalent to
   counting the number of elements in $\quadring{-2}$ with norm $n$.
   Since $\quadring{-2}$ is
   a PID, we have unique factorization of elements. Thus, for
@@ -1911,52 +2070,52 @@ to compute $P_n$ and $Q_n$.
   if and only if
   \[\alpha = \pi_1 \cdots \pi_k\]
   where the $\pi_i$ are distinct irreducibles and $N(\pi_i) =
-  p_i.$ In other words,
-  \[P_n = \prod\limits_{p_i \mid n} \alpha_i\]
-  where $\alpha_i$ is the number of irreducibles in $\quadring{-2}$ with norm $p_i$.
+  p_i.$ Since $\quadring{-2}$ has 2 units, by Dirichlet's unit theorem we have
+  \[P_n = 2\prod\limits_{p_i \mid n} \alpha_i\]
+  where $\alpha_i$ is the number of prime ideals in $\quadring{-2}$ with norm $p_i$.
 
   Again since $\quadring{-2}$ is a PID, we can pass from properties of prime
   ideals to properties of irreducible elments. Applying the result in
   \cite[Page 74, Theorem 25]{marcus} for each $p_i$, there are 2 cases
   to consider.
 
-  If $\legendre{-2}{p_i} = -1$, $p_i$ is already irreducible in $\quadring{-2}$,
-  and $N(p_i) = p_i^2.$ Thus, there are no elements of norm $p_i$, and hence
-  none of norm $n$.
+  \begin{itemize}
+  \item If $\legendre{-2}{p_i} = -1$, $p_i$ is already irreducible in
+    $\quadring{-2}$, and $N(p_i) = p_i^2.$ Thus, there are no elements of norm
+    $p_i$, and hence none of norm $n$.
 
-  If $\legendre{-2}{p_i} = 1$, $p_i$ splits, so we can write $p_i =
-  \pi_i\bar{\pi_i}$ for some irreducible $\pi_i \in \quadring{-2}$ with
-  $N(\pi_i) = p_i$. In this case there are 4 possible factors for $n$ given
-  by $\pi_i, -\pi_i, \bar{\pi_i}$ and $-\bar{\pi_i}$. Thus, we can write
-  \[\alpha_i = 2\cdot\left(1 + \legendre{-2}{p_i}\right)\]
-  which gives our formula for $P_n$.
-
-  For the second formula, note that each $x,y \in \ZZ$ satisfying
+  \item If $\legendre{-2}{p_i} = 1$, $p_i$ splits, so we can write $p_i =
+    \pi_i\bar{\pi_i}$ for some irreducible $\pi_i \in \quadring{-2}$ with
+    $N(\pi_i) = p_i$. In this case there are 2 ideals of norm $p_i$ generated by
+    $\pi_i$ and $\bar{\pi}_i$ respectively. Thus, we can write
+    \[\alpha_i = \left( 1 + \legendre{-2}{p_i} \right),\]
+    which gives our formula for $P_n$.
+  \end{itemize}
+  (ii) For the second formula, note that each $x,y \in \ZZ$ satisfying
   \[x^2 + 8y^2 = x^2 + 2\cdot(2y)^2= n\]
   corresponds to an element $x+y\sqrt{-2} \in \quadring{-2}$ with norm $n$
   and $y$ even. There are three possibilities.
 
-  If $n \equiv 5, 7 \,(8)$, $n$ must have at least one prime factor $p_i \mid n$
-  with $p_i \not\equiv 1,3 \,(8)$. But then $\legendre{-2}{p_i} = -i$, so by the
-  formula for $P_n$, there are no elements in $\quadring{-2}$ with norm $n$, and
-  $Q_n$ is also 0.
+  \begin{itemize}
+  \item If $n \equiv 5, 7 \,(8)$, $n$ must have at least one prime factor $p_i
+    \mid n$ with $p_i \not\equiv 1,3 \,(8)$. But then $\legendre{-2}{p_i} = -1$,
+    so by the formula for $P_n$, there are no elements in $\quadring{-2}$ with
+    norm $n$, and $Q_n$ is also 0.
 
-  If $n \equiv 1 \, (8)$, all of its factors $p_i$ must satisfy $p_i \equiv 1
-  \text{ or } 3 \,(8)$. In particular, $\legendre{-2}{p_i} = 1$, so by our
-  formula there exists an element element $x+y\sqrt{-2} \in
-  \quadring{-2}$ with norm $n$. Note that
-  \[n = x^2 + 2y^2 \equiv x^2 \mod{2},\]
-  so $x$ must be odd. Suppose $y$ is also odd. Checking the squares of all
-  odd numbers modulo 8, we see that $y^2 \equiv 1 \,(8)$, so
-  \[n = x^2 + 2y^2 \equiv 3 \mod{8},\]
-  a contradiction. Thus $y$ must be even, at each solution contributing to $P_n$
-  also contributes to $Q_n$, so $P_n = Q_n$.
+  \item If $n \equiv 1 \, (8)$, assume there exists an element $x + y \sqrt{-2}$ of
+    norm $n$ in $\quadring{-2}$. Note that
+    \[n = x^2 + 2y^2 \equiv x^2 \mod{2},\] so $x$ must be odd. Suppose $y$ is
+    also odd. Checking the squares of all odd numbers modulo 8, we see that $y^2
+    \equiv 1 \,(8)$, so
+    \[n = x^2 + 2y^2 \equiv 3 \mod{8},\] a contradiction. Thus $y$ must be even,
+    and each solution contributing to $P_n$ also contributes to $Q_n$, so $P_n =
+    Q_n$.
 
-  If $n \equiv 3 \, (8)$ and $y$ is even,
-  \[n = x^2 + 2y^2 \equiv 1 \mod{8},\]
-  a contradiction. Thus, $y$ must be odd, and solutions contributing to $P_n$
-  make no contribution to $Q_n$, so $Q_n = 0$.
-
+  \item If $n \equiv 3 \, (8)$ and $y$ is even,
+    \[n = x^2 + 2y^2 \equiv 1 \mod{8},\] a contradiction. Thus, $y$ must be odd,
+    and solutions contributing to $P_n$ make no contribution to $Q_n$, so $Q_n =
+    0$.
+  \end{itemize}
   Putting everything together gives the desired formula.
 
 \end{proof}
@@ -1982,7 +2141,9 @@ We're now ready to find an expression for $a_n$ modulo 4.
     \end{split}
   \]
 
-  If $n$ has 3 or more prime factors, clearly $P_n \equiv Q_n \equiv 0 \,(8)$, so
+  Note that $\left( 1 + \legendre{-2}{p} \right)$ is always even, so
+  if $n$ has two or more prime factors, clearly $P_n \equiv Q_n \equiv 0 \,(8)$.
+  In this case we have
   \[a_n\equiv 0 \mod{4}.\]
 
   If $n = p$ is an odd prime, theorem \autoref{coeff_formula} gives
@@ -1997,18 +2158,10 @@ We're now ready to find an expression for $a_n$ modulo 4.
   Thus, $-\frac{1}{2} (P_p + Q_p) = 0$ unless $p \equiv 3 \, (8)$, in which case
   it equals $-2$. This gives the result.
 
-  If $n = pq$ has 2 prime factors,
-  \[P_{pq} = 4 \cdot \left( 1 + \legendre{-2}{p} \right) \cdot
-    \left( 1 + \legendre{-2}{q} \right).\]
-  But $\left( 1 + \legendre{x}{p} \right)$ for $x \neq 0$ is always even.
-  In all cases,
-  \[P_{pq} \equiv Q_{pq} \equiv 0 \mod{8},\]
-  so 
-  \[a_{pq} \equiv 0 \mod{4}.\]
 \end{proof}
 
 
-\subsection{Selmer Group}
+\section{Selmer Group}
 
 Now we proceed in the other direction, and examine the expected rank of the
 curve by studying its arithmetic invariants. We'll first compute the Selmer
@@ -2021,20 +2174,21 @@ subgroup of $\QQ^\times / (\QQ^\times)^2.$
   \begin{equation} \label{eq:hom}
     N^2 = d_1 M^4 + \frac{p^2}{d_1}e^4
   \end{equation}
-  has a solution in $\QQ_p$ for all $p$ and has a solution in $\RR.$.
-  Similarly, $\Sel(\Eb_p)$ is a subgroup of $\{\pm 1, \pm 2, \pm p, \pm 2p\}$
-  consisting of elements $d_1$ at which \ref{eq:hom} has a real and p-adic
+  has a solution in $\QQ_p$ for all $p$ and has a solution in $\RR.$
+  Similarly, $\Sel(\Eb_p)$ is a subgroup of the multiplicative group
+  $\{\pm 1, \pm 2, \pm p, \pm 2p\}$,
+  consisting of elements $d_1$ at which \autoref{eq:hom} has a real and p-adic
   solution for all prime numbers.
 \end{prop}
 
 We will compute $\Sel$ by looking at the equation modulo different primes.
 To do this we first state some general results. The first tells us
 how to get a solution in the infinite field $\QQ_p$ from a solution in a finite
-subgroup.
+field.
 
 \begin{prop}[Hensel's Lemma]
   Let $f \in \ZZ_p[X_1,\dots,X_m], x = (x_i) \in (\ZZ_p)^m, n, k \in \ZZ$ and
-  $j$ an integer such that $0 \leq j \leq m$. Suppose that $0 < 2k < n$ and that
+  $j$ an integer such that $0 \leq j \leq m$. Suppose that $2k < n$ and that
   \[ f(x) \equiv 0 \, (p^n) \text { and } \nu_p
     \left(\frac{\partial f}{\partial X_j} (x) \right) = k.\]
   Then there exists a zero $y$ of $f$ in $(\ZZ_p)^m$ which is congruent to $x$
@@ -2078,17 +2232,17 @@ to polynomials of low enough degree.
   \cite[See][Chapter 1, page 5]{Serre}
 \end{proof}
 
-To compute the Selmer groups, we will have to considedr three
+To compute the Selmer groups, we will have to consider three
 kinds of primes: 2, $p$, and any odd prime $l \neq p$.
 
-\subsubsection{l-adic case}
+\subsection{l-adic case}
 
 In order to work out if equation \autoref{eq:hom} has a solution in $\QQ_l$,
 we will first show it always has a solution 
 in $\ZZ/l\ZZ$, and then lift this solution to $\QQ_l$ using Hensel's lemma.
 
 \begin{lemma} \label{local_ladic}
-  If $l$ is a prime other than $2,p$, then \autoref{eq:hom} has a solution in $\QQ_l$.
+  If $l$ is a prime other than $2,p$, then \autoref{eq:hom} has a solution in $\FF_l$.
 \end{lemma}
 \begin{proof}
   We are looking at the number of solutions to
@@ -2098,24 +2252,25 @@ in $\ZZ/l\ZZ$, and then lift this solution to $\QQ_l$ using Hensel's lemma.
   the previous section. There are two cases to consider.
   
   \begin{itemize}
-  \item If $l \equiv 3 \, (4)$, the values taken by $x^4$
+  \item If $l \equiv 3 \, (4)$, the values taken by $x^4$ modulo $l$
     are the same as those taken
     by $x^2$, so $N_l$ is also the number of solutions to
     \[N^2 - d_1M^2 - \frac{p^2}{d_1} e^2 \equiv 0 \, (l).\]
     But here $\text{deg}(f) = 2$ and there are 3 variables.
     Thus, by the Chevalley Warning, theorem there exists a nontrivial solution
-    in $\FF_p$.
+    in $\FF_l$.
 
   \item If $l \equiv 1 \, (4)$, there are three nontrivial Dirichlet
     characters modulo $l$ of order dividing 4. The primitive quartic
     characters $\chi^{\pm 1}$ and the quadratic character $\chi^2$ where $\chi^2(n) =
     (\frac{n}{p})$.
 
-    Thus, $M$ is the number of tuples $\chi, \chi^a, \chi^b,
-    a,b = \pm 1, 2$ where $\chi \chi^a \chi^b = \varepsilon$, so $M = 2$.
+    Thus, $M$ is the number of tuples $\chi^2, \chi^a, \chi^b$ with
+    a,b = \pm 1, 2$ where $\chi^2 \chi^a \chi^b = \varepsilon$. There are only
+    two options, given by $a = b = 1$ and $a = b = -1$, so $M = 2$.
     Substituting this into the bound in proposition \autoref{prop:countsols} we get
     \[|N_l - l^{r-1} | \leq 2(l-1) l^{(3/2)-1}.\]
-    This implies that if $|N-l^2| \leq l^2-2$, \autoref{eq:homcurve} will have
+    This implies that if $|N_l-l^2| \leq l^2-2$, \autoref{eq:homcurve} will have
     a nontrivial solution in $\FF_l$. But
     \[2(l-1)l^{1/2} \leq l^2 - 2\]
     is satisfied for all $l \geq 3$.
@@ -2128,9 +2283,10 @@ in $\ZZ/l\ZZ$, and then lift this solution to $\QQ_l$ using Hensel's lemma.
   $x, y, z \in \QQ_l^{\times}$ such that $x^2 = ay^4 + bz^4$.
 \end{thm}
 \begin{proof}
-  Let $f(x,y,z) = x^2 - ay^4 - bz^4$. We know from lemma \autoref{local_laidc}
-  that $f$ has a nontrivial root in $\FF_l$. Wihtout loss of generaility,
-  we may assume that $X \not\equiv 0 \, (l)$.
+  Let $f(x,y,z) = x^2 - ay^4 - bz^4$. We know from Lemma \autoref{local_ladic}
+  that $f$ has a nontrivial root $(X,Y,Z)$ in $\FF_l$. Wihtout loss of generaility,
+  we may assume that $X \not\equiv 0 \, (l)$ (see Lemma \autoref{vanilla} for a
+  more complicated, but essentially identical argument of why).
 
   Since $l$ is odd and the variables are isolated,
   none of the partial derivatives increase the $l$-adic valuation
@@ -2140,7 +2296,7 @@ in $\ZZ/l\ZZ$, and then lift this solution to $\QQ_l$ using Hensel's lemma.
   \in \QQ_l$. 
 \end{proof}
   
-\subsubsection{p-adic case}
+\subsection{p-adic case}
 Now there are a finite number of equations to check. We will proceed case by
 case. Remember we're trying to find solutions in $\QQ_p$ to the equations
 \begin{equation} \label{eq:homcurve}
@@ -2225,7 +2381,7 @@ that will help us streamline our computations.
     or
     \[N'^2 = ap^2M'^4 + be^4.\]
     This is just \autoref{eq:multp2} with the variables reversed. From the
-    previous lemma we know that $e$ is a unit, 
+    previous lemma, we may assume that $e$ is a unit, 
     so the previous case shows that we must have
     $\legendre{b}{p}=1$.
   \end{itemize}
@@ -2383,7 +2539,7 @@ We are now ready to work with the homogeneous spaces of $\bar{E}$ in $\QQ_p$.
   \end{itemize} \qedhere
 \end{proof}
 
-\subsubsection{2-adic case}
+\subsection{2-adic case}
 
 Finally, we consider the 2-adic solutions.
 
@@ -2443,7 +2599,7 @@ we only need to consider the isogeneous curve.
   \item If $d_1 = 2$, we're trying to solve
     \[N^2 = 2M^4 + 2p^2e^4 \] in $\QQ_2$. 
     Since the RHS is even, we will need
-    to work modulo 32. Writng
+    to work modulo 32. Writing
     \[N^2 \equiv 2M^4 + 2p^2e^4 \, (32)\]
     we see that $N$ is even. Let $N = 2N'$, so we have
     \[2N'^2 \equiv M^4 + p^2e^4 \, (16).\]
@@ -2464,7 +2620,7 @@ we only need to consider the isogeneous curve.
     we already have.
 
     Thus, we have a nontrivial solution in $\QQ_2$ if and only if $p^2 \equiv 1
-    \, (16),$, or equivalently,
+    \, (16),$ or equivalently,
     \[p \equiv 1, 7 \mod{8}.\]
     
     \item If $d_1 = p$, we're trying to solve
@@ -2490,7 +2646,7 @@ we only need to consider the isogeneous curve.
     $M$ odd.
 
     To apply Hensel's lemma, note that $\parder{f}{N} = 2N$. Since $N$ is odd,
-    we only need to work modulo $2^2 \cdot 2 = 16$. Thus, in each
+    we only need to work modulo $2^2 \cdot 2 = 8$. Thus, in each
     case the solution lifts, and we must have
     \[p \equiv 1 \mod{4}.\]
     
@@ -2610,23 +2766,23 @@ $$  \begin{tabu}{l*{5}{c}r}
   \]
 \end{cor}
 \begin{proof}
-  Let $r$ be the Selmer rank, then
-  \[2^r = \frac{\#\Sel(E) \cdot \#\Sel(\Eb)}{4} = \#\Sel(\Eb) =
+  Let $s_r$ be the Selmer rank, then
+  \[2^{s_r} = \frac{\#\Sel_\phi(E) \cdot \#\Sel_\psi(\Eb)}{4} = \#\Sel_\psi(\Eb) =
     \begin{cases}
       1 & \text{ if } p \equiv 3 \mod{8} \\
       2 & \text{ if } p \equiv 5,7 \mod{8} \\
       4 & \text { if } p \equiv 1 \mod{8} 
     \end{cases}\]
-  Comparing exponets of 2 gives the result.
+  Comparing exponents of 2 gives the result.
 \end{proof}
 
-\subsection{Tamagawa Numbers}
+\section{Tamagawa Numbers} \label{tamagawa}
 
 The final step of our calculations is to work out the Tamagawa numbers of the
 curves $E_n$. Recall that
 \[ c_p = \left| \frac{E(\QQ_p)}{E(\QQ_p)_0} \right|\]
 where $\EQp_0$ is the preimage of the nonsingular points of the reduced curve
-modulo $p$ of the homomorphism
+modulo $p$ of the map
 \[ \EQp \ra \EFp.\]
 
 We begin with a straightforward lemma.
@@ -2636,15 +2792,15 @@ We begin with a straightforward lemma.
   \[ \EFp : y^2 \equiv x^3 - n^2x \mod{p}\]
   is nonsingular unless $p \, | \, 2n$.
 
-  If $p = 2$ the singular point if $(1,0)$.
+  If $p = 2$ the only singular point is $(1,0)$.
 
-  If $p \, | \, n$ the singuar point is $(0,0)$.
+  If $p \, | \, n$ the only singuar point is $(0,0)$.
 
 \end{lemma}
 
 \begin{proof}
   Since $\OO$ may could also turn out to be singular, we consider
-  the projective comlpletion completion
+  the projective completion
   \[f(x,y,z) = y^2z - x^3 + n^2 xz^2.\]
   A point is singular if and only if all partial derivatives vanish.
   We have
@@ -2668,7 +2824,7 @@ We begin with a straightforward lemma.
     is in fact in the curve, and descends to the point $(1,0)$ in the
     affine model.
     
-  \item If $p | n$, working in $\FF_n$ we get
+  \item If $p \mid n$, working in $\FF_p$ we get
     \[  \parder{f}{x} = -3x^2, \,\,\,\,
         \parder{f}{y} = 2yz, \,\,\,\,
         \parder{f}{z} = y^2.
@@ -2676,7 +2832,7 @@ We begin with a straightforward lemma.
     If $y = 0$, we have $f(x,y,z) = -x^3 = 0$, so $x = 0$.
     Thus,  only $(0:0:1)$ is singular, and it descends to the point $(0,0) \in \EFp$.
 
-  \item If $p \not| \,\, 2n$, the equations for the partial derivatives
+  \item If $p \nmid 2n$, the equations for the partial derivatives
     require us to have either $y = 0$ or $z = 0$.
    
     If $z = 0$, we must have $-x^3 = 0$, so $y = 1$. But then $\parder{f}{z}
@@ -2685,8 +2841,7 @@ We begin with a straightforward lemma.
     If $y = 0, \parder{f}{z} = n^2x = 0$, so $x = 0$, and $\parder{f}{x} =
     n^2z^2 = 0$ and $ z = 0$, a contradiction.
 
-    Thus, there are no singular points on $\bar{E_n}(\FF_p)$ if $p \not|
-    \,\, n$. \qedhere
+    Thus, there are no singular points on $\bar{E_n}(\FF_p)$ if $p \nmid n$. \qedhere
   \end{itemize}
 \end{proof}
 
@@ -2704,16 +2859,16 @@ As an easy application, we have
 
 It now remains to consider the Tamagawa number at the primes where $E_n$ has
 bad reduction. We first consider the case where $p \, | \, n$. To do this
-we will give an explict parametrization for the homomorphism
+we will give an explict parametrization for the map
 \[\psi : \EQp \ra \EFp\]
 
 Working in $\QQ_p$, if $x \equiv 0 \, (p)$ then
 \[y^2 = x^3 - p^{2}b^2 x \equiv 0 \mod{p^2}, \]
 where we write $n = p b$ with $p \not| \,\, b $, since $n$ is squarefree.
-Thus, $y \equiv 0 \, (p)$ and we have the singular point.
+Thus, $y \equiv 0 \, (p)$ and $(x,y)$ reduces to the singular point.
 
-If $x \not\in \ZZ_p^\times$, we can write $x = p^{-n} u$ for some $u \in
-\ZZ_p^\times$, and
+If $x \not\in p \ZZ_p$, we can write $x = p^{-n} u$ for some $u \in
+\ZZ_p^\times$ and $n \geq 0$. Then,
 \[y^2 = p^{-3n}u^3 - p^{2-n}b^2u,\]
 so $n$ must be even. Writing $n = 2m$ we get
 \[p^{6m}y^2 = u^3 - p^{2+2m}b^2u.\]
@@ -2737,16 +2892,21 @@ We can thus parametrise the points in $\EQp_0$ by the map
 mapping
 \begin{equation} \label{eq:p-param}
   \begin{split}
-    r &\mapsto (\frac{1}{r^2}, \frac{\sqrt{1-n^2r^4}}{r^3}), \text{ if } r \neq 0 \\
+    r &\mapsto \left(\frac{1}{r^2}, \frac{\sqrt{1-n^2r^4}}{r^3}\right), 
+\text{ if } r \neq 0 \\
     0 &\mapsto \OO.
   \end{split}
 \end{equation}
+
+Note that the series $\sqrt{1 -n^2r^4}$ converges $p$-adically for all $r \in
+\ZZ_p$ since $n \equiv 0 \, (p)$. The two possible square roots are accounted
+for since we may just replace $r$ with $-r.$
 
 We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
 \right|$.
 
 \begin{thm}
-  If $p \, | \, n, n$ squarefree, the torsion points $\OO, (0,0), (n,0), (-n,0)$
+  If $p \nmid n$ for $n$ odd and squarefree, the torsion points $\OO, (0,0), (n,0), (-n,0)$
   are a complete set of representatives for $\frac{\EQp}{\EQp_0}$.
 \end{thm}
 \begin{proof}
@@ -2983,29 +3143,40 @@ where
   where $\omega(n)$ is the number of distinct prime factors of $n$.
 \end{cor}
 
-\section{Conclusion}
+\newpage
+
+\chapter{Conclusion}
 Having worked out all the main computable invariants
 for the family $E_n$, we now match our results to what is predicted
 by the BSD conjecture.
 
 Recall Tunnell's theorem (\autoref{eq:tunnell}), which in our case states that
 if $n$ is odd and square free then
-\[L(E_n,1) = \frac{\beta}{4\sqrt{n}}a_n^2\]
+\[L(E_n,1) = \frac{\beta}{4\sqrt{n}}a_n^2,\]
+where $\beta = \int_1^\infty \frac{dx}{\sqrt{x^3-x}}$ and the integers $a_n$
+are the coefficients of the theta series described in \autoref{eq:tunnell}.
 
-From our calculations, we found out that 
+From our calculations, we found out that the size of the torsion subgroup of
+$E_n$ is
+\begin{equation*}
+    \#\Tors(E_n) &= 4,
+\end{equation*}
+the real period of $E_n$ is given by
+\begin{equation*}
+  \Omega_{E_n} &= \frac{2\beta}{\sqrt{n}} 
+\end{equation*}
+and the Tamagawa numbers of $E_n$ are
 \begin{equation*}
   \begin{split}
-    \#\Tors(E_n) &= 4 \\
-    \Omega_{E_n} &= \frac{2\beta}{\sqrt{n}} \\
     c_2(E_n) &= 2 \\
     c_p(E_n) &= 4 \text{ if } p \mid n \\
-    c_l(E_n) &= 1 \text{ if } l \neq p \\
+    c_l(E_n) &= 1 \text{ if } l \neq p. \\
   \end{split}
 \end{equation*}
 
 Substituting the data into the BSD conjecture (\autoref{eq:bsd}), we get
 \[
-  L(E,s) = C(s-1)^r + O((s-1)^2)
+  L(E_n,s) = C(s-1)^r + O((s-1)^2)
 \]
 where
 \begin{equation*}
@@ -3022,8 +3193,9 @@ predicts that
 \begin{equation} \label{mainpred} 
   a_n^2 = \#\Sha(E_p) \cdot R_{E_n}\cdot 4^{\omega(n)} \cdot 0^r.
 \end{equation}
+where $\omega(n)$ is the number of prime factors of $n$.
 
-If $\omega(n) \geq 2,$ so that $n$ has at least 2 prime factors, we computed
+If $n$ has at least 2 prime factors, we computed
 \[a_n \equiv 0 \mod{4},\]
 so \autoref{mainpred} predicts that
 \[0 \equiv 0 \mod{16},\]
@@ -3039,9 +3211,11 @@ so that
 \[a_p^2 \equiv
   \begin{cases}
     0 \mod{16} \text{ if } p \equiv 1,5,7 \mod{8} \\
-    4 \mod {16} \text{ if } p \equiv 3 \mod{8}.
+    4 \mod {32} \text{ if } p \equiv 3 \mod{8},
   \end{cases}
 \]
+since the squares of all numbers congruent to 2 modulo 4 are congruent to 4
+modulo 32.
 
 We also found that the Selmer rank $s_r$ of
 $E_p$ satisfies
@@ -3129,6 +3303,6 @@ following two predictions.
 
 \end{proof}
 
-\printbibliography
+\printbibliography[heading=bibintoc]
 
 \end{document}
