@@ -27,6 +27,7 @@
     "pifont"
     "tabu"
     "enumerate"
+    "lipsum"
     "biblatex"
     "tocbibind"
     "hyperref")
@@ -98,8 +99,10 @@
     "properties_hecke"
     "sec:applications"
     "lemma:rankformula"
+    "exact"
     "defn:sha"
     "coeff_formula"
+    "theta_calculation"
     "eq:hom"
     "prop:countsols"
     "local_ladic"
@@ -115,7 +118,9 @@
     "singularity_condition"
     "eq:p-param"
     "mainpred"
+    "cassels_conj"
     "mainthm2"
+    "pred_mod"
     "mainthm1")
    (LaTeX-add-bibliographies
     "references")

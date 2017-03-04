@@ -1,6 +1,6 @@
 \documentclass[12pt, a4paper]{report}
 \usepackage{amsmath,amsfonts,amsthm,amssymb,color}
-\usepackage{dsfont,tikz-cd,minitoc,pifont,tabu,enumerate}
+\usepackage{dsfont,tikz-cd,minitoc,pifont,tabu,enumerate,lipsum}
 \usepackage[style=alphabetic]{biblatex}
 
 \addbibresource{references.bib}
@@ -13,7 +13,7 @@
 \oddsidemargin 0cm
 \evensidemargin 0cm
 \headsep 1.0cm
-\footskip 0.5cm
+\footskip 1.0cm
 \textwidth 16cm
 \textheight 24cm
 
@@ -26,6 +26,7 @@
 \theoremstyle{plain}
 \newtheorem{prop}{Proposition}[subsection]
 \newtheorem{thm}[prop]{Theorem}
+\newtheorem*{thm*}{Theorem}
 \newtheorem{cor}[prop]{Corollary}
 \newtheorem{lemma}[prop]{Lemma}
 \newtheorem{conj}[prop]{Conjecture}
@@ -118,42 +119,52 @@
 
 \chapter{Introduction}
 
-In this project we intend to investigate some of the deep techniques employed in
-working out the rank of an elliptic curve. To do this we will pursue two different
-chains of ideas:
+In this project we will investigate some of the deep techniques employed in
+working out the rank of an elliptic curve. In particular, we will consider the
+problem of finding the rank of the curves given by
+\[E_n(\QQ) : y^2 = x^3 - n^2 x,\]
+where $n$ is odd and squarefree.
+
+To do this we will pursue two different chains of ideas:
 \begin{enumerate}
 \item The famous Birch Swinnerton Dyer conjecture relates many invariants of an
   elliptic curve to a complex analytic object called the Hasse-Weil L-function.
-  We intend to provide a self-contained explanation of all quantities that occur
+  We intend to provide a self-contained explanation of all the quantities that occur
   in the BSD conjecture, and how they relate to the arithmetic properties of the
-  curve.
+  curve. Once the theoretical ground is laid, we will calculate all the
+  computable invariants featuring in the BSD conjecture for the curves $E_n$.
+  This will require a variety of methods, ranging from p-adic numbers to
+  Galois Cohomology.
 \item The theory of modular forms provides material to deal with L-functions at
-  a Fourier analytic level. In particular, for the family of curves we will be
-  investigating, Tunnell's theorem gives a very concise way of describing the
-  critical values of the L-functions for the quadratic twists of $y^2 = x^3-x$.
-  We intend to give an overview of the chain of reasoning that implies Tunnell's theorem.
+  a Fourier analytic level. In particular, Tunnell's theorem takes advantage of
+  the fact that $L(E_n,s)$ are given by twists of $L(E_1,s)$ by a quadratic
+  character to give
+  very concise way of describing the
+  critical values $L(E_n,1).$
+  We intend to give an overview of the sequence of results that imply Tunnell's theorem.
 \end{enumerate}
 
-Once the theoretical ground is laid, we will carry calculations that will allow
-us to formulate and prove, certain consequences of the BSD
-conjecture. This will be done both by considering the Theta-series coming from
-Tunnell's theorem and by calculating all the required invariants for a certain
-family of curves. Let
-\[E_n : y^2 = x^3 - n^2 x.\]
-We will see that Tunnell's theorem, together with the Birch Swinnerton-Dyer
+Finally, we will see that Tunnell's theorem, together with the Birch Swinnerton-Dyer
 conjecture, predicts that
-
 \begin{equation} \label{eq:prediction}
   a_n^2 = \# \Sha(E_n) \cdot R_{E_n} \cdot 4^{\omega(n)} \cdot 0^r
 \end{equation}
 where the $a_n$ are certain integers associated to the Hasse-Weil L-function
-$L(E_n,s)$, $\Sha(E_n)$ is the Tate-Shafarevich group,
+$L(E_n,s)$, $r$ is the rank of $E_n$,
+$\Sha(E_n)$ is the Tate-Shafarevich group,
 $R_{E_n}$ is the Regulator and $\omega(n)$ is the number of prime factors of
 $n$. All these quantities will be defined in due time. 
 
-The calculations in this project will allow us to show that
-\autoref{eq:prediction} holds modulo 16 for all $n$, and modulo 32 when $n
-\equiv 3 \, (8).$
+The calculations in this project will allow us to prove (see \autoref{mainthm1}): 
+\begin{thm*}
+  Let $n$ be odd and squarefree. If $\Sha(E_n)$ is finite, we have
+  \[a^2_n \equiv \# \Sha(E_n) \cdot R_{E_n} \cdot 4^{\omega(n)} \cdot 0^r \mod{16}.\]
+  Furthermore, if $n \equiv 3 \, (8)$, this holds modulo 32.
+\end{thm*}
+In the (unlikely) possibility that $\Sha(E_n)$ is infinite, we also formulate
+and prove weaker statements. Namely that if $n = p$ is an odd prime,
+$\Sha(E_p)$ has 2-torsion if and only if $p \not\equiv 3 \, (8).$
+
 
 \chapter{Elliptic Curve Invariants and the BSD Conjecture}
 
@@ -1573,7 +1584,7 @@ he was able to arrive at his result:
 
 \section{Group Cohmology}
 
-We begin by recalling some concepts from Commutative Algebra.
+We begin by recalling some concepts from algebra.
 Let $G$ be a finite group. We define the \defin{group ring $\ZZ[G]$} to
 be the ring of formal sums
 \[ \ZZ[G] = \left\{ \sum\limits_{g \in G} x_i g \, | \, x_i \in \ZZ  \right\} \]
@@ -1590,7 +1601,7 @@ and
 We say an abelian group $A$ is a \defin{$G$-module} if it is a module
 for the ring $\ZZ[G]$. 
 
-If $A$ and $B$ are $R$-modules for a commutative ring $R$, recall that
+If $A$ and $B$ are $R$-modules for a ring $R$, recall that
 $Hom_R(A,B)$ is the group of module homomorphisms from $A$ to $B$.
 Recall that an exact sequence
 \[E: 0 \ra B \ra E \ra A \ra 0\]
@@ -1604,8 +1615,8 @@ where
 \[Y = \frac{\{(e,e') \in E \oplus E' \, | \, g(e) = g'(e')\}}{\{
     (f(b),0) - (0, f'(b)) \, | \, b \in B\}}\]
 
-The set of extensions of $A$ by $B$ is called $Ext^1_{\ZZ[G]} (\ZZ,A).$ For
-finitely presented modules, we saw in MATH3201 that it is an abelian group.
+The set of extensions of $A$ by $B$ is called $Ext^1_R (A,B).$ We saw in
+MATH3201 that this is an abelian group with addition given by the Baer sum.
 
 \begin{defn}
   The \defin{zeroth and first cohomology groups of $A$} are defined by
@@ -1620,8 +1631,8 @@ Let $\phi : \ZZ \rightarrow A$ be a module homomorphism. Then
 \[\begin{split} \phi(1) &= \phi(g \cdot 1) \,\,\,\, \forall g \in G \\
     &= g \cdot \phi(1) , \end{split}\]
 so $\phi(1) \in A^G = \{x \in A \, | \, gx = x, \forall g \in G\}$, the set
-of elements of $A$ at which $G$ acts trivially. Since a $\ZZ$ homomorphism is
-completely determined by the image of 1, we can set
+of elements of $A$ at which $G$ acts trivially. But $\phi$ is
+completely determined by the image of 1, so we can set
 \[ H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A) = A^G .\] 
 
 In order to recover $H^1$, note that
@@ -1639,7 +1650,7 @@ where
   = ga - a , \forall g \in G\}\]
 
 The following proposition shows that $H^1$ measures, is some sense, the lack of
-exactness of the functor of $G$-modules given by $A \mapsto A^G.$
+exactness of the functor of $G$-modules to abelian groups given by $A \mapsto A^G.$
 
 \begin{prop}
   For any short exact sequence of $G$-modules
@@ -1649,11 +1660,17 @@ exactness of the functor of $G$-modules given by $A \mapsto A^G.$
     \rightarrow H^1(G, A) \rightarrow H^1(G,B) \rightarrow H^1(G,C) \]
 \end{prop}
 
+\begin{proof}
+  \cite[See][Appendix B, Pages 416-417]{arithmetic}.
+\end{proof}
+
 \section{Galois Cohomology}
 
 We will now transport the machinery of group cohomology to the setting of
-number fields.
-Let $L, K$ be number fields and $L : K$ a finite degree Galois
+field extensions.
+All throughout this section, we will assume $K$ is a perfect field. We recall
+this means that every extension of $K$ is separable. 
+We also let $L : K$ be a finite degree Galois
 extension with Galois group $G_{L:K}$.
 A \defin{Galois module $A$} is a module over $G_{L:K}$.
 
@@ -1668,7 +1685,7 @@ A \defin{Galois module $A$} is a module over $G_{L:K}$.
   \[E: y^2 = x^3 + ax^2 + bx + c, \text{ with } a, b \in K.\]
   
   Let $P_1, P_2 \in E(L)$. 
-  If $P_1 = (x_1, y_1)$ and $P_2 = (x_2,y_2)$, we have $P_1+P_2 = (x_3,y_3)$,
+  If $P_1 = (x_1, y_1)$ and $P_2 = (x_2,y_2)$, we have $P_1+P_2 = (x_3,-y_3)$,
   where
   \[x_3 = \lambda^2 - a - x_1 - x_2\]
   and $\lambda = \frac{y_2-y_1}{x_2-x_1}.$ The $y$ coordinate is then given by
@@ -1699,11 +1716,19 @@ The following result gives an important terminating condition for the
 long exact sequences:
 
 \begin{thm}[Hilbert's Theorem 90]
-  $  H^1(L : K, L^{\times}) = 0$
+  For any finite Galois extension $L:K$, we have
+  \[ H^1(L : K, L^{\times}) = 0\]
+  where $L^\times$ is the multiplicative group of $L$.
 \end{thm}
 \begin{proof}
   \cite[See][Chapter X, page 150]{cohomology}
 \end{proof}
+
+Unpacking the definitions, we see that if $\phi : G_{L:K} \ra L^\times$ is a map
+satisfying
+\[\phi(gh)=\phi(g) \cdot g (\phi(h)),\]
+then there exists some $\lambda \in L^\times$ such that
+$$\phi(g) = \frac{g(\lambda)}{\lambda}, \text{ for all } g \in G_{L:K}. $$
 
 In what follows we will let $L = \bar{K}$, the algebraic closure of $K$ and let
 $G_K = G_{\bar{K}:K}$ be the absolute Galois group of $K$.
@@ -1714,7 +1739,8 @@ it will be necessary to make amendmends to the previous defintions.
   A $G_K$-module $A$ is called a \defin{continuous $G_K$-module}
   if for all $g \in G_K$ and $ a \in A$,
   there exists a finite Galois extension $L:K$ such that $g(a)$
-  depends only on the image of $g$ in $G_{L:K}$.
+  depends only on the image of $g$ in $L$. In other words, $g(a)$ is determined
+  by the coset of $g$ modulo $G_{\bar{K}:L}$.
 \end{defn}
 
 The definition of continious Galois module guarantees that, at least locally, we
@@ -1729,15 +1755,22 @@ can still work with finite extensions.
   minimal polynomial of $\alpha$ over $K$.
   But then, for any $\alpha \in K$ and $g \in G_K$, the number $g(\alpha)$ is a conjugate
   of $\alpha$, and hence also lies in $K(\alpha).$ Thus, the value of
-  $g(\alpha)$ depends only on $g$ modulo $G_{L:K}$, as wanted.
+  $g(\alpha)$ depends only on the image of $g$ in $L$, as wanted.
 \end{example}
 
 To form cohomology groups for continuous Galois modules, set
-\[H^1(K,A) = \frac{Z^1_{\text{cts}}(K,A)}{B^1(K,A)}\]
+\[H^1_{\textnormal{cts}}(K,A) = \frac{Z^1_{\text{cts}}(K,A)}{B^1(K,A)}\]
 where
-\[Z^1_{\text{cts}} = \{\phi : G_K \rightarrow A \, | \, \exists \text{ a finite
-    extension } L : K
-  \text{ such that } \phi(g) \text{ depends only on } g \text{ modulo } G_{L:K}\}.\]
+\begin{equation*}
+  Z^1_{\text{cts}}(K,A) = \left\{
+    \begin{aligned}
+      &\phi : G_K \rightarrow A \, | \, $\phi \in Z^1(G_K,A)$ \text{ and }
+     \text{there exists a finite extension } L : K \\ 
+     &\text{ such that } \phi(g)
+      \text{ depends only on } g \text{ modulo } G_{\bar{K}:L}
+    \end{aligned}
+\right\}.
+\end{equation*}
 
 \begin{remark}
   Because $A$ is continuous, it follows that $B^1 \subset Z^1_{\text{cts}}$, so
@@ -1746,27 +1779,67 @@ where
 
 \begin{lemma}
   $E(\bar{K})$ is a continuous $G_K$-module.
-  If $K = \QQ$, we have $H^0(\QQ,E(L)) = E(L)^{G_{L:\QQ}} = E(\QQ)$.
+  If $K = \QQ$, we have 
+  $$H^0(\QQ,E(\bar{\QQ})) = E(\bar{\QQ})^{G_{\bar{\QQ}:\QQ}} = E(\QQ).$$
 \end{lemma}
 \begin{proof}
   For $P = (x,y) \in E(\bar{K})$, let $L$ be the field generated
   by the coordinates of $P$. Then $P \in E(L)$ and $L$ is finite. This is
-  because $x, y$ satisfy an algebraic equation over $K$ (the equation of the curve).
+  because $x, y$ are algebraic over $K$.
 
   But then $g (P) = P, \forall g \in G_{\bar{K} : L}$, so the value of $g(P)$
-  for some $g \in G_K$ is entirely determined by $g$ modulo $G_{L:K},$ as wanted.
+  for some $g \in G_K$ is entirely determined by $g$ modulo $G_{\bar{K}:L},$ as wanted.
+\end{proof}
+
+We also have an extension of Hilbert's Theorem 90 to the continuous setting:
+
+\begin{thm}
+  Let $K$ be a perfect field. We have
+  \[H^1_\textnormal{cts}(\bar{K}:K, \bar{K}^\times) = 0.\]
+\end{thm}
+
+\begin{proof}
+  The idea of the proof is to take advantage of the finiteness conditions
+  afforded by continuity, and reduce the problem to the finite extension case.
+  We will show that $Z^1_\text{cts} (\bar{K}:K, \bar{K}^\times) = B^1(\bar{K}:K,
+  \bar{K}^\times).$
+
+  Let $\phi : G_K \ra \bar{K}^\times $ with $\phi \in Z^1_{\text{cts}}.$ By
+  continuity, there exists a finite extension $L:K$ such that for $g \in G_K$,
+  the value of $\phi(g)$ depends only on the restriction of $g$ to $L$. Thus, we
+  have a map 
+  \[\phi: G_{L:K} \ra \bar{K}^\times, \]
+  and $G_{L:K}$ is finite. Now let $L_1:L$ be the field extension generated
+  by the images of $\phi$ in $\bar{K}^\times$. This is a finite extension by
+  construction. Finally, let $L_2:K$ be the normal closure of $L_2:K$, which is a
+  Galois extension, since we are assuming $K$ is a perfect field.
+
+  Putting everything together, note we can consider $\phi$ as a map
+  \[\phi: G_{L_2:K} \ra L_2^\times\]
+  by construction, so $\phi \in Z^1(L_2 : K, L_2^\times)$. But by Hilbert's
+  Theorem 90, $H^2(L_2:K, L_2^\times) = 0$, so we must have $\phi \in B^1(L_2:K,
+  L_2^\times).$
+  
+  By the definition of $B^1$, this means that we can write for all $g \in G_K,$ 
+  \[\phi(g) = \frac{g(\lambda)}{\lambda},\]
+  for some $\lambda \in L_2^\times \subset \bar{K}^\times.$
+  Thus, $\phi \in B^1(\bar{K}:K, \bar{K}^\times),$ and we have $H^1(\bar{K}:K,
+  \bar{K}^\times = 0).$
+
+
+  
 \end{proof}
   
-\begin{remark}
-  From now on we will write $H^1(\QQ, E)$ for the group $H^1(\QQ, E(\bar{\QQ}))$.
-\end{remark}
-
 Similarly to the group case, if we have a short exact sequence of continuous $G_K$-modules
 \[ 0 \ra A \ra B \ra C \ra 0\]
 we can form a long exact sequence of Galois cohomology groups
 \[0 \ra A^{G_K} \ra B^{G_K} \ra C^{G_K} \ra H^1(K,A) \ra H^1(K,B) \ra H^1(K,C).\]
 It will be this sequence that will allow us to tackle the calculation of the
 rank of the elliptic curves $E_n$ explicitly.
+
+\begin{remark}
+  From now on we will write $H^1(\QQ, E)$ for the group $H^1(\QQ, E(\bar{\QQ}))$.
+\end{remark}
 
 \section{Applications to Elliptic Curves} \label{sec:applications}
 A crucial step in the proof of the Mordell-Weil theorem is the study of the size
@@ -1815,9 +1888,11 @@ x \mapsto 4x$.
 \end{proof}
 
 \begin{lemma} \label{lemma:rankformula}
-  If $E / \psi(\bar{E})$ and $\bar{E} / \phi(E)$ are finite, then so is $E/2E$.
+  If $E(\QQ) / \psi(\bar{E}(\QQ))$ and $\bar{E}(\QQ) / \phi(E(\QQ))$ 
+  are finite, then so is $E(\QQ)/2E(\QQ)$.
   In fact, the rank $r$ of $E$ satisfies
   \[2^r = \frac{\#E/\psi(\Eb) \cdot \#\Eb/\phi(E)}{4}\]
+  where all curves are understood to be over $\QQ.$
 \end{lemma}
 \begin{proof}
   \cite[See][Chapter 4, page 83]{rational}.
@@ -1837,44 +1912,60 @@ Taking Galois cohomology we get the long exact sequence
   \rightarrow H^1(\QQ, \ZZ/2\ZZ) \rightarrow H^1(\QQ, \bar{E}) \xrightarrow{H^1(\psi)}
   H^1(\QQ, E)\]
 This in turn gives us the short exact sequence
-\[ 0 \rightarrow \frac{E(\QQ)}{\psi(\bar{E} (\QQ))} \rightarrow
-  H^1(\QQ, \ZZ / 2\ZZ) \rightarrow H^1(\QQ, \bar{E}(\QQ))[\psi] \rightarrow 0.\]
-
+\begin{equation} \label{exact}
+  0 \rightarrow \frac{E(\QQ)}{\psi(\bar{E} (\QQ))} \rightarrow
+  H^1(\QQ, \ZZ / 2\ZZ) \rightarrow H^1(\QQ, \bar{E}(\QQ))[\psi] \rightarrow 0.
+\end{equation}
 To get the order of $E(\QQ) / \psi(\bar{E}(\QQ))$ we need to investigate the group
 $H^1(\QQ, \ZZ/2\ZZ)$.
 
 \begin{prop}
-  There exists a canonical isomorphism so that
-  \[H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times} / (\QQ^{\times})^2\]
+  Let $K$ be a perfect field. There exists a canonical isomorphism
+  \[H^1(K, \ZZ/2\ZZ) \simeq K^{\times} / (K^{\times})^2\]
 \end{prop}
 \begin{proof}
 Consider the exact sequence of Galois modules
-\[0 \rightarrow \mu_2 \rightarrow \QQ^{\times} \xrightarrow[]{2} \QQ^{\times} \ra
+\[0 \rightarrow \mu_2 \rightarrow \bar{K}^{\times} \xrightarrow[]{2} \bar{K}^{\times} \ra
   \, 0 \]
 where $\mu_2$ is the multiplicative group $\{1, -1\}.$
  
 Taking cohomology gives the long exact sequence
-\[ 0 \ra \mu_2 \ra \bar{\QQ}^{\times} \xrightarrow[]{2} \bar{\QQ}^{\times} \ra H^1(\QQ, \ZZ/2\ZZ)
-  \ra H^1(\QQ, \bar{\QQ}^{\times})\]
-and $H^1(\QQ, \bar{\QQ}^{\times}) \simeq 0$ by Hilbert's Theorem 90. Thus,
-\[H^1(\QQ, \ZZ/2\ZZ) \simeq \QQ^{\times}/(\QQ^{\times})^2. \]
+\[ 0 \ra \mu_2 \ra K^{\times} \xrightarrow[]{2} K^{\times} \ra H^1(K, \ZZ/2\ZZ)
+  \ra H^1(K, \bar{K}^{\times})\]
+and $H^1(K, \bar{K}^{\times}) \simeq 0$ by Hilbert's Theorem 90. Thus,
+\[H^1(K, \ZZ/2\ZZ) \simeq K^{\times}/(K^{\times})^2. \qedhere\]
 \end{proof}
+
+\begin{remark}
+  If the characteristic of $K$ is 2, the group $\mu_2$ is trivial, so we
+  actually have $\bar{K}^\times \simeq (\bar{K}^\times)^2$, and thus $H^1(K,
+  \ZZ/2\ZZ) = 0.$
+\end{remark}
+
+Applying the result to \autoref{exact}, we have $H^1(\QQ, \ZZ / 2\ZZ) \simeq
+\QQ^\times / (\QQ^\times)^2$, giving the short exact sequence
+\[0 \ra \frac{E(\QQ)}{\psi({\bar{E}(\QQ)})} \ra \QQ^\times / (\QQ^\times)^2 \ra
+H^1(\QQ, \bar{E}(\QQ))[\psi] \ra 0,\]
+which shows that $E(\QQ) / \psi(\bar{E}(\QQ))$ is a subgroup of $\QQ / (\QQ^\times)^2.$
 
 \section{The Selmer and Tate-Shafarevich Groups}
 
 In the effort to understand $E(\QQ)/2E(\QQ)$, we were led to consider the quotient
 $E(\QQ) / \psi(\bar{E}(\QQ))$. Our application of Galois cohomology showed that this
 group is a subgroup of the multiplicative group of rationals modulo squares
-$\QQ^{\times} / (\QQ^{\times})^2$. This group, in turn, can be studied by means
-of local methods.
+$\QQ^{\times} / (\QQ^{\times})^2$. This opens the possibility of employing local
+methods to study $E(\QQ)/2E(\QQ)$.
 
 \begin{defn}
   A \defin{place} $\nu$ is either a prime number $p$ or $\infty$. $\QQ_\nu$ then is
   either the field of $p$-adic numbers if $\nu = p$ or $\RR$ if $\nu = \infty$.
 \end{defn}
 
-There is then a natural inclusion $\QQ \ra \prod\limits_\nu \QQ_\nu,
-x \mapsto (x, x, \dots)$ since $\QQ \subset \QQ_{\nu}$ canonically for each
+We have a natural inclusion 
+$$\QQ \hookrightarrow \prod\limits_\nu \QQ_\nu$$
+given by
+$$x \mapsto (x, x, \dots),$$ 
+since $\QQ \hookrightarrow \QQ_{\nu}$ canonically for each
 $\nu$. This gives rise to the following commutative diagram with exact rows:
 
 \begin{tikzcd}
@@ -1913,7 +2004,7 @@ computable. To understand $\EQ/\psi(\Eb(\QQ))$ fully, we also need
   \bar{E})\right) $$
 \end{defn}
 Note that the isogeny $\psi: \bar{E} \ra E$ gives rise to maps $H^1(\QQ,
-\bar{E}) \ra H^1(\QQ,E)$ and $H^1(\QQ_\nu, \bar{E}) \ra H^1(\QQ, \nu)$. It
+\bar{E}) \ra H^1(\QQ,E)$ and $H^1(\QQ_\nu, \bar{E}) \ra H^1(\QQ_\nu, E)$. It
 therefore restricts to a map $\Sha(\bar{E}) \ra \Sha(E)$. We will write
 $\Sha(E)[\psi]$ for the kernel of this map, and call it the
 \defin{subgroup of $\psi$-torsion of $\Sha(E)$}.
@@ -1925,7 +2016,7 @@ Putting both groups together, we get the short exact sequence
 
 If $\Sha(E)[\psi] \simeq 0$, we get
 $\Sel_\psi(E) \simeq \EQ/\psi(\Eb(\QQ))$. By playing
-the same game with the isogeneous curve $\Eb$, if $\Sha(E/\QQ)[\phi] \simeq 0$,
+the same game with the isogeneous curve $\Eb$, if $\Sha(E)[\phi] \simeq 0$,
 we also know $\Eb(\QQ)/\phi(\EQ)$ and can use \ref{lemma:rankformula} to compute
 the rank of $E$. 
 
@@ -1950,9 +2041,8 @@ formula for the rank $r$ of $E$ given by
 Considering the Selmer groups, we can give a computable upper bound for the rank
 of $E$ from the following equation:
 \[2^{s_r} = \frac{\# \Sel_\phi(E) \cdot \# \Sel_\psi(E)}{4}.\]
-The positive integer $s_r$ is called the \defin{Selmer rank of $E$}, and we have
-$s_r \geq r.$
-
+The positive integer $s_r$ defined by this formula 
+is called the \defin{Selmer rank of $E$}, and we have $s_r \geq r.$
 
 \newpage
 
@@ -2122,7 +2212,7 @@ to compute $P_n$ and $Q_n$.
 
 We're now ready to find an expression for $a_n$ modulo 4. 
 
-\begin{thm}
+\begin{thm} \label{theta_calculation}
   If $n = p$ is prime, the coefficient $a_p$ of $f(z)$ in \autoref{eq:mododd}
   satisfies
   \[a_p \equiv \begin{cases}
@@ -3151,7 +3241,7 @@ for the family $E_n$, we now match our results to what is predicted
 by the BSD conjecture.
 
 Recall Tunnell's theorem (\autoref{eq:tunnell}), which in our case states that
-if $n$ is odd and square free then
+if $n$ is odd and squarefree then
 \[L(E_n,1) = \frac{\beta}{4\sqrt{n}}a_n^2,\]
 where $\beta = \int_1^\infty \frac{dx}{\sqrt{x^3-x}}$ and the integers $a_n$
 are the coefficients of the theta series described in \autoref{eq:tunnell}.
@@ -3188,14 +3278,16 @@ where
   \end{split}
 \end{equation*}
 
-Putting both expressions for $L(E_n, 1)$, the Birch Swinnerton-Dyer conjecture
+Putting both expressions for $L(E_n, 1)$ together, the Birch Swinnerton-Dyer conjecture
 predicts that 
 \begin{equation} \label{mainpred} 
-  a_n^2 = \#\Sha(E_p) \cdot R_{E_n}\cdot 4^{\omega(n)} \cdot 0^r.
+  a_n^2 = \#\Sha(E_n) \cdot R_{E_n}\cdot 4^{\omega(n)} \cdot 0^r.
 \end{equation}
 where $\omega(n)$ is the number of prime factors of $n$.
+If the rank is 0, this
+equation only makes sense if we assume $\Sha(E_n)$ is finite.
 
-If $n$ has at least 2 prime factors, we computed
+If $n$ has at least 2 prime factors, we computed (Theorem \autoref{theta_calculation})
 \[a_n \equiv 0 \mod{4},\]
 so \autoref{mainpred} predicts that
 \[0 \equiv 0 \mod{16},\]
@@ -3228,79 +3320,113 @@ $E_p$ satisfies
   \end{cases}
 \end{equation*}
 
+In order to get the strongest possible results, we will need to quote one last
+result.
+\begin{prop}
+  Let $E(\QQ)$ be an elliptic curve. There exists an alternating bilinear
+  pairing
+  \[\langle \cdot \rangle : \Sha(E) \times \Sha(E) \ra \QQ / \ZZ.\]
+  The kernel of $\langle \cdot \rangle$ is given by 
+  \[K = \{ x \in \Sha(E) \, | \, \textnormal{ for all positive integers } n, 
+    \exists y \in \Sha(E) \textnormal{ such that } x = ny\}.\]
+  In particular, if $\Sha(E)$ is finite, then its order is a perfect square. 
+\end{prop}
+
+\begin{conj} \label{cassels_conj}
+  We have $K = 0$, where $K$ is the set of divisible elmeents of $\Sha(E)$,
+  defined in the previous proposition.
+\end{conj}
+
 The calculations in this project have allowed us to formulate and prove the
 following two predictions.
 
 
 \begin{thm} \label{mainthm2}
-  If $p \not\equiv 3 \, (8)$, \autoref{mainpred} is valid modulo 2. In
-  this case either the rank is nonzero or $\Sha(E_p)$ has an element of 2-torsion.
+  If $p \not\equiv 3 \, (8)$, \autoref{mainpred} is valid modulo 8. If
+  Conjecture \autoref{cassels_conj} is true, then it also holds modulo 16.
 \end{thm}
 \begin{proof}
   If $p \not\equiv 3 \, (8),$ the coefficient $a_p$ is 0 modulo 4.
   Thus,
   the BSD conjecture predicts that
-  \[4 \cdot \#\Sha(E_p) \cdot R_{E_p} \cdot 0^r \equiv 0 \mod{16}\]
-  so
-  \[\# \Sha(E_p) \cdot R_{E_p} \cdot 0^r \equiv 0 \mod{4}.\]
-  If the rank is nonzero, this is trivially satisfied, since the left hand side
-  is then precisely 0. If $r = 0$, $R_{E_p} = 1$, so we expect
-  \[\# \Sha(E_p) \equiv 0 \mod{4}.\]
-  Since the Tate-Shafarevich group is abelian, this would be true 
-  if and only if $\Sha(E_p)$ has 4-torsion. 
+  \begin{equation} \label{pred_mod}
+    4 \cdot \#\Sha(E_p) \cdot R_{E_p} \cdot 0^r \equiv 0 \mod{16}.
+  \end{equation}
 
-  We can actually prove the weaker statement
-  \[\# \Sha(E_p) \equiv 0 \mod{2},\]
-  i.e. that $\Sha(E_p)$ has 2-torsion.
-  
-  If $p \not\equiv 3 \, (8)$ and the rank is 0, no equations from
-  \ref{eq:isocurve} besides the trivial one (with $d_1 = 1$) have rational
-  solutions. Thus, we have
-  \[\# \Sha(\bar{E}_p)[\psi] = \# \Sel(\bar{E}_p)[\psi] =
-    \begin{cases}
-      2 &\text{if } p \equiv 5,7 \mod{8} \\
-      4 &\text{if } p \equiv 1 \mod{8}.
-    \end{cases}
-  \]
-  and
-  \[\# \Sha(E_p)[\phi] = \# \Sha(E_p)[\phi] = 1\]
-  Recall that the construction of the $\phi$ and $\psi$ isogenies gives us a
-  sequence of homomorphisms
-  \[\Sha(E_p) \xrightarrow{\phi} \Sha(\bar{E}_p) \xrightarrow{\psi} \Sha(E)\]
-  with $\psi \circ \phi (P) = 2P.$
+  \begin{itemize}
+  \item We will first show that \autoref{pred_mod} is true modulo 8. This is
+    equivalent to showing that
+    \[\# \Sha(E_p) \cdot R_{E_p} \cdot 0^r \equiv 0 \mod{2}.\] 
+    If the rank
+    is nonzero, this is trivially satisfied, since the left hand side is then
+    precisely 0. If $r = 0$, $R_{E_p} = 1$, so we expect
+    \[\# \Sha(E_p) \equiv 0 \mod{2}.\]
+    
+    If $\Sha(E_p)$ is infinite, we will take this statement to mean that $\Sha(E_p)$
+    contains a point of 2-torsion.
+      
+    For the case where $p \not\equiv 3 \, (8)$ and the rank is 0, no equations from
+    \ref{eq:isocurve} besides the trivial one (with $d_1 = 1$) have rational
+    solutions. Thus, we have
+    \[\# \Sha(\bar{E}_p)[\psi] = \# \Sel(\bar{E}_p)[\psi] =
+      \begin{cases}
+        2 &\text{if } p \equiv 5,7 \mod{8} \\
+        4 &\text{if } p \equiv 1 \mod{8}.
+      \end{cases}
+    \]
+    and
+    \[\# \Sha(E_p)[\phi] = \# \Sha(E_p)[\phi] = 1\] Recall that the construction
+    of the $\phi$ and $\psi$ isogenies gives us a sequence of homomorphisms
+    \[\Sha(E_p) \xrightarrow{\phi} \Sha(\bar{E}_p) \xrightarrow{\psi}
+      \Sha(E_p)\] with $\psi \circ \phi (P) = 2P.$ Since $\Sha(E_p)[\phi] = 0$,
+    we must have $\Sha(E_p)[2] = \Sha(\bar{E}_p)[\psi]$, so
+    \[\# \Sha(E_p)[2] = 2 \text { or } 4 > 0.\]
+    Thus, $\Sha(E_p)$ contains an elmeent of 2-torsion, as wanted.
 
-  Since $\Sha(E_p)[\phi] = 0$, we must have $\Sha(E_p)[2] = \Sha(\bar{E}_p)
-  \equiv 0 \, (2)$, so if $\# \Sha(E_p)$ is finite, we must have
-  \[\# \Sha(E_p) \equiv 0 \mod{2}\]
-  as wanted.
+  \item In order to prove \autoref{pred_mod}, we must have
+    \[\# \Sha(E_p) \equiv 0 \mod{4}.\]
+    We will show that, assuming Conjecutre \autoref{cassels_conj}, 
+    that $\Sha(E_p)$ has in fact at least 4 elements of 2-torsion. 
 
+    Let $x \in \Sha(E_p)$ be the element of 2-torsion found above. Assuming the
+    conjecture, we can find some $y \in \Sha(E_p)$ such that $\langle x,y \rangle \neq 0$
+    (since the kernel of $\langle \cdot \rangle$ is then equal to 0). But then
+    \[2 \langle x,y \rangle = \langle 2x,y \rangle = \langle 0, y \rangle = 0,\]
+    so $\langle x,y \rangle = \frac{1}{2}.$
+    
+    Suppose $y$ has order $n$ in $\Sha(E_p).$ Then
+    \[0 = \langle x,ny \rangle = n \langle x,y \rangle = \frac{n}{2},\]
+    so $\frac{n}{2} \in \ZZ$, and $n$ is even. Write $n = 2^a k$ for $k$ odd,
+    and let $z = ky$. Then
+    \[\langle x,z \rangle = \frac{k}{2} = \frac{1}{2},\]
+    so in particular $z \neq x$. But $z$ has order $2^a$, so it is contained in
+    the 2-Sylow subgroup of $\Sha(E_p)$, and thus $\# \Sha(E_p)$ is a multiple
+    of 4, as wanted.
+
+  \end{itemize}
 \end{proof}
-\begin{remark}
-  If $p \equiv 1 \, (8)$ and $E_p$ has rank 0,
-  the argument in Theorem \autoref{mainthm2} actually shows that $\Sha(E_p)$ has
-  4-torsion, so \autoref{mainpred} holds modulo 4.
-\end{remark}
 
 \begin{thm} \label{mainthm1}
   If $p \equiv 3 \, (8)$, the BSD conjecture predicts
-  that the rank of $E_p$ is 0, and this is indeed true.
+  that the rank of $E_p$ is 0, and this is indeed true. If furthermore $\Sha(E_p)$ is
+  finite, then \autoref{mainpred} holds modulo 32.
 \end{thm}
 
 \begin{proof}
-  If $p \equiv 3 \, (8)$, we see that $a_p^2 \equiv 4 \,
-  (16).$ In particular,
-  it is not 0, so we can't have $r \neq 0$ in \autoref{mainpred}. 
-  But that is precisely what the Selmer rank calculation tells us, since in this
-  case $s_r =
-  0$ and $0 \leq r \leq s_r.$
-  \autoref{mainpred} also implies that
-  \[4 \equiv 4 \cdot \# \Sha(E_p) \mod{16},\]
+  If $p \equiv 3 \, (8)$, we have $a_p^2 \equiv 4 \, (32)$, 
   so the BSD conjecture predicts that
-  \[\# \Sha(E_p) \equiv 1 \mod{4}.\]
-  In particular, it predicts that $\#\Sha(E_p)$ is odd.
-  But in this case, $\Sha(E_p)[\phi] = \Sha(\bar{E}_p)[\psi] = 0$, so
-  $\Sha(E_p)[2] = 0$. Thus, if $\Sha(E_p)$ is finite, it must have odd order, as predicted.
+  \[\# \Sha(E_p) \cdot R_{E_p} \cdot 0^r \equiv 4 \mod{32}.\]
+  In particular, the right hand side is not 0, so we must have $r = 0$. This
+  agrees with the calculations of the Selmer rank, where we've seen that in this
+  case $s_r$, and we always have $s_r \geq r.$ In this case, the regulator
+  $R_{E_p} = 1$, so the prediction is equivalent to
+  \[\# \Sha(E_p) \equiv 1 \mod{8}.\]
 
+  In this case we have $\Sha(E_p)[\phi] = \Sha(\bar{E}_p)[\psi] = 0$, so
+  $\Sha(E_p)[2] = 0.$ By Sylow's theorem, this means that in $\Sha$ is finite,
+  it must have odd order. But then the Cassels pairing is perfect, so the order
+  of $\Sha(E_p)$ is a square, and hence congruent to 1 modulo 8. This finishes
+  the proof.
 \end{proof}
 
 \printbibliography[heading=bibintoc]

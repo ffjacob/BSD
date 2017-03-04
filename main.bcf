@@ -2174,16 +2174,17 @@
     <bcf:citekey order="28">koblitz</bcf:citekey>
     <bcf:citekey order="29">Tunnell</bcf:citekey>
     <bcf:citekey order="30">Tunnell</bcf:citekey>
-    <bcf:citekey order="31">cohomology</bcf:citekey>
-    <bcf:citekey order="32">rational</bcf:citekey>
+    <bcf:citekey order="31">arithmetic</bcf:citekey>
+    <bcf:citekey order="32">cohomology</bcf:citekey>
     <bcf:citekey order="33">rational</bcf:citekey>
     <bcf:citekey order="34">rational</bcf:citekey>
     <bcf:citekey order="35">rational</bcf:citekey>
-    <bcf:citekey order="36">marcus</bcf:citekey>
-    <bcf:citekey order="37">Serre</bcf:citekey>
-    <bcf:citekey order="38">classical</bcf:citekey>
-    <bcf:citekey order="39">Serre</bcf:citekey>
-    <bcf:citekey order="40">Hensel</bcf:citekey>
+    <bcf:citekey order="36">rational</bcf:citekey>
+    <bcf:citekey order="37">marcus</bcf:citekey>
+    <bcf:citekey order="38">Serre</bcf:citekey>
+    <bcf:citekey order="39">classical</bcf:citekey>
+    <bcf:citekey order="40">Serre</bcf:citekey>
+    <bcf:citekey order="41">Hensel</bcf:citekey>
   </bcf:section>
   <bcf:sortlist section="0" name="anyt/global/" type="entry" sortscheme="anyt" sortnamekeyscheme="global" labelprefix="">
   <bcf:sorting>
