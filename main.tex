@@ -135,13 +135,13 @@ To do this we will pursue two different chains of ideas:
   computable invariants featuring in the BSD conjecture for the curves $E_n$.
   This will require a variety of methods, ranging from p-adic numbers to
   Galois Cohomology.
-\item The theory of modular forms provides material to deal with L-functions at
+\item The theory of modular forms provides techniques to deal with L-functions at
   a Fourier analytic level. In particular, Tunnell's theorem takes advantage of
   the fact that $L(E_n,s)$ are given by twists of $L(E_1,s)$ by a quadratic
   character to give
   very concise way of describing the
   critical values $L(E_n,1).$
-  We intend to give an overview of the sequence of results that imply Tunnell's theorem.
+  We intend to give an overview of the chain of results that imply Tunnell's theorem.
 \end{enumerate}
 
 Finally, we will see that Tunnell's theorem, together with the Birch Swinnerton-Dyer
@@ -162,8 +162,8 @@ The calculations in this project will allow us to prove (see \autoref{mainthm1})
   Furthermore, if $n \equiv 3 \, (8)$, this holds modulo 32.
 \end{thm*}
 In the (unlikely) possibility that $\Sha(E_n)$ is infinite, we also formulate
-and prove weaker statements. Namely that if $n = p$ is an odd prime,
-$\Sha(E_p)$ has 2-torsion if and only if $p \not\equiv 3 \, (8).$
+and prove weaker statements. Namely, we can interpret the existence of 2-torsion in
+$\Sha(E_n)$ as saying that \autoref{eq:prediction} holds modulo 8.
 
 
 \chapter{Elliptic Curve Invariants and the BSD Conjecture}
@@ -180,7 +180,7 @@ continue with the main calculations.
 \section{Basic definitions and the group law}
 
 \begin{defn}
-  If $K$ is a perfect field,
+  If $K$ is a field,
   we say an \defin{elliptic curve} over $K$ is a smooth cubic projective
   curve $E$ defined over $K$ with at least one rational point $\OO \in E(K)$
   that we call the \defin{point at infinity}.
@@ -194,8 +194,8 @@ into particularly simple forms.
   \begin{equation} \label{eq:weier2}
     E: y^2 + a_1xy + a_3y = x^3 + a_2x^2 + a_4x + a_6
   \end{equation}
-  with $a_1, a_2, a_3, a_4 \in K.$
-  Furthermore, when $\text{char}(K) \neq 2$ (such as in number fields)
+  with $a_1, a_2, a_3, a_4, a_6 \in K.$
+  Furthermore, when $\text{char}(K) \neq 2$ (such as when $K$ is a number field)
   , the affine variety also can be written as the locus of
   \begin{equation} \label{eq:weier}
     E: y^2 = x^3 + ax^2 + bx + c
@@ -215,18 +215,24 @@ Henceforth we will only consider elliptic curves $E(K)$
 given by the affine model in \autoref{eq:weier}. The
 point $\OO$ will always correspond to the point $(0:1:0)$ in the projective
 completion of $\Aa^2(K).$
-We will always take $K = \QQ$ unless otherwise specified.
+We will usually take $K = \QQ$, unless otherwise specified.
 
 In this project we will be particularly interested in the following family
 of elliptic curves
 
 \begin{defn}
-  The family of \defin{quadratic twists of $E : y^2 = x^3 - x$} is the family of curves
+  The family of \defin{quadratic twists of the curve $E_1 : y^2 = x^3 - x$}
+  is the family of curves
   \begin{equation} \label{eq:twist}
     E_n : y^2 = x^3 - n^2 x
   \end{equation}
   where $n$ is a positive integer.
 \end{defn}
+
+We will only be interested in the case where $n$ is odd and squarefree. Such
+curves have a long history going back to Fermat, and are notorious for their
+appearance in the problem of finding right triangles with rational sides and a
+given area. See \cite{koblitz} for a lot more on this story.
 
 Elliptic curves are of particular interest primarily because, besides being
 a variety, they also form an abelian group. To build the group, we take the
@@ -246,19 +252,19 @@ Finally, we set
 \[P_1 + P_2 = (x_3, -y_3) \text{ where } (x_3,y_3) = P_1 * P_2.\]
 The verification that the operation $+$ is indeed a group law involves either
 extensive case checking or
-some complex analysis, which we will not be going into, but see
+some complex analysis, which we will not go into, but see
 \cite[129-137]{Granville} for a sketch.
 
-A few explicit formulas that we will use throughout the project
+A few explicit formulas for the addition law that we will use throughout the project
 are given in the next proposition. 
 
 \begin{prop}
-  If $P_1 = (x_1,y_1), P_2 = (x_2,y_2) \in E, P_1, P_2 \neq \OO$, let
+  If $P_1 = (x_1,y_1), P_2 = (x_2,y_2) \in E$ with neither being the point at
+  infinity, and $P_1 \neq P_2$, let
   $$\lambda = \frac{y_1-y_2}{x_1-x_2}.$$
-  then we have
+  Then we have
   \[P_1 + P_2 = (x_3,-y_3)\]
   where
-
   \begin{equation} \label{eq:adddiff}
     \begin{split}
       x_3 &= \lambda^2 - a - x_1 - x_2 \\
@@ -266,12 +272,11 @@ are given in the next proposition.
     \end{split}
   \end{equation}
 
-  If $P_1 = P_2,$ let
+  If instead $P_1 = P_2,$ let
   \[\lambda = \frac{3x_1^2 + 2ax_1 + b}{2y_1}.\]
-  we similarly have
+  We similarly have
   \[P_1 + P_2 = (x_3,-y_3)\]
   where
-  
   \begin{equation} \label {eq:addsim}
     \begin{split}
       x_3 &= \lambda^2 - a - 2x_1 \\
@@ -280,7 +285,7 @@ are given in the next proposition.
   \end{equation}
 \end{prop}
 \begin{proof}
-  \cite[See][Chapter 1.7, page 34]{modular}.
+  \cite[See][Chapter 1.7, page 34]{koblitz}.
 \end{proof}
 
 The following results about $\EQ$ were discussed in the course MATH3705,
@@ -320,7 +325,10 @@ points of finite order in $\EQ$, called the \defin{torsion points of $\EQ$}.
   \cite[See][Chapter II, pages 49-56]{rational}.
 \end{proof}
 
-\begin{prop}
+For the curves $E_n$, it turns out that the only torsion points are the obvious
+ones of order 2.
+
+\begin{prop} \label{proof:torsion}
   The curve $E_n(\QQ)$ has 4 torsion points, and
   \[E_n(\QQ)_{\textnormal{tors}} = \{\OO, (0,0), (n,0), (-n,0)\}.\]
 \end{prop}
@@ -527,13 +535,13 @@ the expression
 beautifully mimics the geometric construction of $\PP^n$ from a point, attaching
 one cell of each dimension. 
 
-Turning to the curves in our family $E_n$, we will later show
+Turning to the curves in our family $E_n$, we will show later
 (see \autoref{singularity_condition})
 that $E_n$ is nonsingular at $p$ if and only if $p \nmid 2n$. This will affect
 the form of its local zeta function.
 
-At the primes where it has bad reduction, $Z(E_n,p,z)$ has the same equation as
-a projective line:
+At the primes where it has bad reduction, $Z(E_n,p,z)$ is identical to the zeta
+function of a projective line:
 
 \begin{prop}
   If $p \mid 2n$, then
@@ -575,14 +583,15 @@ a projective line:
                           &= 1 + p^r.
       \end{split}
     \end{equation*}
-    The last sum is 0 since there are as many residues as non-residues in $\FF_{p^r}.$ 
+    The last sum is 0 since there are as many quadratic residues as quadratic
+    non-residues in $\FF_{p^r}.$ 
     Thus, again we get
     \begin{equation*}
       \begin{split}
         Z(E_n, p, z) &= \exp \left(\sum\limits_{r=1}^\infty (1+p^r) \frac{z^r}{r}\right) \\
                      &= \frac{1}{(1-z)(1-pz)}.
       \end{split}
-    \end{equation*}
+    \end{equation*} \qedhere
     
   \end{itemize}
   
@@ -594,14 +603,14 @@ the form of a quadratic rational function in $z$:
 
 \begin{prop} \label{zeta_elliptic}
   If $p \nmid 2n$, then
-  \[Z(E_n, p, z) = \frac{1 - 2az + pz^2}{(1-z)(1-pz)} \]
-  where $a = \Re(\alpha)$, and $\alpha$ is the complex number
-  $i\sqrt{p}$ if $p \equiv 3 \, (4)$ and an element of $\ZZ[i]$ of
+  \[Z(E_n, p, z) = \frac{1 - 2a_pz + pz^2}{(1-z)(1-pz)} \]
+  where $a_p = \Re(\alpha)$, and $\alpha$ is the complex number
+  $i\sqrt{p}$ if $p \equiv 3 \, (4)$ or an element of $\ZZ[i]$ of
   norm $p$ congruent to $(\frac{n}{p})$ modulo $2+2i$ if $p \equiv 1 \, (4)$. 
 \end{prop}
 
 \begin{proof}
-  \cite[See][Chater II-2, pages 59-61]{modular}.
+  \cite[See][Chater II-2, pages 59-61]{koblitz}.
 \end{proof}
 
 
@@ -727,7 +736,7 @@ The importance of the regulator is justified by the following proposition
 Before we are ready to state the main conjecture, we need to define a few
 other invariants of $E$. 
 
-\begin{defn}[Real Period] 
+\begin{defn}[Real Period] \label{proof:real_period}
   The \defin{real period of $E$} is defined to be the real number
   \[\Omega_E = \int_{E(\RR)} \frac{dx}{2y}.\]
 
@@ -746,11 +755,11 @@ to be finite.
 
 \section{Tamagawa Numbers}
 
-Finally, note that the local zeta function of $E$ gives essentially no
+Note that the local zeta function of $E$ gives us essentially no
 information to \autoref{eq:lfunction} at the primes where the curve is singular.
 The arithmetic data at those
 primes enters the BSD conjecture by means of the Tamagawa
-Numbers.
+Numbers. 
 Let
 $$ E : y^2 = f(x) = x^3 + ax^2 + bx + c $$
 be an elliptic curve $\QQ$ with coefficients $a,b,c \in \ZZ.$
@@ -801,22 +810,28 @@ L-function to the arithmetic invariants of $E$.
   \textit{The Hasse-Weil L-function $L(E,s)$ can be written as
   \[L(E,s) = C (s-1)^r + O((s-1)^2)\] where}
 \begin{equation} \label{eq:bsd}
-  C = \frac{\#\text{Sha}(E) \, \Omega_E R_E}{(\#Tors(\EQ))^2} \prod_p c_p
+  C = \frac{\#\text{Sha}(E) \, \Omega_E R_E}{\#Tors(\EQ)^2} \prod_p c_p
 \end{equation}
 \end{conj}
 
 In particular, setting $s = 0$, it predicts the value of
-\[0^r \cdot \frac{\# \Sha(E) \, \Omega_E R_E}{(\# \Tors(\EQ))^2} \prod_p c_p .\]
+\[0^r \cdot \frac{\# \Sha(E) \, \Omega_E R_E}{\# \Tors(\EQ)^2} \prod_p c_p .\]
 
 In this project we will show that the predicted value for $L(E_n,1)$
 is correct modulo 16.
 
 The BSD conjecture is particularly powerful to gather information about
-parametrised families of elliptic curves, since we can then form a parametric
-family of L-functions and hope that by analysing those we can recover useful
-arithmetic information.
-In the case of our family $E_n$, the following remarkable result, proven using
-the machinery of modular forms, shows that the critical value
+parametrised families of elliptic curves. We can then form a parametric
+family of L-functions and hope that, by analysing how they change as we range
+through the family, we can recover useful
+arithmetic information about the original curves.
+
+This can be seen quite clearly
+for the $E_n$, since even though it is very difficult to tackle all of them
+together artihmetically, their L-functions are just twists of $L(E_1,s)$ by a
+quadratic character.
+This idea culminates in the following remarkable result, proven using
+the machinery of modular forms, which shows that the critical value
 $L(E_n,1)$ takes a particularly simple form.
 
 \begin{thm}[Tunnell's Theorem]
@@ -853,20 +868,20 @@ $L(E_n,1)$ takes a particularly simple form.
   
 In this project we will take advantage of the fact that the coefficients of
 $L(E_n,1)$ are given by relatively simple arithmetic functions, and use that
-to verify the BSD conjecture for the family $E_n$.
+to verify the BSD conjecture modulo 16 for the family $E_n$.
 
-To do this we will first compute all the invariants of $E_n$ as well as
-possible, and then find a simple form for the coefficients of $f$ and $f'$ modulo
-a high enough power of 2. This will enable us to predict the rank of $E_n$ as
-$n$ ranges over the prime numbers.
+To do this we will first compute all the invariants of $E_n$,
+and then find a simple form for the coefficients of $f$ and $f'$ modulo
+a high enough power of 2. This will enable us to predict the rank of $E_n$ and,
+in some cases, the size of $\Sha(E_n).$.
 
 \newpage
 
 \chapter{Modular Forms}
 
 Our goal in this section is to sketch the chain of results from the theory of
-modular forms that will allow us to find a relatively simple expression for the
-critical values $L(E_n,1)$ of the Hasse-Weil L-function. 
+modular forms that make it possible to write the
+critical values $L(E_n,1)$ of the Hasse-Weil L-function in terms of Theta functions. 
 
 \section{Lattices and Modular points}
 
@@ -1153,7 +1168,8 @@ introduce the following notation: for $M = \left(
   The space of such functions is written $M_k(\Gamma').$
   \item If the coefficient $a_0$ in all Fourier expansions from the previous
     items are also 0, then $f$ is called a \defin{cusp form of weight $k$ for
-      $\Gamma'$}. The space of such functions is written $S_k(\Gamma').$
+      $\Gamma'$}. We also say \defin{$f$ vanishes at the cusps}.
+    The space of such functions is written $S_k(\Gamma').$ 
   \end{enumerate}
 \end{defn}
 
@@ -1212,7 +1228,7 @@ $k$ and level $N$. The details are covered in
 We now use the reverse correspondence to define Hecke operators $T_n$ on
 congruence subgroups.
 
-\begin{defn}
+\begin{defn} \label{defin_hecke}
   The \defin{Hecke operator $T_n : M_k(\Gamma_1(N)) \ra M_k(\Gamma_1(N))$} by
   \[T_nf(z) = F(T_n(L,t)) := \frac{1}{n} \sum\limits_{L'} F((L',t))\]
   where $F, L$ and $t$ are defined in the remarks above, and the $T_n$ acts on
@@ -1314,7 +1330,7 @@ by $L_f(s) = \sum \frac{b_n}{n^s}.$
 
 The motivation for all definitions so far comes from the following result:
 
-\begin{prop}
+\begin{prop} \label{Llevel}
   Let $L(E_n,s)$ be the Hasse-Weil L-function for the curve $y^2 = x^3-n^2x$.
   Then we have
   \begin{enumerate}[(i)]
@@ -1389,7 +1405,7 @@ Recall that they consist of integer matrices of the form $
 $ where $c \equiv 0 \, (4N)$ and $ad - bc = 1.$
 
 In order to get the right definition we will need to generalize classical forms
-in 2 directions
+in three directions
 \begin{enumerate}
 \item We will need to consider more general transformation rules, which not only
   scale correctly but also make the signs work out.
@@ -1399,10 +1415,13 @@ in 2 directions
   defining the appropriate holomorphicity conditions to get forms and cusp forms.
 \end{enumerate}
 
-To carry out the first generalization, we take the transformation rule for the
-Theta function as a model and define the \defin{automorphy factor}
-\[j(\gamma, z) = \frac{\Theta(\gamma z)}{\Theta(z)} =
-  \legendre{c}{d} \varepsilon_d \sqrt{cz + d}.\]
+\begin{defn} \label{automorphy}
+  To carry out the first generalization, we take the transformation rule for the
+  Theta function as a model and define the \defin{automorphy factor}. For
+  $\gamma \in \Gamma_0(4),$ let
+  \[j(\gamma, z) = \frac{\Theta(\gamma z)}{\Theta(z)} = \legendre{c}{d}
+    \varepsilon_d \sqrt{cz + d}.\]
+\end{defn}
 
 Similar to the case for classical forms, we would want weight $k/2$ forms to
 satisfy
@@ -1435,7 +1454,7 @@ subgroups of $G$:
 Let $\Gamma'$ be a subgroup of $\Gamma_0(4)$ of finite index. We define
 \[\tilde{\Gamma} = \{(\gamma, j(\gamma,z)) \, | \, \gamma \in \Gamma'\}\]
 and call $\tilde{\Gamma}'$ the lift of $\Gamma'$. For some $\gamma \in
-\Gamma_0(4)$, we write lift $\gamma$ to $G$ by writing
+\Gamma_0(4)$, we write lift of $\gamma$ to $G$ by writing
 \[\tilde{\gamma} = (\gamma, j(\gamma,z)) \in G.\]
 
 \begin{defn}
@@ -1476,7 +1495,7 @@ If we further have $a_0 = 0$, we say $f$ \defin{vanishes at the cusps of $\Gamma
   Let $k \in \ZZ$, $\Gamma' < \Gamma_0(4)$ have finite index and let $f$ be a
   weakily modular form of weight $k/2$.
   \begin{enumerate}
-  \item If $f$ is meromorphic at every cusp of $\Gamma'$, we say $f$ is a
+  \item If $f$ is holomorphic at every cusp of $\Gamma'$, we say $f$ is a
     \defin{modular form of weight $k/2$}. The space of such functions is written 
     $M_{k/2}(\tilde{\Gamma})$.
   \item If $f$ also vanishes at every cusp, we say $f$ is a \defin{cusp form of
@@ -1493,16 +1512,141 @@ If we further have $a_0 = 0$, we say $f$ \defin{vanishes at the cusps of $\Gamma
 
 As with integral weight forms, there is a theory showing finitely dimensionality
 and computing the dimensions of spaces for each weight. Half-integral weight
-forms also admit Hecke operators. It turns out that for the analogues of the
-$T_n$, the best we can do is find an eigenform for every $T_{p^2}$. This makes
-the theory coarser, and the corresponding identities more complicated. We will
-restrict our definitions to the case where $n = p^2$ is the square of a prime. 
+forms also admit Hecke operators.  
+
 Since we lose the analogies from modular points in the $k/2$ case, it becomes
-much harder to define $T_n$ geometrically, and in fact we could only find
-sources which do it through the double coset approach. For the sake of brevity,
-we will thus ommit the full defintion, and only state that one ends up having
-\[T_{p^2}f(z) = p^{(k/2)-2} \sum_\gamma f(z) | [\xi_{p^2} \tilde{\gamma}]_{k/2}\]
-where the sum is over certain coset representatives in $\Gamma_1(N).$
+harder to define $T_n$ geometrically. The definition we will give here uses the
+alternative double coset approach, which could also have been employed in
+defining $T_n$ for classical forms. This algebraic apparatus gives
+rise to the theory of Hecke modules, which can be used to generalize
+the concepts from this section even further. We begin giving an alternative
+expression for the $T_n$ for classical forms.
+
+\begin{prop} \label{hecke_alt}
+  Let $n$ be positive integers, and let $\Delta^n$ be the set of 2x2 matrices
+  with integers entries and determinant $n$. Recall that $\Gamma$ is the full
+  modular group $SL_2(\ZZ).$ We have:
+  \begin{enumerate}[(i)]
+  \item For any $\alpha \in \Delta^n$, there are only finitely many disjoint
+    double cosets $\Gamma \alpha \Gamma$ in $\Delta^n.$ A complete set of double
+    coset representatives is given by $\alpha = \left(
+      \begin{smallmatrix}
+        a & 0 \\ 0 & a b
+      \end{smallmatrix}
+    \right)$  where $a, b$ run through all positive integers such that $n =
+    a b^2.$
+    In particular, if $n$ is squarefree, we have $\Delta^n = \Gamma \left(
+      \begin{smallmatrix}
+        1 & 0 \\ 0 & n
+      \end{smallmatrix}
+    \right) \Gamma$, and if $n = p^2$ is the square of a prime, $\Delta^{p^2} = \Gamma \left(
+      \begin{smallmatrix}
+        1 & 0 \\ 0 & p^2
+      \end{smallmatrix}
+    \right) \Gamma \amalg p \Gamma$.
+  \item For any double coset $\Gamma \alpha \Gamma \subset \Delta^n$ with
+    $\alpha \in \Delta^n$, we have $\Gamma \alpha \Gamma = \Gamma \gamma_1
+    \amalg \cdots \amalg \Gamma \gamma_k$, so the double coset splits as a
+    finite disjoint union of single cosets.
+  \end{enumerate}
+\end{prop}
+\begin{proof}
+  \cite[See][Chapter IV-3, Pags 202-203]{koblitz}.
+\end{proof}
+
+These special properties of $\Delta^n$ allow us to give an alternative
+definition for the operators $T_n$, as an average not over modular points, but
+over coset representatives.
+
+\begin{defn}[Alternative definition of classical Hecke operator]
+  Let $k, n$ be positive integers with $k$ even. For $f \in M_k(\Gamma),$ set
+  \[f | [\Gamma \alpha \Gamma]_k = \sum\limits_j f | [\alpha \gamma_j]_k\] where the sum
+  is over all right cosets $\Gamma \alpha \gamma_j \subset \Gamma \alpha
+  \Gamma.$ Then
+  \[T_n f = n^{(k/2)-1} \sum f | [\Gamma \alpha \Gamma]_k,\]
+  where the sum is over all double cosets of $\Gamma$ in $\Delta^n.$
+  \cite[Chapter III-5, Page 167]{koblitz} shows that the sum is well defined,
+  and that this expression agrees with
+  how we defined the $T_n$ in \autoref{defin_hecke}.
+\end{defn}
+
+We can now generalize this construction to forms of half-integral weight. Recall
+that $G$ is the quadruple cover of $GL_2^+(\QQ)$ given by
+\[G = \left\{ (\alpha, \phi(z)) \, | \, \alpha = \left(
+      \begin{smallmatrix}
+        a & b \\ c & d
+      \end{smallmatrix}
+    \right) \in GL_2^+(\QQ)
+    \text{ and } \phi(z)^4 = \frac{cz+d}{\sqrt{\det \alpha}} \right\}\]
+and
+\[\tilde{\Gamma}_0(4) = \left\{ (\alpha, j(\alpha,z)) \, | \, \alpha \in
+    \Gamma_0(4) \right\}\]
+where $j(\alpha,z)$ is the automorphy factor defined in \autoref{automorphy}.
+
+In order to make an equivalent construction of the double coset operator for
+subgroups of $G$, we let
+\[\xi_n = \left( \left(
+      \begin{smallmatrix}
+        1 & 0 \\ 0 & n
+      \end{smallmatrix}
+    \right), \sqrt[4]{n} \right)\]
+and consider the double cosets of the form
+$\tilde{\Gamma}_1(N) \xi_n \tilde{\Gamma}_1(N)$. The following proposition
+generalizes the double coset decomposition in Proposition \autoref{hecke_alt}
+to $\tilde{\Gamma}_1(N).$
+
+\begin{prop} \label{hecke_gen}
+  For any positive integer $n$, the double coset
+  $\tilde{\Gamma}_1(N) \xi_n \tilde{\Gamma}_1(N)$ splits as the disjoint union
+  of finitely many right cosets
+  $$\tilde{\Gamma}_1(N) \xi_n \tilde{\Gamma}_1(N) =
+  \tilde{\Gamma}_1(N) \xi_n \tilde{\gamma_1} \amalg \cdots \amalg
+  \tilde{\Gamma}_1(N) \xi_n \tilde{\gamma_k}$$
+  where $\tilde{\gamma}_i = (\gamma_i, 1)$ for some $\gamma_i \in \Gamma_1(N).$ 
+\end{prop}
+\begin{proof}
+  \cite[See][Chapter IV-3, Pages 203-204]{koblitz}.
+\end{proof}
+
+For $f \in M_{k/2}(\tilde{\Gamma}_1(N))$, we can then define an analogous double
+coset action by
+\[f | [\tilde{\Gamma}_1(N) \xi_n \tilde{\Gamma}_1(N)]_{k/2} = 
+  \sum\limits_j f | [\xi_n \tilde{\gamma}_j]_{k/2},\]
+where the sum is over the coset representatives from Proposition
+\autoref{hecke_gen}.
+
+The main difference in the theory for Hecke operators of forms of half-integral
+weight comes from the fact that if $(n, N) = 1$ and $n$ is not a perfect square,
+then
+\[f | [\tilde{\Gamma}_1(N) \xi_n \tilde{\Gamma}_1(N)] = 0. \]
+This means that when searching for eigenforms for the generalizations of the
+$T_n$, it is not helpful to consider $n$ that are not perfect squares, since
+then the only eigenform for $T_n$ would be 0. We thus restrict our definition of
+$T_n$ for the case where $n=p^2$ is the square of a prime.
+
+\begin{defn}
+  Let $p$ be a prime number, and $f \in M_{k/2}(\tilde{\Gamma}_1(N))$. The
+  \defin{Hecke operator $T_{p^2}$} is defined by
+  \[
+    \begin{split}
+      T_{p^2} f &= p^{(k/2)-2} f | [\tilde{\Gamma}_1(N) \xi_{p^2}
+      \tilde{\Gamma}_1(N)]_{k/2} \\
+      &= p^{(k/2)-2} \sum\limits_j f(z) | [\xi_{p^2}\tilde{\gamma}_j]_{k/2}
+    \end{split}
+  \]
+  where
+  \[\xi_{p^2} = \left( \left(
+        \begin{smallmatrix}
+          1 & 0 \\ 0 & p^2
+        \end{smallmatrix}
+      \right), \sqrt{p} \right)\]
+  and the sum is over the coset representatives from Proposition \autoref{hecke_gen}. 
+  If for every prime $p$ there exists some $\lambda_p \in \CC$ such that
+  $T_{p^2} f = \lambda_p f$, we call $f$ an \defin{eigenform for the $T_{p^2}$}. 
+\end{defn}
+
+In the next section we will see that certain cusp forms which are also eigenforms for all
+$T_{p^2}$ actually correspond to classical forms in a surprising fashion.
 
 \section{The Shimura Correspondence and Tunnell's Theorem}
 
@@ -1551,12 +1695,21 @@ specialization is given in Tunnell's paper \cite[Page 328]{Tunnell}.
   Shimura map.
 \end{thm}
 
-In order to carry his programme, Tunnell considers the form $f_{L(E_1)}$ coming
-from the Hasse-Weil L-function of $E_1$.  First, he computes all preimages of
-$f_{L(E_1)}$
+Recall that if $L(s) = \sum \frac{a_n}{n^s}$ is a Dirichlet series, we can form
+a new function with Fourier expansion $f_L(z) = \sum a_n q^n$, where $q = e^{2
+  \pi i z}$. When $L$ is the Hasse-Weil L-function, we saw in Proposition
+\autoref{Llevel} that
+\[f_{E_n} \in M_2(\Gamma_0(32 n^2)).\]
+
+We will be interested in the case where $k = 3$, so that the Shimura map takes
+forms of weight $3/2$ to forms of weight $2$,
+where $f_{L(E_1)}$ lives. In this setting, Tunnell
+saw that Waldspurger's theorem simplifies considerably.
+First, he computes all preimages of $f_{L(E_1)}$
 under the Shimura map.
 It turns out to be necessary to work at level 128, but by finding a basis
-for $S_{3/2}(\tilde{\Gamma}_0(N), \chi)$ he manages to write the preimages in
+for $S_{3/2}(\tilde{\Gamma}_0(N), \chi)$ he manages to write the preimages of
+$f_{L(E,1)}$ under the Shimura map in
 terms of theta functions.
 
 By observing carefully what Waldspurger's theorem
@@ -1565,10 +1718,18 @@ there are only 4 options for the $c(n)$, and by carefully comparing coefficients
 he was able to arrive at his result:
 
 \begin{thm}[Tunnell's Theorem]
-  Let $f = \sum a_k q^k$ and $g = \sum b_k q^k \in
-  M_{3/2}(\tilde{\Gamma}_0(128))$ be forms corresponding to the unique
-  normalized newform
-  in $M_2(\Gamma_0(32))$. Let $n$ be a squarefree odd positve integer. Then,
+  Let
+  \[f_1(z) = (\Theta(z)-\Theta(4z))(\Theta(32z) - \frac{1}{2}\Theta(8z))
+    \in S_1(\Gamma_0(128)).\]
+  Then
+  \[f_1(z)\Theta(2z), f_1(z)\Theta(8z) \in S_{3/2}(\tilde{\Gamma}_0(128)) \]
+  and
+  \[ f_1(z)\Theta(4z), f_1(z) \Theta(16z) \in
+    S_{3/2}(\tilde{\Gamma}_0(128), \chi_2)\]
+  are a maximal set of linearly independent eigenforms for all of the $T_{p^2}$,
+  whose image under the Shimura lift is the modular form $f_{L(E_1)}$.
+
+  Let $n$ be a squarefree odd positve integer. Then Waldspurger's theorem implies:
   \[L(E_n,1) = \frac{\beta}{4\sqrt{n}} a_n^2 \]
   and
   \[L(E_{2n},1) = \frac{\beta}{2 \sqrt{2n}} b_n^2 \]
@@ -1764,7 +1925,7 @@ where
 \begin{equation*}
   Z^1_{\text{cts}}(K,A) = \left\{
     \begin{aligned}
-      &\phi : G_K \rightarrow A \, | \, $\phi \in Z^1(G_K,A)$ \text{ and }
+      &\phi : G_K \rightarrow A \, | \, \phi \in Z^1(G_K,A) \text{ and }
      \text{there exists a finite extension } L : K \\ 
      &\text{ such that } \phi(g)
       \text{ depends only on } g \text{ modulo } G_{\bar{K}:L}
@@ -2256,18 +2417,26 @@ We're now ready to find an expression for $a_n$ modulo 4.
 Now we proceed in the other direction, and examine the expected rank of the
 curve by studying its arithmetic invariants. We'll first compute the Selmer
 group of $E_p$ and $\Eb_p$. Recall that in this case, the Selmer group is a
-subgroup of $\QQ^\times / (\QQ^\times)^2.$
+subgroup of $\QQ^\times / (\QQ^\times)^2.$ It won't be necessary to calculate
+the Selmer rank of $E_n$ for composite $n$. This is because, as last section showed, in
+this case we don't have any information about the coefficients of the theta
+series associated with $E_n$ besides
+knowing that it is a multiple of 4.
 
 \begin{prop}
   $\Sel(E_p)$ is a subgroup of the multiplicative group
   $ \{ \pm 1, \pm p \}$, and $d_1 \in \Sel$ if and only if the equation
   \begin{equation} \label{eq:hom}
-    N^2 = d_1 M^4 + \frac{p^2}{d_1}e^4
+    N^2 = d_1 M^4 - \frac{p^2}{d_1}e^4
   \end{equation}
   has a solution in $\QQ_p$ for all $p$ and has a solution in $\RR.$
   Similarly, $\Sel(\Eb_p)$ is a subgroup of the multiplicative group
   $\{\pm 1, \pm 2, \pm p, \pm 2p\}$,
-  consisting of elements $d_1$ at which \autoref{eq:hom} has a real and p-adic
+  consisting of elements $d_1$ at which
+  \begin{equation}
+    N^2 = d_1 M^4 + \frac{4p^2}{d_1}e^4 \label{eq:isohom}
+  \end{equation}
+  has a real and p-adic
   solution for all prime numbers.
 \end{prop}
 
@@ -2327,27 +2496,38 @@ kinds of primes: 2, $p$, and any odd prime $l \neq p$.
 
 \subsection{l-adic case}
 
-In order to work out if equation \autoref{eq:hom} has a solution in $\QQ_l$,
-we will first show it always has a solution 
+Let $l$ be an odd prime not equal to $p$.
+In order to work out if equation Equations \ref{eq:hom} and \ref{eq:isohom} have
+solutions in $\QQ_l$,
+we will first show they always have a nontrivial solution 
 in $\ZZ/l\ZZ$, and then lift this solution to $\QQ_l$ using Hensel's lemma.
+In the $l$-adic case, will be simpler to show that every equation of the form
+\begin{equation} \label{eq:genhom}
+N^2 = aM^4 + be^4
+\end{equation}
+with $a,b \in \ZZ_l^\times$ has a nontrivial solution in $\QQ_l.$ This is
+sufficient, since all
+possible coefficients appearing in Equations \ref{eq:hom} and \ref{eq:isohom}
+are units in $\ZZ_l$, as they are always divisors of $4p^2$.
+
 
 \begin{lemma} \label{local_ladic}
-  If $l$ is a prime other than $2,p$, then \autoref{eq:hom} has a solution in $\FF_l$.
+  \autoref{eq:genhom} always has a nontrivial solution in $\FF_l$.
 \end{lemma}
 \begin{proof}
   We are looking at the number of solutions to
-  \[ N^2 - d_1M^4 - \frac{p^2}{d_1}e^4 \equiv 0 \, (l)\]
-  where $d_1 = \pm 1, \pm 2, \pm p, \pm 2p$. Since none of $1, d_1$ and
-  $\frac{p^2}{d_1}$ are divisible by $l$, we may apply all results from
-  the previous section. There are two cases to consider.
+  \[ N^2 - aM^4 - be^4 \equiv 0 \, (l)\]
+  where $a$ and $b$ are units in $\ZZ_l$. Thus, we may apply all results from
+  the previous section. Let $N_l$ be the number of solutions to
+  \autoref{eq:genhom} is $\FF_l$. There are two cases to consider.
   
   \begin{itemize}
   \item If $l \equiv 3 \, (4)$, the values taken by $x^4$ modulo $l$
     are the same as those taken
     by $x^2$, so $N_l$ is also the number of solutions to
-    \[N^2 - d_1M^2 - \frac{p^2}{d_1} e^2 \equiv 0 \, (l).\]
+    \[N^2 - aM^2 - be^2 \equiv 0 \, (l).\]
     But here $\text{deg}(f) = 2$ and there are 3 variables.
-    Thus, by the Chevalley Warning, theorem there exists a nontrivial solution
+    Thus, by the Chevalley Warning theorem, there exists a nontrivial solution
     in $\FF_l$.
 
   \item If $l \equiv 1 \, (4)$, there are three nontrivial Dirichlet
@@ -2356,7 +2536,7 @@ in $\ZZ/l\ZZ$, and then lift this solution to $\QQ_l$ using Hensel's lemma.
     (\frac{n}{p})$.
 
     Thus, $M$ is the number of tuples $\chi^2, \chi^a, \chi^b$ with
-    a,b = \pm 1, 2$ where $\chi^2 \chi^a \chi^b = \varepsilon$. There are only
+    $a,b = \pm 1, 2$ where $\chi^2 \chi^a \chi^b = \varepsilon$. There are only
     two options, given by $a = b = 1$ and $a = b = -1$, so $M = 2$.
     Substituting this into the bound in proposition \autoref{prop:countsols} we get
     \[|N_l - l^{r-1} | \leq 2(l-1) l^{(3/2)-1}.\]
@@ -2382,13 +2562,13 @@ in $\ZZ/l\ZZ$, and then lift this solution to $\QQ_l$ using Hensel's lemma.
   none of the partial derivatives increase the $l$-adic valuation
   of $f$. For instance, $\nu_l \left( \parder{f}{x} \right)=
   \nu_l(2X) = 0$ and $f(X,Y,Z) \equiv 0 \, (l)$, so $\nu_l(f(X,Y,Z)) \geq 1$.
-  Thus, Hensel's lemma applies and we get a solution $\bar{X}, \bar{Y}, \bar{Z}
+  Thus, Hensel's lemma applies and we get a solution $\tilde{X}, \tilde{Y}, \tilde{Z}
   \in \QQ_l$. 
 \end{proof}
   
 \subsection{p-adic case}
-Now there are a finite number of equations to check. We will proceed case by
-case. Remember we're trying to find solutions in $\QQ_p$ to the equations
+Now there are only finitely many equations to check. We will proceed case by
+case. Remember we are trying to find solutions in $\QQ_p$ to the equations
 \begin{equation} \label{eq:homcurve}
   N^2 = d_1 M^4 - \frac{p^2}{d_1}e^4
 \end{equation}
@@ -2411,7 +2591,7 @@ corresponding to the curves $E_p$ and $\Eb_p$.
   \end{itemize}
 \end{proof}
 
-To work on the isogeneous curve, we need 3 technical lemmas
+To work on the isogeneous curve, we need three aditional technical lemmas,
 that will help us streamline our computations.
 
 \begin{lemma} \label{vanilla}
@@ -2844,7 +3024,7 @@ $$  \begin{tabu}{l*{5}{c}r}
     -2p & \cmark & p \equiv 1 \, (8) & p \equiv 7 \, (8) & \xmark & \xmark 
   \end{tabu}$$
 
-\begin{cor}
+\begin{thm}[Selmer rank of $E_p$] \label{thm:selmer}
   The Selmer rank $r$ of $E$ satisfies
   \[
     r =
@@ -2854,7 +3034,7 @@ $$  \begin{tabu}{l*{5}{c}r}
       2 \text{ if } p \equiv 1 \mod{8}.
     \end{cases}
   \]
-\end{cor}
+\end{thm}
 \begin{proof}
   Let $s_r$ be the Selmer rank, then
   \[2^{s_r} = \frac{\#\Sel_\phi(E) \cdot \#\Sel_\psi(\Eb)}{4} = \#\Sel_\psi(\Eb) =
@@ -2989,13 +3169,14 @@ mapping
 \end{equation}
 
 Note that the series $\sqrt{1 -n^2r^4}$ converges $p$-adically for all $r \in
-\ZZ_p$ since $n \equiv 0 \, (p)$. The two possible square roots are accounted
-for since we may just replace $r$ with $-r.$
+\ZZ_p$ since $n \equiv 0 \, (p)$. As we're letting $r$ range over $\ZZ_p$ the
+choice of square root doesn't matter, since we may just replace $r$ with $-r$
+and get the other one.
 
 We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
 \right|$.
 
-\begin{thm}
+\begin{thm} 
   If $p \nmid n$ for $n$ odd and squarefree, the torsion points $\OO, (0,0), (n,0), (-n,0)$
   are a complete set of representatives for $\frac{\EQp}{\EQp_0}$.
 \end{thm}
@@ -3113,7 +3294,7 @@ We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
       $1 + tpb$ and $1-tpb$ are squares in $\ZZ_p$, since they are congruent to
       1 modulo $p$, $\legendre{1}{p} = 1$, and we can lift them noting that
       $\nu_p(1 \pm tpb) = 0$. Thus, 
-      \[\sqrt{-x} = \frac{y}{p (1+tpb)^{1/2} (1-tpb)^{1/2}}, \in \QQ_p,\]
+      \[\sqrt{-x} = \frac{y}{p \sqrt{1+tpb} \sqrt{1-tpb}}, \in \QQ_p,\]
       and is in fact in $\ZZ_p$ since $x$ also is. Finally, we have the solution
       \[r = \frac{\sqrt{-x}}{pb},\]
       so indeed $S \in P(r) + (0,0).$
@@ -3149,7 +3330,7 @@ We are now ready to investigate the quotient group $\left| \frac{\EQp}{\EQp_0}
 
 As an immediate consequence, we have: 
 
-\begin{thm}
+\begin{thm} \label{proof:tamagawa_p}
   Let $n$ be a odd squarefree integer.
   If $p \nmid 2n $, the Tamagawa number $c_p$ of $E_n$ is 4.
 \end{thm}
@@ -3171,7 +3352,7 @@ where
 \[E(\QQ_2)_0 = \pi^{-1} (\tilde{E}(\FF_2)_{ns}) = \{P \in E(\QQ_2) \, | \,
   \pi(P) = \OO \text{ or } \pi(P) = (0,0)\}.\]
 
-\begin{thm}
+\begin{thm} \label{proof:tamagawa_2}
   Let $n$ be an odd squarefree integer. Then the Tamagawa number $c_2$
   of $E_n$ is 2.
 \end{thm}
@@ -3237,8 +3418,8 @@ where
 
 \chapter{Conclusion}
 Having worked out all the main computable invariants
-for the family $E_n$, we now match our results to what is predicted
-by the BSD conjecture.
+for the family $E_n$, we now match our calculations with what is predicted
+by the BSD conjecture. 
 
 Recall Tunnell's theorem (\autoref{eq:tunnell}), which in our case states that
 if $n$ is odd and squarefree then
@@ -3246,16 +3427,16 @@ if $n$ is odd and squarefree then
 where $\beta = \int_1^\infty \frac{dx}{\sqrt{x^3-x}}$ and the integers $a_n$
 are the coefficients of the theta series described in \autoref{eq:tunnell}.
 
-From our calculations, we found out that the size of the torsion subgroup of
-$E_n$ is
+We know that the size of the torsion group of $E_n$ is 
 \begin{equation*}
-    \#\Tors(E_n) &= 4,
-\end{equation*}
-the real period of $E_n$ is given by
+    \#\Tors(E_n) = 4,
+  \end{equation*}
+  (see Proposition \autoref{proof:torsion}). t
+  The real period of $E_n$ is given by {}
 \begin{equation*}
-  \Omega_{E_n} &= \frac{2\beta}{\sqrt{n}} 
+  \Omega_{E_n} = \frac{2\beta}{\sqrt{n}} 
 \end{equation*}
-and the Tamagawa numbers of $E_n$ are
+(see Definition \autoref{proof:real_period}) and the Tamagawa numbers of $E_n$ are
 \begin{equation*}
   \begin{split}
     c_2(E_n) &= 2 \\
@@ -3263,8 +3444,9 @@ and the Tamagawa numbers of $E_n$ are
     c_l(E_n) &= 1 \text{ if } l \neq p. \\
   \end{split}
 \end{equation*}
+(see Theorems \autoref{proof:tamagawa_p} and \autoref{proof:tamagawa_2}).
 
-Substituting the data into the BSD conjecture (\autoref{eq:bsd}), we get
+Substituting the data into the BSD conjecture (\autoref{eq:bsd}), we get the prediction
 \[
   L(E_n,s) = C(s-1)^r + O((s-1)^2)
 \]
@@ -3284,16 +3466,14 @@ predicts that
   a_n^2 = \#\Sha(E_n) \cdot R_{E_n}\cdot 4^{\omega(n)} \cdot 0^r.
 \end{equation}
 where $\omega(n)$ is the number of prime factors of $n$.
-If the rank is 0, this
-equation only makes sense if we assume $\Sha(E_n)$ is finite.
 
-If $n$ has at least 2 prime factors, we computed (Theorem \autoref{theta_calculation})
+If $n$ has at least 2 prime factors, we computed (see Theorem \autoref{theta_calculation})
 \[a_n \equiv 0 \mod{4},\]
 so \autoref{mainpred} predicts that
 \[0 \equiv 0 \mod{16},\]
 which is true, but a bit uninsteresting.
 
-If $n = p$ is an odd prime, we have found
+If $n = p$ is an odd prime, we have found (see Theorem \autoref{theta_calculation})
 \[a_p \equiv \begin{cases}
     0 \mod{4} \text{ if } p \equiv 1,5,7 \mod{8} \\
     2 \mod{4} \text{ if } p \equiv 3 \mod{8}
@@ -3309,7 +3489,7 @@ so that
 since the squares of all numbers congruent to 2 modulo 4 are congruent to 4
 modulo 32.
 
-We also found that the Selmer rank $s_r$ of
+We also found (see Theorem \autoref{thm:selmer}) that the Selmer rank $s_r$ of
 $E_p$ satisfies
 \begin{equation*}
   s_r =
@@ -3320,8 +3500,8 @@ $E_p$ satisfies
   \end{cases}
 \end{equation*}
 
-In order to get the strongest possible results, we will need to quote one last
-result.
+In order to achieve the strongest possible results, we will need to refer to one
+last tool, which gives some structure to the Tate-Shafarevich group.
 \begin{prop}
   Let $E(\QQ)$ be an elliptic curve. There exists an alternating bilinear
   pairing
@@ -3331,6 +3511,10 @@ result.
     \exists y \in \Sha(E) \textnormal{ such that } x = ny\}.\]
   In particular, if $\Sha(E)$ is finite, then its order is a perfect square. 
 \end{prop}
+
+\begin{proof}
+  \cite[See][]{Cassels}.
+\end{proof}
 
 \begin{conj} \label{cassels_conj}
   We have $K = 0$, where $K$ is the set of divisible elmeents of $\Sha(E)$,
@@ -3398,7 +3582,7 @@ following two predictions.
     \[0 = \langle x,ny \rangle = n \langle x,y \rangle = \frac{n}{2},\]
     so $\frac{n}{2} \in \ZZ$, and $n$ is even. Write $n = 2^a k$ for $k$ odd,
     and let $z = ky$. Then
-    \[\langle x,z \rangle = \frac{k}{2} = \frac{1}{2},\]
+    \[\langle x,z \rangle = \frac{k}{2} \equiv \frac{1}{2},\]
     so in particular $z \neq x$. But $z$ has order $2^a$, so it is contained in
     the 2-Sylow subgroup of $\Sha(E_p)$, and thus $\# \Sha(E_p)$ is a multiple
     of 4, as wanted.
@@ -3420,7 +3604,7 @@ following two predictions.
   agrees with the calculations of the Selmer rank, where we've seen that in this
   case $s_r$, and we always have $s_r \geq r.$ In this case, the regulator
   $R_{E_p} = 1$, so the prediction is equivalent to
-  \[\# \Sha(E_p) \equiv 1 \mod{8}.\]
+  \[\# \Sha(E_p) \equiv 1 \mod{8}.\] 
 
   In this case we have $\Sha(E_p)[\phi] = \Sha(\bar{E}_p)[\psi] = 0$, so
   $\Sha(E_p)[2] = 0.$ By Sylow's theorem, this means that in $\Sha$ is finite,
@@ -3429,6 +3613,13 @@ following two predictions.
   the proof.
 \end{proof}
 
+The takeaway is that if we assume $\Sha(E_n)$ is finite, we have proved that
+\autoref{mainpred} holds either modulo 16 if $n \not\equiv 3 \, (8)$, or modulo 32
+if $n \equiv 3 \, (8)$. If $\Sha(E_n)$ is \textit{not} finite, we can still
+interpret our result as saying that \autoref{mainpred} holds modulo 8 for all $n$.
+
+\nocite{*}
 \printbibliography[heading=bibintoc]
 
 \end{document}
+

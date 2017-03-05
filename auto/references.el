@@ -10,11 +10,13 @@
     "simple"
     "classical"
     "cohomology"
+    "galois_cohomology"
     "Serre"
     "wilf"
     "lorenzini"
     "Granville"
     "Tunnell"
-    "Hensel"))
+    "Hensel"
+    "Cassels"))
  :bibtex)
 
