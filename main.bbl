@@ -1,0 +1,424 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 2.8 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \sortlist[entry]{anyt/global/}
+    \entry{Cassels}{article}{}
+      \name{author}{1}{}{%
+        {{hash=c15b4961ab0f61a36291d33998e51bd5}{%
+           family={Cassels},
+           familyi={C\bibinitperiod},
+           given={John\bibnamedelimb William\bibnamedelima Scott},
+           giveni={J\bibinitperiod\bibinitdelim W\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{c15b4961ab0f61a36291d33998e51bd5}
+      \strng{fullhash}{c15b4961ab0f61a36291d33998e51bd5}
+      \strng{authornamehash}{c15b4961ab0f61a36291d33998e51bd5}
+      \strng{authorfullhash}{c15b4961ab0f61a36291d33998e51bd5}
+      \field{labelalpha}{Cas62}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the London Mathematical Society}
+      \field{title}{Arithmetic on curves of genus 1. III. The Tate-Shafarevich and Selmer groups}
+      \field{year}{1962}
+    \endentry
+    \entry{Hensel}{online}{}
+      \name{author}{1}{}{%
+        {{hash=90ec52f4eb212ed86bae500930692247}{%
+           family={Conrad},
+           familyi={C\bibinitperiod},
+           given={Keith},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{90ec52f4eb212ed86bae500930692247}
+      \strng{fullhash}{90ec52f4eb212ed86bae500930692247}
+      \strng{authornamehash}{90ec52f4eb212ed86bae500930692247}
+      \strng{authorfullhash}{90ec52f4eb212ed86bae500930692247}
+      \field{labelalpha}{Con}
+      \field{sortinit}{C}
+      \field{sortinithash}{59f25d509f3381b07695554a9f35ecb2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Hensel's Lemma}
+      \verb{url}
+      \verb http://www.math.uconn.edu/~kconrad/blurbs/gradnumthy/hensel.pdf
+      \endverb
+    \endentry
+    \entry{Granville}{online}{}
+      \name{author}{1}{}{%
+        {{hash=cad81a921d52a22b6ed64fabf6cd67da}{%
+           family={Granville},
+           familyi={G\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+      }
+      \strng{namehash}{cad81a921d52a22b6ed64fabf6cd67da}
+      \strng{fullhash}{cad81a921d52a22b6ed64fabf6cd67da}
+      \strng{authornamehash}{cad81a921d52a22b6ed64fabf6cd67da}
+      \strng{authorfullhash}{cad81a921d52a22b6ed64fabf6cd67da}
+      \field{labelalpha}{Gra11}
+      \field{sortinit}{G}
+      \field{sortinithash}{1c854ef9177a91bf894e66485bdbd3ed}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Rational and Integral Points on Curves}
+      \field{year}{2011}
+      \verb{url}
+      \verb http://www.dms.umontreal.ca/~andrew/Courses/RationalPtsOnCurves.pdf
+      \endverb
+    \endentry
+    \entry{classical}{book}{}
+      \name{author}{2}{}{%
+        {{hash=539c875b87cbdc0243de5774c29f8756}{%
+           family={Ireland},
+           familyi={I\bibinitperiod},
+           given={Kenneth},
+           giveni={K\bibinitperiod}}}%
+        {{hash=7947b192a8184802961c60b084d3df43}{%
+           family={Rosen},
+           familyi={R\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{94e8ba68585b9a3f1f4c9e2a05f420f4}
+      \strng{fullhash}{94e8ba68585b9a3f1f4c9e2a05f420f4}
+      \strng{authornamehash}{94e8ba68585b9a3f1f4c9e2a05f420f4}
+      \strng{authorfullhash}{94e8ba68585b9a3f1f4c9e2a05f420f4}
+      \field{labelalpha}{IR90}
+      \field{sortinit}{I}
+      \field{sortinithash}{25e99d37ba90f7c4fb20baf4e310faf3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{A Classical Introduction to Modern Number Theory}
+      \field{year}{1990}
+    \endentry
+    \entry{modular}{book}{}
+      \name{author}{1}{}{%
+        {{hash=8ef78111cf11e2ad66a89d193ca88a82}{%
+           family={Kilford},
+           familyi={K\bibinitperiod},
+           given={L.\bibnamedelimi J.\bibnamedelimi P.},
+           giveni={L\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Imperial College Press}%
+      }
+      \strng{namehash}{8ef78111cf11e2ad66a89d193ca88a82}
+      \strng{fullhash}{8ef78111cf11e2ad66a89d193ca88a82}
+      \strng{authornamehash}{8ef78111cf11e2ad66a89d193ca88a82}
+      \strng{authorfullhash}{8ef78111cf11e2ad66a89d193ca88a82}
+      \field{labelalpha}{Kil15}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Modular Forms: a classical and computational introduction}
+      \field{year}{2015}
+    \endentry
+    \entry{koblitz}{book}{}
+      \name{author}{1}{}{%
+        {{hash=57af579700a7f1b95505caa26ac99651}{%
+           family={Koblitz},
+           familyi={K\bibinitperiod},
+           given={Neal},
+           giveni={N\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{57af579700a7f1b95505caa26ac99651}
+      \strng{fullhash}{57af579700a7f1b95505caa26ac99651}
+      \strng{authornamehash}{57af579700a7f1b95505caa26ac99651}
+      \strng{authorfullhash}{57af579700a7f1b95505caa26ac99651}
+      \field{labelalpha}{Kob93}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Introduction to Elliptic Curves and Modular Forms}
+      \field{year}{1993}
+    \endentry
+    \entry{lang}{book}{}
+      \name{author}{1}{}{%
+        {{hash=88c92ddced8d93c4ed4df52ee477b0c6}{%
+           family={Lang},
+           familyi={L\bibinitperiod},
+           given={Serge},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{88c92ddced8d93c4ed4df52ee477b0c6}
+      \strng{fullhash}{88c92ddced8d93c4ed4df52ee477b0c6}
+      \strng{authornamehash}{88c92ddced8d93c4ed4df52ee477b0c6}
+      \strng{authorfullhash}{88c92ddced8d93c4ed4df52ee477b0c6}
+      \field{labelalpha}{Lan76}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Introduction to Modular Forms}
+      \field{year}{1976}
+    \endentry
+    \entry{lorenzini}{book}{}
+      \name{author}{1}{}{%
+        {{hash=3cbdfb54df33d2f6eebe3edad688ce71}{%
+           family={Lorenzini},
+           familyi={L\bibinitperiod},
+           given={Dino},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Mathematical Society}%
+      }
+      \strng{namehash}{3cbdfb54df33d2f6eebe3edad688ce71}
+      \strng{fullhash}{3cbdfb54df33d2f6eebe3edad688ce71}
+      \strng{authornamehash}{3cbdfb54df33d2f6eebe3edad688ce71}
+      \strng{authorfullhash}{3cbdfb54df33d2f6eebe3edad688ce71}
+      \field{labelalpha}{Lor96}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{An Invitation to Arithmetic Geometry}
+      \field{year}{1996}
+    \endentry
+    \entry{simple}{book}{}
+      \name{author}{1}{}{%
+        {{hash=3740c93875c2085616534258a335227b}{%
+           family={Lozano-Robledo},
+           familyi={L\bibinithyphendelim R\bibinitperiod},
+           given={Alvaro},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Mathematical Society}%
+      }
+      \strng{namehash}{3740c93875c2085616534258a335227b}
+      \strng{fullhash}{3740c93875c2085616534258a335227b}
+      \strng{authornamehash}{3740c93875c2085616534258a335227b}
+      \strng{authorfullhash}{3740c93875c2085616534258a335227b}
+      \field{labelalpha}{Loz78}
+      \field{sortinit}{L}
+      \field{sortinithash}{872351f18d0f736066eda0bf18bfa4f7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Elliptic Curves, Modular Forms, and Their L-Functions}
+      \field{year}{1978}
+    \endentry
+    \entry{marcus}{book}{}
+      \name{author}{1}{}{%
+        {{hash=d60c9196a6f30a4d3f17bff726f39d37}{%
+           family={Marcus},
+           familyi={M\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{d60c9196a6f30a4d3f17bff726f39d37}
+      \strng{fullhash}{d60c9196a6f30a4d3f17bff726f39d37}
+      \strng{authornamehash}{d60c9196a6f30a4d3f17bff726f39d37}
+      \strng{authorfullhash}{d60c9196a6f30a4d3f17bff726f39d37}
+      \field{labelalpha}{Mar77}
+      \field{sortinit}{M}
+      \field{sortinithash}{2684bec41e9697b92699b46491061da2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Number Fields}
+      \field{year}{1977}
+    \endentry
+    \entry{galois_cohomology}{book}{}
+      \name{author}{1}{}{%
+        {{hash=523a41970d92b80420ca6d5307619da7}{%
+           family={Serre},
+           familyi={S\bibinitperiod},
+           given={Jean-Pierre},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{523a41970d92b80420ca6d5307619da7}
+      \strng{fullhash}{523a41970d92b80420ca6d5307619da7}
+      \strng{authornamehash}{523a41970d92b80420ca6d5307619da7}
+      \strng{authorfullhash}{523a41970d92b80420ca6d5307619da7}
+      \field{labelalpha}{Ser02}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Galois Cohomology}
+      \field{year}{2002}
+    \endentry
+    \entry{cohomology}{book}{}
+      \name{author}{1}{}{%
+        {{hash=523a41970d92b80420ca6d5307619da7}{%
+           family={Serre},
+           familyi={S\bibinitperiod},
+           given={Jean-Pierre},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{523a41970d92b80420ca6d5307619da7}
+      \strng{fullhash}{523a41970d92b80420ca6d5307619da7}
+      \strng{authornamehash}{523a41970d92b80420ca6d5307619da7}
+      \strng{authorfullhash}{523a41970d92b80420ca6d5307619da7}
+      \field{labelalpha}{Ser79}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Local Fields}
+      \field{year}{1979}
+    \endentry
+    \entry{Serre}{book}{}
+      \name{author}{1}{}{%
+        {{hash=523a41970d92b80420ca6d5307619da7}{%
+           family={Serre},
+           familyi={S\bibinitperiod},
+           given={Jean-Pierre},
+           giveni={J\bibinithyphendelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{523a41970d92b80420ca6d5307619da7}
+      \strng{fullhash}{523a41970d92b80420ca6d5307619da7}
+      \strng{authornamehash}{523a41970d92b80420ca6d5307619da7}
+      \strng{authorfullhash}{523a41970d92b80420ca6d5307619da7}
+      \field{labelalpha}{Ser96}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{A Course in Arithmetic}
+      \field{year}{1996}
+    \endentry
+    \entry{arithmetic}{book}{}
+      \name{author}{1}{}{%
+        {{hash=866e92b5b5d4cb556ba4e1235fc3aa35}{%
+           family={Silverman},
+           familyi={S\bibinitperiod},
+           given={Joseph},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{866e92b5b5d4cb556ba4e1235fc3aa35}
+      \strng{fullhash}{866e92b5b5d4cb556ba4e1235fc3aa35}
+      \strng{authornamehash}{866e92b5b5d4cb556ba4e1235fc3aa35}
+      \strng{authorfullhash}{866e92b5b5d4cb556ba4e1235fc3aa35}
+      \field{labelalpha}{Sil16}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The Arithmetic of Elliptic Curves}
+      \field{year}{2016}
+    \endentry
+    \entry{rational}{book}{}
+      \name{author}{2}{}{%
+        {{hash=866e92b5b5d4cb556ba4e1235fc3aa35}{%
+           family={Silverman},
+           familyi={S\bibinitperiod},
+           given={Joseph},
+           giveni={J\bibinitperiod}}}%
+        {{hash=ae66d765b06d866a6ff6d2ec2ce7aee1}{%
+           family={Tate},
+           familyi={T\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{cc49c1b47669bf5484044af1f8cc773d}
+      \strng{fullhash}{cc49c1b47669bf5484044af1f8cc773d}
+      \strng{authornamehash}{cc49c1b47669bf5484044af1f8cc773d}
+      \strng{authorfullhash}{cc49c1b47669bf5484044af1f8cc773d}
+      \field{labelalpha}{ST90}
+      \field{sortinit}{S}
+      \field{sortinithash}{fd1e7c5ab79596b13dbbb67f8d70fb5a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Rational Points on Elliptic Curves}
+      \field{year}{1990}
+    \endentry
+    \entry{Tunnell}{article}{}
+      \name{author}{1}{}{%
+        {{hash=f97c77440024be4646cebcd3c0260837}{%
+           family={Tunnell},
+           familyi={T\bibinitperiod},
+           given={J.B.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{f97c77440024be4646cebcd3c0260837}
+      \strng{fullhash}{f97c77440024be4646cebcd3c0260837}
+      \strng{authornamehash}{f97c77440024be4646cebcd3c0260837}
+      \strng{authorfullhash}{f97c77440024be4646cebcd3c0260837}
+      \field{labelalpha}{Tun83}
+      \field{sortinit}{T}
+      \field{sortinithash}{423d138a005a533b47e6475e39378bf2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Inventiones Mathematicae}
+      \field{title}{A Classical Diophantine Problem and Modular Forms of Weight 3/2}
+      \field{volume}{72}
+      \field{year}{1983}
+      \field{pages}{323\bibrangessep 334}
+      \range{pages}{2}
+    \endentry
+    \entry{wilf}{book}{}
+      \name{author}{1}{}{%
+        {{hash=b5af2d6711ac0f9093eed4f0ab2c3db3}{%
+           family={Wilf},
+           familyi={W\bibinitperiod},
+           given={Herbert\bibnamedelima S.},
+           giveni={H\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {CRC Press}%
+      }
+      \strng{namehash}{b5af2d6711ac0f9093eed4f0ab2c3db3}
+      \strng{fullhash}{b5af2d6711ac0f9093eed4f0ab2c3db3}
+      \strng{authornamehash}{b5af2d6711ac0f9093eed4f0ab2c3db3}
+      \strng{authorfullhash}{b5af2d6711ac0f9093eed4f0ab2c3db3}
+      \field{labelalpha}{Wil06}
+      \field{sortinit}{W}
+      \field{sortinithash}{99e3ba1b3f78bb6f073e7fa7ac11636b}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Generatingfunctionology}
+      \field{year}{2006}
+    \endentry
+  \endsortlist
+\endrefsection
+\endinput
+

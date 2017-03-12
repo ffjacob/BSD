@@ -1,0 +1,22 @@
+* Introduction
+** Invariants
+* TODO Modular forms
+* Galois Cohomology
+** DONE Group Cohomology
+   CLOSED: [2017-02-02 Thu 23:43]
+** DONE Galois Cohomology
+   CLOSED: [2017-02-02 Thu 23:43]
+** DONE Sel and Sha
+   CLOSED: [2017-02-02 Thu 23:43]
+** Review
+* Calculations
+** TODO Selmer
+*** DONE n = p
+    CLOSED: [2017-02-02 Thu 23:43]
+*** n = pq
+** Theta Series
+** Tamagawa Number
+*** DONE p | n
+    CLOSED: [2017-02-02 Thu 23:43]
+*** DONE p = 2
+    CLOSED: [2017-02-02 Thu 23:43]
