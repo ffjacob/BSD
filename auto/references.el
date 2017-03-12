@@ -17,6 +17,7 @@
     "Granville"
     "Tunnell"
     "Hensel"
-    "Cassels"))
+    "Cassels"
+    "lang"))
  :bibtex)
 

@@ -113,6 +113,7 @@
 	{\large \today\par}
 \end{titlepage}
 
+
 \tableofcontents
 \pagebreak
 
@@ -131,8 +132,8 @@ To do this we will pursue two different chains of ideas:
   elliptic curve to a complex analytic object called the Hasse-Weil L-function.
   We intend to provide a self-contained explanation of all the quantities that occur
   in the BSD conjecture, and how they relate to the arithmetic properties of the
-  curve. Once the theoretical ground is laid, we will calculate all the
-  computable invariants featuring in the BSD conjecture for the curves $E_n$.
+  curve. Once the theoretical ground is laid, we will calculate all these
+  invariants for the curves $E_n$.
   This will require a variety of methods, ranging from p-adic numbers to
   Galois Cohomology.
 \item The theory of modular forms provides techniques to deal with L-functions at
@@ -620,11 +621,41 @@ the form of a quadratic rational function in $z$:
 The last step in this chain of generalisations is to let the prime $p$ vary.
 Following the
 philosophy of convolutions, it is natural to consider the product
-\[\prod\limits_{p} Z(E_n, p, z_p),\]
+\[\prod\limits_{p} Z(V, p, z_p),\]
 over all primes numbers,
-which incorporates information about $E_n$ in all possible finite fields.
- Making
-the change of variables $z_p = p^{-s}$ we get
+which incorporates information about the variety $V$ in all possible finite
+fields. Making the change of variables $z_p = p^{-s}$, we arrive at the next definition.
+
+\begin{defn}
+  The \defin{Hasse-Weil L-function of $V$} is the function
+  \[L(V,s) = \prod \limits_p Z(V,p,p^{-s})\]
+  where the product is over all prime numbers $p$.
+\end{defn}
+
+\begin{example}
+  If $V$ is a point, we saw that
+  \[Z(V,p,z) = \frac{1}{1-z},\]
+  so
+  \[L(V,s) = \prod\limits_p Z(V,p,p^{-s}) = \prod\limits_p \frac{1}{1-p^{-s}} = \zeta(s)\]
+  is the familiar Riemann-Zeta function.
+\end{example}
+
+\begin{example}
+  If $V = \PP^n$ is the projective $n$-space, we saw that
+  \[Z(\PP^n,p,z) = \frac{1}{(1-z)(1-pz) \cdots (1-p^nz)},\]
+  so
+  \[
+    \begin{split}
+      L(\PP^n,s) &= \prod\limits_p \frac{1}{(1-p^{-s})(1-p^{1-s}) \cdots
+        (1-p^{n-s})} \\
+      &= \zeta(s) \zeta(1-s) \cdots \zeta(n-s).
+    \end{split}
+\]
+\end{example}
+
+For the elliptic curves $E_n$, the local zeta function at $p$ may take two possible forms
+depending on wether $\Delta(E_n)$ is a multiple of $p$. Putting both results
+together gives
 \[
   \begin{split}
     \prod\limits_{p} Z(E_n, p, p^{-s}) &= \prod\limits_{p \nmid 2n}
@@ -655,7 +686,8 @@ certain families of curves which have similar L-functions.
 
 In the case of our family $E_n$, let
 \[L(E_1,s) = \sum\limits_{m=1}^\infty \frac{a_m}{m^s}\]
-be the Dirichlet series corresponding to $L(E_1,s)$. Then, it turns out that
+be the Dirichlet series corresponding to $L(E_1,s)$. Then, it turns out
+(\cite[See][Pages 80-81]{koblitz}) that
 $L(E_n,s)$ has the related Dirichlet series
 \[L(E_n,s) = \sum_{m=1}^\infty \chi_n(m) \frac{a_m}{m^s}. \]
 where $\chi_n(m)$ is the Jacobi symbol
@@ -808,7 +840,7 @@ L-function to the arithmetic invariants of $E$.
 
 \begin{conj}[Birch Swinnerton-Dyer Conjecture] \normalfont
   \textit{The Hasse-Weil L-function $L(E,s)$ can be written as
-  \[L(E,s) = C (s-1)^r + O((s-1)^2)\] where}
+  \[L(E,s) = C (s-1)^r + O((s-1)^{r+1})\] where}
 \begin{equation} \label{eq:bsd}
   C = \frac{\#\text{Sha}(E) \, \Omega_E R_E}{\#Tors(\EQ)^2} \prod_p c_p
 \end{equation}
@@ -1291,12 +1323,12 @@ of cusp forms.
 \end{defn}
 
 The Peterson inner product interacts well with the previous definitions. For
-instance, we have
-\[\langle f | [\alpha]_k, g | [\alpha]_k \rangle = \langle f,g \rangle\]
-for all $\alpha \in GL_2^+(\QQ)$. Furthermore, if $\chi$ is a Dirichlet
-character on modulo $N$, for $f,g \in S_k(N, \chi)$ we have
-\[\left\langle \sqrt{\bar{\chi}(n)} \,T_n f, g \right\rangle = 
-\left\langle f, \sqrt{\bar{\chi}(n)}\, T_n g \right\rangle.\]
+instance, if $\chi$ is a Dirichlet character modulo $N$ and $c_n$ is either
+square root of $\bar{\chi}(n)$, then the operator $c_n T_n$ is Hermitian on
+$S_k(N, \chi)$. That
+is
+\[\langle c_n T_n f, g \rangle = \langle f, c_n T_n g \rangle\]
+for every $f, g \in S_k(N,\chi).$
 
 \begin{defn}
   The orthogonal complement of $S_k^{\text{old}}(\Gamma(N))$ under the Peterson
@@ -1319,9 +1351,14 @@ Shimura correspondence.
   Hecke operators $T_n$ is called a \defin{newform}. 
 \end{defn}
 
+\newpage
+
 \begin{prop}
   There exists an orthonormal basis of newforms for $S_k^{\textnormal{new}}(\Gamma_1(N))$.
 \end{prop}
+\begin{proof}
+  \cite[See][Theorem 3.1, Pages 125-137]{lang}.
+\end{proof}
 
 For a Dirichlet series $L(E, s) = \sum \frac{a_n}{n^s}$, we let $f_{E(z)}$ be a
 function on $\HH$ with Fourier expansion $f_{E(z)} = \sum a_n q^n.$ Conversely,
@@ -1763,7 +1800,7 @@ We say an abelian group $A$ is a \defin{$G$-module} if it is a module
 for the ring $\ZZ[G]$. 
 
 If $A$ and $B$ are $R$-modules for a ring $R$, recall that
-$Hom_R(A,B)$ is the group of module homomorphisms from $A$ to $B$.
+$\textnormal{Hom}_R(A,B)$ is the group of module homomorphisms from $A$ to $B$.
 Recall that an exact sequence
 \[E: 0 \ra B \ra E \ra A \ra 0\]
 of module homomorphism is called an \defin{extension of $A$ by $B$}. If we have
@@ -1776,13 +1813,13 @@ where
 \[Y = \frac{\{(e,e') \in E \oplus E' \, | \, g(e) = g'(e')\}}{\{
     (f(b),0) - (0, f'(b)) \, | \, b \in B\}}\]
 
-The set of extensions of $A$ by $B$ is called $Ext^1_R (A,B).$ We saw in
+The set of extensions of $A$ by $B$ is called $\textnormal{Ext}^1_R (A,B).$ We saw in
 MATH3201 that this is an abelian group with addition given by the Baer sum.
 
 \begin{defn}
   The \defin{zeroth and first cohomology groups of $A$} are defined by
-  \[H^0 (G, A) = \text{Hom}_{\ZZ[G]}(\ZZ, A)\] and
-  \[H^1 (G, A) = \text{Ext}^1_{\ZZ[G]} (\ZZ, A)\] where $\ZZ$ is considered the
+  \[H^0 (G, A) = \textnormal{Hom}_{\ZZ[G]}(\ZZ, A)\] and
+  \[H^1 (G, A) = \textnormal{Ext}^1_{\ZZ[G]} (\ZZ, A)\] where $\ZZ$ is considered the
   trivial $G$-module where $g x = x$ for every $x \in \ZZ, g \in G$. 
 \end{defn}
 
@@ -2158,6 +2195,8 @@ considering the $\phi$ isogeny.
 This group is important in rank calculations primarily because it is effectively
 computable. To understand $\EQ/\psi(\Eb(\QQ))$ fully, we also need
 
+\newpage
+
 \begin{defn}[Tate-Shafarevich Group] \label{defn:sha}
   The \defin{Tate-Shafarevich group} of the elliptic curve $E$ is defined
   $$ \Sha(E) = \text{Ker} 
@@ -2371,7 +2410,9 @@ to compute $P_n$ and $Q_n$.
 
 \end{proof}
 
-We're now ready to find an expression for $a_n$ modulo 4. 
+\newpage
+
+We are now ready to find an expression for $a_n$ modulo 4. 
 
 \begin{thm} \label{theta_calculation}
   If $n = p$ is prime, the coefficient $a_p$ of $f(z)$ in \autoref{eq:mododd}
@@ -3431,7 +3472,7 @@ We know that the size of the torsion group of $E_n$ is
 \begin{equation*}
     \#\Tors(E_n) = 4,
   \end{equation*}
-  (see Proposition \autoref{proof:torsion}). t
+  (see Proposition \autoref{proof:torsion}).
   The real period of $E_n$ is given by {}
 \begin{equation*}
   \Omega_{E_n} = \frac{2\beta}{\sqrt{n}} 
@@ -3448,7 +3489,7 @@ We know that the size of the torsion group of $E_n$ is
 
 Substituting the data into the BSD conjecture (\autoref{eq:bsd}), we get the prediction
 \[
-  L(E_n,s) = C(s-1)^r + O((s-1)^2)
+  L(E_n,s) = C(s-1)^r + O((s-1)^{r+1})
 \]
 where
 \begin{equation*}
@@ -3475,15 +3516,15 @@ which is true, but a bit uninsteresting.
 
 If $n = p$ is an odd prime, we have found (see Theorem \autoref{theta_calculation})
 \[a_p \equiv \begin{cases}
-    0 \mod{4} \text{ if } p \equiv 1,5,7 \mod{8} \\
-    2 \mod{4} \text{ if } p \equiv 3 \mod{8}
+    0 \mod{4} \quad \text{ if } p \equiv 1,5,7 \mod{8} \\
+    2 \mod{4} \quad \text{ if } p \equiv 3 \mod{8}
   \end{cases}
 \]
 so that
 \[a_p^2 \equiv
   \begin{cases}
-    0 \mod{16} \text{ if } p \equiv 1,5,7 \mod{8} \\
-    4 \mod {32} \text{ if } p \equiv 3 \mod{8},
+    0 \mod{16} \quad \text{ if } p \equiv 1,5,7 \mod{8} \\
+    4 \mod {32} \quad \text{ if } p \equiv 3 \mod{8},
   \end{cases}
 \]
 since the squares of all numbers congruent to 2 modulo 4 are congruent to 4
@@ -3521,9 +3562,13 @@ last tool, which gives some structure to the Tate-Shafarevich group.
   defined in the previous proposition.
 \end{conj}
 
+This conjecture is known to be true when the rank is 0, which will be enough for
+our purposes.
+
 The calculations in this project have allowed us to formulate and prove the
 following two predictions.
 
+\newpage
 
 \begin{thm} \label{mainthm2}
   If $p \not\equiv 3 \, (8)$, \autoref{mainpred} is valid modulo 8. If
@@ -3565,11 +3610,11 @@ following two predictions.
       \Sha(E_p)\] with $\psi \circ \phi (P) = 2P.$ Since $\Sha(E_p)[\phi] = 0$,
     we must have $\Sha(E_p)[2] = \Sha(\bar{E}_p)[\psi]$, so
     \[\# \Sha(E_p)[2] = 2 \text { or } 4 > 0.\]
-    Thus, $\Sha(E_p)$ contains an elmeent of 2-torsion, as wanted.
+    Thus, $\Sha(E_p)$ contains an element of 2-torsion, as wanted.
 
   \item In order to prove \autoref{pred_mod}, we must have
     \[\# \Sha(E_p) \equiv 0 \mod{4}.\]
-    We will show that, assuming Conjecutre \autoref{cassels_conj}, 
+    We will show that, assuming Conjecture \autoref{cassels_conj}, 
     that $\Sha(E_p)$ has in fact at least 4 elements of 2-torsion. 
 
     Let $x \in \Sha(E_p)$ be the element of 2-torsion found above. Assuming the
@@ -3602,7 +3647,7 @@ following two predictions.
   \[\# \Sha(E_p) \cdot R_{E_p} \cdot 0^r \equiv 4 \mod{32}.\]
   In particular, the right hand side is not 0, so we must have $r = 0$. This
   agrees with the calculations of the Selmer rank, where we've seen that in this
-  case $s_r$, and we always have $s_r \geq r.$ In this case, the regulator
+  case $s_r = 0$, and we always have $s_r \geq r.$ In this case, the regulator
   $R_{E_p} = 1$, so the prediction is equivalent to
   \[\# \Sha(E_p) \equiv 1 \mod{8}.\] 
 
