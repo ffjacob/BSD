@@ -2,14 +2,20 @@
  
 \usepackage[utf8]{inputenc}
  
+\usetheme{Madrid}
+\setbeamertemplate{theorems}[numbered]
  
-%Information to be included in the title page:
-\title[BSD]{Verifying some consequences of the Birch Swinnerton-Dyer Conjecture}
-\author{Felipe Jacob}
-\institute[UCL]{University College London}
-\date{2017}
  
 \begin{document}
+
+%Information to be included in the title page:
+\title[BSD]{Verifying some consequences of the \\ Birch Swinnerton-Dyer Conjecture}
+\author[Felipe Jacob]{\begin{tabular}{r@{ }l}
+                        Author: & Felipe Jacob \\
+                        Supervisor: &Dr Richard Hill
+                                      \end{tabular}}
+\institute[UCL]{University College London}
+\date{March 22, 2017}
 
 \newcommand{\defin}{\textbf}
 \newcommand{\CC}{{\mathbb C}}
@@ -62,29 +68,32 @@
  
 \begin{frame}
 \frametitle{Elliptic Curves}
-In this project we will be considering the arithmetic properties of
-\textbf{elliptic curves} $E(K)$. These are given by the set of points $(x, y)$
-with $x$ and $y$ in
-the field $K$ such that
-\[E: y^2 = f(x),\]
-where $f(x)$ is a cubic polynomial with 3 distint roots.
+An \textbf{Elliptic Curve over a field $K$} is a projective variety $E$
+where
+\begin{itemize}
+\item $E$ is a cubic curve over $\PP^2(K)$
+\item $E$ is nonsingular over $K$
+\item There exists a distinguished $\OO \in E(K)$ called the \textbf{point at infinity}.
+\end{itemize} \pause
+\bigskip
+
+\textbf{Example}: $E: y^2z = x^3 - xz^2$ is an elliptic curve over
+$\QQ$ with $\OO = (0:1:0)$
 \end{frame}
 
 \begin{frame}
 \frametitle{Elliptic Curves}
-  We always assume that we have a known point $\OO \in E(K)$ in the projective
-  completion $\PP^2(K)$, which is called the \textbf{point at infinity of $E$}. \pause
-
-  When $K$ doesn't have characteristic 2, we can assume that the curve is given
-  by the equation
+  If $\text{char}(K) \neq 2$, we can assume $E$ has the affine model
   \[y^2 = x^3 + ax^2 + bx + c,\]
-  with $a, b, c \in K$, and that $\OO = (0:1:0).$
+  with $a, b, c \in K$, and $\OO = (0:1:0).$
 \end{frame}
 
 \begin{frame}
   \frametitle{Group Law}
-  Elliptic curves are interesting because on top of being a variety, they also
-  form an abelian group. To add two distinct points $P, Q$, we trace the line
+  Actually, $E(K)$ has a natural addition law.
+  \bigskip
+
+  To add two distinct points $P, Q$, we trace the line
   between them and let $R$ be the third point of intersection of this line with
   the curve. $P+Q$ is then the reflection of $R$ over the $x$-axis. \pause
   \begin{figure}
@@ -92,7 +101,7 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
   \includegraphics{picture3}
   \end{figure} \pause
 
-  Under this addition, it turns out that $E(K)$ is an abelian group.
+  Under the operation $+$, it turns out $E(K)$ is an abelian group, with $0 = \OO$.
 \end{frame}
 
 \begin{frame}
@@ -101,22 +110,36 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
   \[E_n : y^2 = x^3 - n^2 x,\]
   where $n$ is odd and squarefree. \pause
 
-  They are notorious for their relation with Fermat and the
+  They are notorious for their relation with Fermat, Gauss and the
   congruent number problem.
 \end{frame}
 
 \begin{frame}
-  \frametitle{The Rank}
-  The Mordell-Weil Theorem states that when $K = \QQ$, the group $E(\QQ)$ is
-  finitely generated. This means that we can write
-  \[E(\QQ) \simeq \Tors(E(\QQ)) \times \ZZ^r,\]
-  where $\Tors(E(\QQ))$ are the points of finite order, and $r$ is a natural
-  number, called the \textbf{rank of $E$}. \pause
+  \frametitle{The Rank I}
+  \begin{theorem}[Mordell-Weil]
+    Let $E$ be an elliptic curve over $\QQ$. Then $E(\QQ)$ is finitely generated.
+  \end{theorem} \pause
+
+  This means we can write
+  \[E(\QQ) = \Tors(E(\QQ)) \times \ZZ^r\]
+  where
+  \begin{itemize}
+  \item $\Tors(E(\QQ))$ is finite.
+  \item $r$ is a natural number called the \textbf{rank of $E$}.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{The Rank II}
+  \begin{theorem}
+    Our curves
+    \[E_n : y^2 = x^3 - n^2 x\]
+    have 4 points of finite order: $\Tors(E(\QQ)) = \{\OO, (0,0), (n, 0), (-n,0)\}.$
+  \end{theorem} \pause
   \bigskip
 
-  Computing $\Tors(E(\QQ))$ is easy, but finding $r$ for arbitrary
-  curves is very much an open problem. In this presentation we will discuss a
-  few techniques used in such computations.
+  Finding $r$, however, is \textbf{hard}.
+  
 \end{frame}
  
 \begin{frame}
@@ -131,18 +154,27 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
 \end{frame}
  
 \begin{frame}
-  \frametitle{Local Zeta Functions}
+  \frametitle{Local Zeta Functions I}
   Let $p$ be a prime number.
   If $V$ is a variety over $\FF_p$, we can construct the \textbf{Local Zeta
     Functions of $V$ at $p$}, given by
-  \[Z(V,p,s) = \exp \left( \sum\limits_{k=1}^\infty \# V(\FF_{p^k})
-      \frac{z^k}{k} \right).\] \pause
-  These capture the behaviour of $V$ in all finite fields of $p^k$ elements.
+  \[Z(v,p,z) = \prod\limits_{M \triangleleft C_E} \frac{1}{1 - ||M||^{-z}}\]
+  where $M$ are the maximal ideals of $C_E := \frac{\FF_p[x,y]}{E}$ 
+  
 \end{frame}
 
 \begin{frame}
-  \frametitle{Local Zeta Functions}
-  As an example, if $V$ is a point, then $\# V(\FF_{p^k}) = 1$, so we get
+  \frametitle{Local Zeta Functions II}
+  We also have the computational formula
+  \[Z(V,p,s) = \exp \left( \sum\limits_{k=1}^\infty \# V(\FF_{p^k})
+      \frac{z^k}{k} \right),\] 
+  so we get $Z$ from knowing how many points $E$ has in at every finite field of
+  $p^k$ elements.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Local Zeta Functions III}
+  \textbf{Example:} If $V = (x_0,y_0)$ is a point, then $\# V(\FF_{p^k}) = 1$, so we get
   \begin{equation*}
     \begin{split}
       Z(V,p,s) &= \exp \left( \sum\limits_{k=1}^\infty \frac{z^k}{k} \right)
@@ -151,82 +183,102 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
     \end{split}
   \end{equation*} \pause
 
-  Similarly, if $V = \PP^n$, we know that $\# V(\FF_{p^k}) = 1 + p^k + \cdots +
+  \textbf{Example:} $V = \PP^n$, we know that $\# V(\FF_{p^k}) = 1 + p^k + \cdots +
   p^{nk}$, so we get 
   \[Z(V,p,z) = \frac{1}{1-z} \frac{1}{1-pz}\cdots \frac{1}{1-p^nz}\]
 \end{frame} 
 
 \begin{frame}
-  \frametitle{Hasse-Weil L-Function}
+  \frametitle{Hasse-Weil Zeta Function I}
   To form the \textbf{Hasse-Weil L-function of $V$},
   we multiply the local zeta functions
   of $V$ for all different primes:
 
-  \[L(V,s) = \prod\limits_p Z(V,p,p^{-s}).\] \pause
+  \[\zeta(V,s) = \prod\limits_p Z(V,p,p^{-s}).\] 
 
   This function captures the behaviour of $V$ at all possible finite fields.
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{Hasse-Weil L-function}
-  For the case where $V$ is a point, we get
-  \[L(V,s) = \prod \limits_p \frac{1}{1-p^{-s}} = \zeta(s)\]
-  which is the classical Riemann-Zeta function. \pause 
+  \frametitle{Hasse-Weil Zeta Function II}
+  \textbf{Example:} If $V$ is a point, we get
+  \[\zeta(V,s) = \prod \limits_p \frac{1}{1-p^{-s}} = \zeta(s),\]
+  which is the standard Riemann-Zeta function. \pause
+  \bigskip
 
-  If $V = \PP^n$ we instead get
-  \[L(V,s) = \zeta(s) \zeta(s-1) \cdots \zeta (s-n).\]
+  \textbf{Example:} If $V = \PP^n$ we instead get
+  \[\zeta(V,s) = \zeta(s) \zeta(s-1) \cdots \zeta (s-n).\]
 \end{frame}
 
 \begin{frame}
-  \frametitle{Hasse-Weil L-function}
-  For the family of elliptic curves $E_n$, the Hasse-Weil L-function takes the
-  form
-  \[L(E_n, s) = \prod\limits_{p \nmid 2n} \frac{1}{1 - 2a_{n,p}p^{-s} + p^{1-2s}},\]
-  where the $a_{n,p}$ are certain integers depending on $n$ and $p$.
+  \frametitle{Hasse-Weil Zeta Function III}
+
+  \begin{theorem}
+    For the curves
+    \[E_n : y^2 = x^3 - n^2 x,\]
+    with $n$ is odd and squarefree, we have
+    \[\zeta(E_n, s) = \zeta(s)\zeta(s-1) \prod\limits_{p \nmid 2n} (1 -
+      2a_pp^{-s} + p^{2-s}).\]
+    The $a_p$ are integers depending on $p$ and $E_n$.
+  \end{theorem}
+  
 \end{frame}
 
 \begin{frame}
   \frametitle{Full BSD}
+ 
+  Finally, the \textbf{Hasse-Weil $L$-Function of $E_n$} is defined by
+
+  \[L(E_n, s) = \prod\limits_{p \nmid 2n} \frac{1}{1 - 2a_p p^{-s} + p^{2-s}}.\] \pause
+  \bigskip
+
   The full BSD conjecture also relates the constant $C$ in the prediction
   \[L(E,s) = C(s-1)^r + O((s-1)^{r+1})\]
   to certain arithmetic invariants of $E$. \pause
   \bigskip
 
   In particular, it states that
-  \[C = \frac{\# \Sha(E) R_E \Omega_E}{\# \Tors(E)^2} \prod\limits_p c_p\]
+  \[C = \frac{\# \Sha(E) R_E \Omega_E}{\# \Tors(E)^2} \prod\limits_p c_p,\]
   where we will define each of these quantities.
 \end{frame}
 
 \begin{frame}
   \frametitle{Tate-Shafarevich Group}
-  The group $\Sha(E)$ is called the \textbf{Tate-Shafarevich group of $E$}. It
-  is an abelian group, conjectured to be finite, and measures in some sense how
-  hard it is to find the rank by local methods. \pause
+  The group $\Sha(E)$ is called the \textbf{Tate-Shafarevich group of $E$}.
+  \begin{itemize}
+  \item $\Sha(E)$ is an abelian group.
+  \item It is conjectured to be finite.
+  \item It measures how hard it is to find $r$. 
+  \end{itemize} \pause
   \bigskip
   
-  The full definition requires the machinery of Galois Cohomology, and takes the
+  The full definition requires Galois Cohomology, and takes the
   form
-  \[\Sha(E) = \textnormal{Ker} \left( H^1(\QQ,\bar{E}) \ra \prod\limits_\nu
+  \[\Sha(E) := \textnormal{Ker} \left( H^1(\QQ,\bar{E}) \ra \prod\limits_\nu
     H^1(\QQ_\nu, \bar{E})\right).\]
 \end{frame}
 
 \begin{frame}
   \frametitle{Regulator}
-  The \textbf{regulator of $E$} measures in a specific sense the volume of a set
+  The \textbf{Regulator of $E$} measures in a specific sense the volume of a set
   of generators of $E$. \pause
   \bigskip
 
   It is defined by
-  \[R_E = \det \left( \langle P_i, P_j \rangle \right)\]
+  \[R_E = \det \left( \langle P_i, P_j \rangle \right),\]
   where $P_1, \dots, P_r$ is a basis for $\frac{E(\QQ)}{\Tors(E(\QQ))}$ and
-  $\langle \cdot \rangle$ is an inner product on $E(\QQ)$ called the Neron-Tate pairing.
+  $\langle \cdot \rangle$ is an inner product on $E(\QQ)$ called the Neron-Tate
+  pairing. 
+  \bigskip
+
+  If $r = 0$, we have $R_E = 1.$
 \end{frame}
 
 \begin{frame}
   \frametitle{Real Period}
-  The \textbf{real period of $E$} is given by the line integral
-  \[\Omega_E = \int_{E(\RR)} \frac{dx}{2y}.\]
+  The \textbf{Real Period of $E$} is given by the line integral
+  \[\Omega_E = \int_{E(\RR)} \frac{dx}{2y}.\] \pause
 
   For the curves $E_n$, we have
   \[\Omega_{E_n} = \frac{2}{\sqrt{n}} \beta,\]
@@ -235,53 +287,33 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
 
 \begin{frame}
   \frametitle{Tamagawa Numbers}
-  The \textbf{Tamagawa Numbers $c_p(E)$} capture the behaviour of $E$ at the
-  primes where it has bad reduction. If $E$ is given by
-  \[E: y^2 = f(x)\]
-  and the polynomial $f(x)$ still has 3 distinct roots in $\FF_p$, we say that
-  $E$ has good reduction at $p$. In this case there is a homomorphism of curves
-  \[E(\QQ) \ra E(\FF_p)\]
-  given by reduction modulo $p$.
-\end{frame}
-
-\begin{frame}
-  \frametitle{Tamagawa Numbers}
-  If $\Delta(f) \equiv 0 \, (p)$, the reduction map may no longer be a
-  homomorphism. The situation
-  can still be salvaged, however. \pause
+  The \textbf{Tamagawa Numbers $c_p$ of $E$} are integers which
+  capture information at the primes
+  where $E$ mod $p$ is singular. \pause
   \bigskip
 
-  Let $E(\FF_p)_{ns}$ be the set of points $(x,y)$ where $E(\FF_p)$ is
-  nonsingular. Looking at the completion $\QQ_p$ we still have a map
-  \[E(\QQ_p) \ra E(\FF_p).\] \pause
-  If we let $E(\QQ_p)_0$ be the preimages of the nonsingular points, then the
-  restriction
-  \[E(\QQ_p)_0 \ra E(\FF_p)_{ns}\]
-  is still a homomorphism.
-\end{frame}
-
-\begin{frame}
-  \frametitle{Tamagawa Numbers}
-  The Tamagawa Numbers $c_p$ of $E$ are defined by
-  \[c_p = \left| \frac{E(\QQ_p)}{E(\QQ_p)_0} \right|.\]
-  They measure the number of singular components of $E$. This is usually a power
-  of 2.\pause
-  \bigskip
-
+  In the project, we computed:
   \begin{theorem}
-    In the project, we calculated that for $n$ odd and squarefree, we have
-    \[\prod\limits_p c_p(E_n) = 2 \cdot 4^{\omega(n)},\]
-    where $\omega(n)$ is the number of distinct prime factors of $n$.
+    If $n$ is odd and squarefree,
+    \[ \begin{split} c_2(E_n) &= 2 \\
+    c_p(E_n) &=
+      \begin{cases}
+        4 &\text{if } p \mid n \\
+        1 &\text{otherwise}.
+      \end{cases}
+    \end{split}\]
   \end{theorem}
 
 \end{frame}
 
 \begin{frame}
   \frametitle{The situation so far}
-  From the information we currently have, the situation seems pretty hopeless.
-  On the one hand we have $L(E_n,s)$ given by a complicated product. On the
-  other we have a constant $C$ that involves the transcendental number $\beta$
-  and lots invariants of $E_n$. \pause
+  The situation so far seems pretty hopeless.
+  \begin{itemize}
+  \item On one hand we have $L(E_n,s)$ given by a complicated product.
+  \item On the other we have a constant $C$ that involves a transcendental
+    number $\beta$ and lots of invariants of $E_n$.
+  \end{itemize} \pause
   \bigskip
   
   The way forward is given by \textbf{Tunnell's Theorem}, a very deep result
@@ -296,18 +328,19 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
   \begin{theorem}[Tunnell's Theorem]
     For $n$ odd, the critical values $L(E_n,1)$ are given by
     \[L(E_n,1) = \frac{\beta}{4\sqrt{n}} a_n^2.\]
-    Here $a_n$ are the Fourier coefficents of the function
+    Here $a_n$ are \textbf{integers} giving the Fourier coefficents of the function
     \[f(z) = \sum\limits_{m \in \ZZ} a_m q^m = \Theta(z) \left( \Theta(32z)
       - \frac{1}{2}\Theta(8z)\right) \Theta(2z)\]
   \end{theorem}
 \end{frame}
 
 \begin{frame}
-  \frametitle{BSD Revisited}
+  \frametitle{BSD Revisited I}
   Here we are lucky to have the same $\beta$ occuring on both sides of the BSD
   conjecture: 
 
-  \[L(s,1) = \frac{\# \Sha(E_n) R_{E_n} \Omega_{E_n}}{\#\Tors(E(\QQ))^2}\] 
+  \[L(E_n,s) = \left( \frac{\# \Sha(E_n) R_{E_n} \Omega_{E_n}}{\#\Tors(E(\QQ))^2}
+    \prod\limits_p c_p(E_n) \right) (s-1)^r + O((s-1)^{r+1})\] 
   becomes, at $s = 1$: \pause
   \[\frac{\beta}{4 \sqrt{n}} a_n^2 = \frac{\# \Sha(E_n) R_{E_n} 2 \beta}{
       16 \sqrt{n}} \cdot 2 \cdot 4^{\omega(n)} \cdot 0^r,\] \pause
@@ -317,12 +350,15 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
 \end{frame}
 
 \begin{frame}
-  \frametitle{BSD Revisited}
+  \frametitle{BSD Revisited II}
   We have
   \[a_n^2 = \# \Sha(E_n) \cdot R_{E_n} \cdot 4^{\omega(n)} \cdot 0^r.\]
-  Since when the rank is nonzero, the BSD conjecture says nothing interesting
-  about the right hand side, we will assume $r = 0$. In this case $R_{E_n} = 1,$
-  so this further simplifies to
+  \begin{itemize}
+  \item If $r \neq 0$, the BSD conjecture says nothing interesting about the
+    RHS. \pause
+  \item If $r = 0$, we have $R_{E_n} = 1,$ so this further simplifies to
+  \end{itemize}
+  
   \[a_n^2 = 4^{\omega(n)} \# \Sha(E_n).\] \pause
 
   This is now an equation of \textbf{integers}, so we can hope to use some
@@ -339,9 +375,9 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
   we
   \begin{itemize}
   \item Worked out the coefficients $a_n$ modulo 4. This turns out to
-    depend on $n$ modulo 8.
-  \item Found the Selmer Group of $E_n$, a computable complement of
-    $\Sha(E_n).$ This also depends on $n$ modulo 8.
+    depend on $n$ modulo 8. \pause
+  \item Found the 2-Selmer Group $\Sel(E_n)$, a computable group which gather
+    possible candidates for generators of $E_n(\QQ)$. \pause
   \item Matched both informations with Equation \autoref{eq:mainpred}
     for each residue class
     of $n$ modulo 8.
@@ -349,7 +385,7 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Calculation of Coefficients of Theta Series}
+  \frametitle{Calculation of Coefficients of Theta Series I}
   Recall that we want to compute the integers $a_m$ modulo 4, where
     \[f(z) = \sum\limits_{m \in \ZZ} a_m q^m = \Theta(z) \left( \Theta(32z)
       - \frac{1}{2}\Theta(8z)\right) \Theta(2z).\] \pause
@@ -360,7 +396,7 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Calculation of Coefficients of Theta Series}
+  \frametitle{Calculation of Coefficients of Theta Series II}
   In other words, we want to know among the solutions to
   \[2x^2 + y^2 + 8z^2 = n\]
   how many are also solutions to
@@ -369,8 +405,29 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Calculation of Selmer Group}
-  To calculate the Selmer group, we saw in MATH3703 that we have to solve a
+  \frametitle{Calculation of Coefficients of Theta Series III}
+
+  In the project, we worked out:
+  \begin{theorem}
+    If $n$ is odd and squarefree, then:
+    \begin{itemize}
+    \item If $n = p$ is a prime, we have
+      \[a_p \equiv
+        \begin{cases}
+          0 \mod 4 \quad &\text{if } p \equiv 1,5,7 \mod 8 \\
+          2 \mod 4 \quad &\text{if } p \equiv 3 \mod 8
+        \end{cases}
+      \] 
+    \item If $n$ is composite,
+      \[a_n \equiv 0 \mod{4}\]
+    \end{itemize}
+  \end{theorem}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Calculation of Selmer Group I}
+  To calculate the $\Sel(E)$, we saw in MATH3705 that we have to solve a
   bunch of equations of the form
   \[N^2 = d_1M^4 + \frac{4n^2}{d_1} e^4\]
   in $\QQ_p$ for each prime $p.$ \pause
@@ -382,8 +439,23 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
 \end{frame}
 
 \begin{frame}
+  \frametitle{Calculation of Selmer Group II}
+  In the project, we also calculated:
+  \begin{theorem}
+    Let $p$ be an odd prime. The Selmer Group of $E_p$ has size
+    \[\# \Sel(E_p) =
+      \begin{cases}
+        4 &\text{if } p \equiv 1 \mod{8} \\
+        2 &\text{if } p \equiv 5,7 \mod{8} \\
+        1 &\text{if } p \equiv 3 \mod{8}
+      \end{cases}
+    \]
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
   \frametitle{Conclusion}
-  From our calculations we deduced that if $p$ is an odd prime,
+  From Theorem 6, we found that 
   \[a_p \equiv
     \begin{cases}
       0 \mod{4} \quad &\text{if } p \equiv 1,5,7 \mod{8} \\
@@ -393,7 +465,8 @@ where $f(x)$ is a cubic polynomial with 3 distint roots.
   and $a_n \equiv 0 \, (4)$ if $n$ is composite. \pause
   \bigskip
 
-  We also found that $\Sha(E_p)$ has an element of 2-torsion if and only if $p
+  From Theorem 7, we know that if $r = 0,$
+  $\Sha(E_p)$ has an element of 2-torsion if and only if $p
   \not\equiv 3 \, (8).$ \pause
   \bigskip
 
